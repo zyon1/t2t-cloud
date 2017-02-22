@@ -1,0 +1,20 @@
+<div class="basic-box">
+  <div class="box-header">
+    {{content.header}}
+  </div>
+  <div class="box-content">
+    <div *ngIf="content.content.type">
+      {{content.content.type}}
+    </div>
+    <div *ngIf="content.content.decorator">
+      
+    </div>
+    <div *ngIf="content.content.link">
+      <a [routerLink]="[content.content.link]">{{content.header}}</a>
+      <a [routerLink]="[content.content.link+'/invite']">Invite members</a>
+      <a [routerLink]="[content.content.link+'/units']">Units</a>
+    </div>
+    
+    
+  </div>
+</div>

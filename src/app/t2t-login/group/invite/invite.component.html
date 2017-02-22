@@ -1,0 +1,12 @@
+<p>
+  invite works!
+</p>
+   <input type="email" class="form-control" placeholder="Email" [ngModel]="email" (ngModelChange)="search($event)" >
+   <div class="results">
+     <div class="row" *ngFor="let user of results">
+       <div class="col-md-3">{{user.email}}</div>
+       <div class="col-md-3"><button class="btn btn-primary" (click)="invite(user.uid)">Invite</button></div>
+       <pre>{{user | json}}</pre>
+       </div>
+   </div>
+   

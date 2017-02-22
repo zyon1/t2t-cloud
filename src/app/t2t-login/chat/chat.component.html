@@ -1,0 +1,73 @@
+    <footer class="footer">
+      <div class="container-fluid">
+           <div class="float-right">
+             <div class="search-group"><app-search (onAddUser)="addUser($event);"></app-search></div>
+             <div class="chat-group" *ngFor="let group of groups; let i=index">
+             <button type="button" class="btn btn-outline-secondary float-right chat-group nav-msg"   (click)="group.visible=!group.visible;openChat(group.$key, i);">
+               {{group.groupName}}
+               </button>
+               <div class="chat-window" *ngIf="group.visible">
+                 <div class="chat-header" >
+                   <i class="fa fa-comment-o fa-lg" aria-hidden="true" style="float:left;line-height: 23px;padding-left:5px;"></i>
+                    {{group.groupName}}
+                  <i class="fa fa-times fa-lg group-close" aria-hidden="true" (click)="group.visible=!group.visible;"></i>
+
+                 </div>
+                 <div class="chat-content" id="content{{i}}" >
+                   <a *ngIf="group.noMsg <= group.messages.length" (click)="loadMore(group.$key, i);">Load more</a>
+                   <div *ngFor="let message of group.messages;let i=index;" class="messageBubble">
+                       <hr style="width:100%;clear:both;margin:0;" *ngIf="i==group.messages.length-10">
+                       
+                     <div class="chat-row">
+                     <div *ngIf="message.senderID!=uid" class="sender-info">{{message.senderName}} {{message.senderSurname}}:</div>
+                     <div class="msg-body" [ngClass]="{'my-msg': message.senderID==uid}">{{message.text}}</div>
+                     </div>
+
+                   </div>
+                 </div>
+                 <div class="chat-input">
+                   <input type="text" placeholder="Upiši poruku..." #chatInput (keyup.enter)="sendMessage(group.$key, chatInput.value, i);chatInput.value='';"/>
+                 </div>
+               </div>
+               </div>
+
+<div class="chat-group" *ngFor="let user of users; let i=index">
+             <button type="button" class="btn btn-outline-secondary float-right chat-group nav-msg"   (click)="user.visible=!user.visible;openUserChat(user.uid, i);user.new=false">
+               {{user.email?user.email:user.name + ' ' + user.surname}}<span *ngIf="user.new" style="background: #ff0000;color:#000;">New...</span>
+               </button>
+               <div class="chat-window" *ngIf="user.visible" (click)="user.new=false;">
+                 <div class="chat-header" >
+                   <i class="fa fa-comment-o fa-lg" aria-hidden="true" style="float:left;line-height: 23px;padding-left:5px;"></i>
+                    {{user.name + ' ' + user.surname}} <span *ngIf="user.new" style="background: #ff0000;color:#000;">New...</span>
+                  <i class="fa fa-times fa-lg group-close" aria-hidden="true" (click)="user.visible=!user.visible;"></i>
+
+                 </div>
+                 <div class="chat-content" id="content{{i}}" >
+                   <!--<a *ngIf="user.noMsg <= user.messages.length" (click)="loadMore(user.uid, i);">Load more</a>-->
+                   <div *ngFor="let message of user.messages;let i=index;" class="messageBubble">
+                       <!--<hr style="width:100%;clear:both;margin:0;" *ngIf="i==user.messages.length-10">-->
+                       
+                     <div class="chat-row">
+                     <div *ngIf="message.senderID!=uid" class="sender-info">{{message.senderName}} {{message.senderSurname}}:</div>
+                     <div class="msg-body" [ngClass]="{'my-msg': message.senderID==uid}">{{message.text}}</div>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="chat-input">
+                   <input type="text" placeholder="Upiši poruku..." #chatInput (keyup.enter)="sendUserMessage(user.uid, chatInput.value, i);chatInput.value='';"/>
+                 </div>
+               </div>
+               </div>
+
+
+
+
+             
+
+             
+               <div></div>
+             
+           </div>
+      </div>
+    </footer>
+

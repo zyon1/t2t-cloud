@@ -1,0 +1,15 @@
+<app-intra-nav></app-intra-nav>
+  <div class="container">
+
+      <form class="form-signin">
+       
+        <label for="inputEmail" class="sr-only">Email adresa</label>
+        <input type="email" placeholder="Email"  name="email" #email required autofocus id="inputEmail" class="form-control">
+        <label for="inputPassword" class="sr-only">Lozinka</label>
+        <input type="password" placeholder="Password"  name="password" #password required id="inputPassword" class="form-control">
+        <button *ngIf="!x" (click)="register(email.value, password.value)" class="btn btn-lg btn-primary btn-block">Izradi račun</button>
+        <p *ngIf="x" class="alert alert-warning">Kako bi ste izradili novi račun morate biti odjavljeni. Molimo vas odjavite se kako bi ste nastavili sa izradom novog računa.</p>
+        <button *ngIf="x" (click)="logout()" class="btn btn-lg btn-primary btn-block">Odjavi se</button>
+      </form>
+  <a routerLink="/login/admin" >admin</a>
+    </div>

@@ -1,0 +1,17 @@
+.basic-box{
+    box-sizing:border-box;
+    border:1px solid #eee;
+
+}
+.box-header{
+    background:#99cfb9;
+    width:100%;
+    padding:4px;
+}
+.box-content{
+    background: #ffcfb9;
+    box-sizing:border-box;
+    width: 100%;
+    padding:4px;
+
+}

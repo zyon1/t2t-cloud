@@ -1,0 +1,60 @@
+
+<nav class="navbar navbar-dark navbar-fixed-top" style="background-color: #09224c;">
+  <div class="nav navbar-nav">
+    <a class="nav-item nav-link" routerLink="/auth"  routerLinkActive="active">Home <span class="sr-only">(current)</span></a>
+    <a class="nav-item nav-link" [routerLink]="['/auth/user']">Dashboard <span class="sr-only">(current)</span></a>
+    <a class="nav-item nav-link" [routerLink]="['/auth/user', uid, 'groups']">Groups <span class="sr-only">(current)</span></a>
+
+  </div>
+   <div class="nav navbar-nav float-xs-right">
+    <a class="nav-item nav-link" *ngIf="loggedIn"><app-watcher [uid]="uid"></app-watcher></a>
+    <a class="nav-item nav-link" *ngIf="!loggedIn" routerLink="/auth"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a>
+    <a class="nav-item nav-link" *ngIf="loggedIn" routerLink="/auth/dash">{{email}}</a>
+    <a class="nav-item nav-link" *ngIf="loggedIn" routerLink="/auth/data"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a>
+
+    <a class="nav-item nav-link" *ngIf="loggedIn" href="/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a>
+
+  </div>
+</nav>
+
+ <div class="container-fluid page-wrapper">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <!-- this is just until angular 2 issue with lazy loading and secondary outlets is solved -->
+          <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/auth/user">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"routerLink="/auth/user" >Reports</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
+          </ul>
+    <!-- end of code -->
+
+
+
+
+          <router-outlet name="sidebar"></router-outlet>
+          
+        </div>
+
+        <div class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 main">
+        <div class="main-wrapper">
+          <router-outlet></router-outlet>
+        </div>
+          
+
+</div>
+
+          
+        </div>
+      </div>
+
+<app-chat *ngIf="loggedIn" [uid]="uid" [groups]="groups"></app-chat>
+

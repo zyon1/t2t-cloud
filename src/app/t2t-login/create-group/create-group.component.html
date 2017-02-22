@@ -1,0 +1,19 @@
+    <form>
+      <h3>Napravi novu grupu korisnika</h3>
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-primary dropdown" id="dropdownMenu1" ngbDropdownToggle >
+          <span *ngIf="!groupTypeFull">Odaberite vrstu grupe</span>
+          <span *ngIf="groupTypeFull" style="border-bottom:2px solid;">{{groupTypeFull}}</span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <button class="dropdown-item" (click)="groupType='agencija';groupTypeFull='Turistička agencija'">Turistička agencija</button>
+          <button class="dropdown-item" (click)="groupType='bookeri';groupTypeFull='Bookeri'">Bookeri</button>
+          <button class="dropdown-item" (click)="groupType='ostalo';groupTypeFull='Ostalo'">Ostalo</button>
+        </div>
+      </div>
+      <label for="inputGroupName" class="sr-only">Naziv grupe:</label>
+      <input type="text" placeholder="Naziv grupe"  name="groupName" #groupName required id="inputGroupName" class="form-control" >
+      <button  (click)="createGroup(groupName.value, groupType)" class="btn btn-lg btn-primary btn-block">Snimi</button>
+
+    </form>
+    

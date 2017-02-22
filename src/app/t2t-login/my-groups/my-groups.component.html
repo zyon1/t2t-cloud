@@ -1,0 +1,8 @@
+<app-loading-indicator [loadingState]="loader"></app-loading-indicator>
+<div *ngIf="!loader">
+  <div class="row">
+  <div *ngFor="let group of groups" class="col-md-3">
+  <app-box *ngIf="group" [content]="{header:group.groupName, content:{type:group.groupType, link:'/auth/user/'+uid+'/group/'+group.$key, decorator:none}}"></app-box>
+  </div>
+</div>
+</div>

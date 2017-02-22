@@ -1,0 +1,46 @@
+
+
+          <pre>{{role | json}}
+            {{groupMembers | json}}
+          </pre>
+        
+          <h3>Dobrodošli na stranice grupe {{groupName}}!</h3>
+          <!--
+            divove sa ngIf treba zamijeniti komponentama
+          -->
+          <div class="content-container">
+            <app-overview *ngIf="active=='overview'">
+              Stranica pregleda
+            </app-overview>
+            <app-actions *ngIf="active=='actions'">
+              Stranica aktivnosti
+            </app-actions>
+            <app-members [roles]="role" [gid]="gid" *ngIf="active=='members'">
+              Stranica korisnika grupe
+            </app-members>
+            <app-content *ngIf="active=='content'">
+              Stranica sadržaja
+            </app-content>
+            <app-units *ngIf="active=='units'">
+              Stranica jedinica
+            </app-units>
+            <app-invite *ngIf="active=='invite'">
+              Stranica za pozivanje članova
+            </app-invite>
+          </div>
+          
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+

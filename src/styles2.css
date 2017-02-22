@@ -1,0 +1,33 @@
+/* You can add global styles to this file, and also import other style files */
+   .LoadingIndicator {
+  background: url(spin.gif) center center no-repeat;
+  position:absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+.LoadingIndicator > h1 {
+  color:#909090;
+  margin-top: -120px;
+
+}
+.LoadingIndicator.Hidden{
+  display:none;
+}
+    .custom-select{
+        background:#fff;
+    }
+/*
+.well.well-sm.p-a *{
+    border-radius: 0;
+    margin:0 auto;
+}
+.well.well-sm.p-a{
+    margin-bottom:0;
+    border-radius: 0;
+}
+*/

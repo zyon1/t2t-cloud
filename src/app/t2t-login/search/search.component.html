@@ -1,0 +1,25 @@
+<div class="input-group">
+  <label for="search-box" class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i>
+</label>
+  <input id="search-box" type="text"(focus)="activateSearch();" class="form-control" [attr.placeholder]="canSearch?'traži':'učitavanje'"  aria-describedby="basic-addon1"  [ngModel]="searchText" (ngModelChange)="search($event)" >
+</div>
+
+<div class="search-results" *ngIf="searchText!=''">
+<div class="search-header" (click)="resultsMin=!resultsMin;">
+  <span>Pretraživanje</span>
+  <i class="fa fa-minus" style="float:right;" aria-hidden="true"></i>
+  </div>
+<div class="results" *ngIf="!resultsMin;">
+  <div class="group-results" *ngFor="let result of groupResults">
+      <div>{{result.groupName }}</div>
+      <div>{{result.groupType  }}</div>
+  </div>
+  <div class="user">
+     <div class="user-results" *ngFor="let result of userResults">
+      <div>{{result.email }}</div>
+      <div (click)="addUser(result)">{{result.name + '' + result.surname}}</div>
+  </div>
+  </div>
+</div>
+
+</div>

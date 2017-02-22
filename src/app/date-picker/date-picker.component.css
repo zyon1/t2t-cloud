@@ -1,0 +1,32 @@
+.datepicker-popup{
+    position:absolute;
+    z-index:9999;
+
+}
+.datepicker-container{
+    position:relative;
+    
+}
+ .custom-day {      
+      text-align: center;
+      padding: 0.185rem 0.25rem;
+      border-radius: 0.25rem;
+      display: inline-block;
+      width: 2rem;
+      border: 1px solid #a9a9a9;
+    }
+    .custom-day:hover {
+      background-color: #e6e6e6;
+    }
+    .calDay{
+        border:1px solid #a9a9a9;
+        background-color: #000;
+    }
+    .weekend {
+      background-color: #dadada;
+      border-radius: 0.25rem;
+    }
+    .hidden {
+      background-color: #eaeaea;
+      border: 1px solid #c9c9c9;
+    }

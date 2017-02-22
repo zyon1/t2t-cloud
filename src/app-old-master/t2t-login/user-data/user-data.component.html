@@ -1,0 +1,90 @@
+<app-intra-nav></app-intra-nav>
+<div class="container">
+<form class="user-data">
+  <h2>Podaci o korisniku</h2>
+
+  <div class="form-group row">
+    <label for="username" class="col-xs-2 col-form-label">Korisničko ime</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Unesite korisničko ime" [(ngModel)]="afDisplayName" name="afDisplayName">
+     
+    <small id="usernameHelp" class="form-text text-muted">Korisničko ime mora sadržavati 5-10 znakova. (Primjer)</small>
+    </div>
+  </div>
+   <div class="form-group row">
+    <label for="name" class="col-xs-2 col-form-label">Ime</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Unesite Ime" [(ngModel)]="user.name" name="name">
+     
+    <small id="nameHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="surname" class="col-xs-2 col-form-label">Prezime</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="surname" aria-describedby="surnameHelp" placeholder="Unesite Prezime" [(ngModel)]="user.surname" name="surname">
+     
+    <small id="surnameHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="OIB" class="col-xs-2 col-form-label">OIB</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="OIB" aria-describedby="OIBHelp" placeholder="Unesite OIB" [(ngModel)]="user.oib" name="oib">
+     
+    <small id="OIBHelp" class="form-text text-muted">OIB sadržava 11 znamenki. (Primjer)</small>
+    </div>
+  </div>
+  <hr/>
+  <div class="form-group row">
+    <label for="ulica" class="col-xs-2 col-form-label">Ulica i broj</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="ulica" aria-describedby="ulicaHelp" placeholder="Unesite ulicu i broj" [(ngModel)]="user.address" name="address">
+    <small id="ulicaHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="postcode" class="col-xs-2 col-form-label">Poštanski broj</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="postcode" aria-describedby="postcodeHelp" placeholder="Unesite poštanski broj" [(ngModel)]="user.postcode" name="postcode">
+     
+    <small id="postcodeHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="city" class="col-xs-2 col-form-label">Grad/mjesto</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="city" aria-describedby="cityHelp" placeholder="Unesite grad/mjesto" [(ngModel)]="user.city" name="city">
+     
+    <small id="cityHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+
+<div class="form-group row">
+    <label for="country" class="col-xs-2 col-form-label">Država</label>
+     <div class="col-xs-10">
+    <input type="text" class="form-control" id="country" aria-describedby="countryHelp" placeholder="Unesite državu" [(ngModel)]="user.country" name="country">
+     
+    <small id="countryHelp" class="form-text text-muted"></small>
+    </div>
+  </div>
+  <hr/>
+  <div class="form-group row">
+    <label for="obrt" class="col-xs-2 col-form-label">Da li poslujete kao obrt?</label>
+    <div class="col-xs-10">
+    <div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" id="obrt" (isObrt)="false" aria-label="" #obrt (click)="isObrt=!isObrt">
+      </span>
+      <input type="text" class="form-control" placeholder="Ime obrta" *ngIf="!isObrt" aria-label="" disabled>
+      <input type="text" class="form-control" placeholder="Ime obrta" *ngIf="isObrt" aria-label="" [(ngModel)]="user.obrt" name="obrt">
+    </div>
+    </div>
+  </div>
+<div class="form-group row">
+  <button class="btn btn-primary" (click)="saveData(user)">Snimi promjene</button>
+</div>
+</form>
+</div>

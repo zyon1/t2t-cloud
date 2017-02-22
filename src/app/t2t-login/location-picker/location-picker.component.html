@@ -1,0 +1,121 @@
+ <div class="form-group row">
+          <div class="col-sm-12"><h5>Adresa</h5></div>
+      <label class="col-sm-2">
+        Pretraga
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="autocompleteInput" placeholder="Npr. Vukovarska 3d Zadar">
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+
+      <label class="col-sm-2">
+       Ulica
+      </label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" id="street" placeholder="Ulica" [(ngModel)]="location.street" name="street" #street="ngModel" required (ngModelChange)="select(location)" >
+        <!--t2t-validator-->
+        <div *ngIf="street.errors && (street.dirty || street.touched)" class="validation-errors">
+          <div [hidden]="!street.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+
+      <label class="col-sm-2">
+       Broj 
+      </label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" id="streetNr" placeholder="Kućni broj" [(ngModel)]="location.streetNr" name="streetNr" #streetNr="ngModel" required (ngModelChange)="select(location)">
+        <!--t2t-validator-->
+        <div *ngIf="streetNr.errors && (streetNr.dirty || streetNr.touched)" class="validation-errors">
+          <div [hidden]="!streetNr.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+        
+
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Mjesto
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="place" placeholder="Mjesto" [(ngModel)]="location.place" name="place" #place="ngModel" required (ngModelChange)="select(location)">
+        <div *ngIf="place.errors && (place.dirty || place.touched)" class="validation-errors">
+          <div [hidden]="!place.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Poštanski broj
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="postcode" placeholder="Poštanski broj" [(ngModel)]="location.postCode" name="postcode" #postcode="ngModel" required (ngModelChange)="select(location)">
+        <div *ngIf="postcode.errors && (postcode.dirty || postcode.touched)" class="validation-errors">
+          <div [hidden]="!postcode.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Država
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="country" placeholder="Država" [(ngModel)]="location.country" name="country" #country="ngModel" required (ngModelChange)="select(location)">
+        <div *ngIf="country.errors && (country.dirty || country.touched)" class="validation-errors">
+          <div [hidden]="!country.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        
+      </label>
+      <div class="col-sm-7">
+         <!-- this creates a google map on the page with the given lat/lng from -->
+<!-- the component as the initial center of the map: -->
+
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" #addressMap>
+<map></map>
+  <sebm-google-map-marker *ngIf="locFound" [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="updateMarkerLocation($event)" ></sebm-google-map-marker>
+</sebm-google-map>
+   
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>

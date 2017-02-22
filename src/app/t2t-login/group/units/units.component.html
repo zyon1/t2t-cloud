@@ -1,0 +1,61 @@
+<p>
+  units works!
+</p>
+<!--<pre>{{myObjects|json}}</pre>
+<pre>{{ready|json}}</pre>
+-->
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':ready}" (click)="ready?'':ready=true">Moji objekti</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':!ready}" (click)="ready?ready=false:''">Nedovršeni objekti</a>
+  </li>
+</ul>
+<div>asda</div>
+<table class="table table-sm">
+  <thead style="background: #2c77ff;color:#fff">
+    <tr>
+      <th>#</th>
+      <th>Naziv</th>
+      <th>Kreiran</th>
+      <th>Aktivnosti</th>
+      <th>Uredi</th>
+      <th>Aktivan</th>
+
+    </tr>
+    </thead>
+    <thead>
+    <tr>
+      <th style="text-align:center; vertical-align:middle;">+</th>
+      <th colspan="1">
+        <input type="text" class="form-control" id="naziv" placeholder="Naziv">
+      </th>
+      <th colspan="4">
+        <button type="button" class="btn btn-outline-success" (click)="createObject()">Dodaj novi objekt</button>
+      </th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let object of myObjects;let i=index;let j=index">
+
+      <td *ngIf="ready && object.data && object.data.ready">{{++i}}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.name?object.data.name:""}}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.task?object.data.task:""}}</td>
+      <td *ngIf="ready && object.data && object.data.ready"><a [routerLink]="[myUrl+'/edit/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.active?true:false}}</td>
+
+      <td *ngIf="!ready && object.data && !object.data.ready">{{++j}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.name?object.data.name:""}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.task?object.data.task:""}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready"><a [routerLink]="[myUrl+'/edit/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.active?true:false}}</td>
+
+
+    </tr>
+  </tbody>
+</table>

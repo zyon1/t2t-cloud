@@ -1,0 +1,27 @@
+
+<button type="button" class="btn btn-outline-primary nav-msg" placement="bottom" [ngbPopover]="popContent">
+<i *ngIf="!isOpen || noNew==0" class="fa fa-envelope-o fa-lg" aria-hidden="true" (click)="openMsg()">
+</i>
+
+<i *ngIf="isOpen && noNew>0" class="fa fa-envelope-open-o fa-lg" aria-hidden="true" (click)="closeMsg()"></i>
+<div class="new-msg" *ngIf="noNew>0">
+  {{noNew}}
+  </div>
+</button>
+  
+<template #popContent>
+  <div class="notification-content" *ngIf="noNew==0">Nema novih notifikacija!</div>
+  <hr style="margin-top:3px;margin-bottom:5px;">
+  <div class="notification-content" *ngFor="let notification of notifications">
+  <div  [ngClass]="{solved: notification.solved}">
+    <i *ngIf="notification.solved" class="fa fa-check-circle" aria-hidden="true"></i>
+    <span [innerHTML]="notification.msg"></span>
+  </div>
+
+    <button *ngIf="!notification.solved" class="btn btn-primary btn-sm" (click)="joinGroup(notification.gid, notification.key)">Prihvati</button>
+    <button *ngIf="!notification.solved" class="btn btn-primary btn-sm" (click)="dismiss(notification.key)">Odbaci</button>
+  
+  <hr style="margin-top:3px;">
+
+</div>
+</template>

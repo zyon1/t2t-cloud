@@ -1,0 +1,216 @@
+<h2>Novi objekt</h2>
+<form (ngSubmit)="onSubmit(tObjectForm.form.value)" #tObjectForm="ngForm">
+    <div class="form-group row">
+            <div class="col-sm-12">
+            <h5>Osnovni podaci</h5>
+            tObj<pre>{{tObj|json}}</pre>
+            form<pre>{{ tObjectForm.value | json }}</pre>
+            </div>
+                      
+
+        
+      <label for="name" class="col-sm-2 col-form-label">Naziv</label>
+      <div class="col-sm-7">
+        <!--<input type="text" class="form-control" id="naziv" placeholder="Naziv" [(ngModel)]="tObj.name" name="name" (ngModelChange)="validator($event)" #name="ngModel" required>-->
+        <input  type="text" class="form-control" id="name"  [(ngModel)]="tObj.name" name="name" #name="ngModel" required> <!--minlength="4" maxlength="24"-->
+        <div *ngIf="name.errors && (name.dirty || name.touched)" class="validation-errors">
+          <div [hidden]="!name.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+          <div [hidden]="!name.errors.minlength" class="alert alert-danger error-msg">
+            Name must be at least 4 characters long.
+          </div>
+          <div [hidden]="!name.errors.maxlength" class="alert alert-danger error-msg">
+            Name cannot be more than 24 characters long.
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <pre>{{name.className}}</pre>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Autonomni objekt</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="tObj.autonomus" name="autonomus"> 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        Kategorizacija
+      </div>
+      <div class="col-sm-7">
+        <style>.star-container {
+ cursor:pointer;
+}</style>
+<app-standard-picker [(ngModel)]="tObj.standard" name="standard"></app-standard-picker>
+<!--
+        <div class="star-container">
+        <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<1, 'fa-star':stars>=1}" aria-hidden="true" (mouseenter)="stars=1" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=1"></i></a>
+        <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<2, 'fa-star':stars>=2}" aria-hidden="true" (mouseenter)="stars=2" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=2"></i></a>
+        <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<3, 'fa-star':stars>=3}" aria-hidden="true" (mouseenter)="stars=3" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=3"></i></a>
+        <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<4, 'fa-star':stars>=4}" aria-hidden="true" (mouseenter)="stars=4" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=4"></i></a>
+        <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<5, 'fa-star':stars>=5}" aria-hidden="true" (mouseenter)="stars=5" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=5"></i></a>
+        </div>
+        <div style="float:left;">
+        <button type="button" class="btn btn-primary btn-sm" (click)="tObj.standard=0;stars=0">Nema podatka</button>
+        </div>
+        -->
+      </div>
+      <div class="col-sm-3">
+      </div>
+      
+    </div>
+    <div class="form-group row">
+      <div class="col-sm-2">
+        Vrsta objekta
+      </div>
+      <div class="col-sm-7">
+<app-custom-select name="type" [values]="objectTypes" text="Odaberi vrstu objekta" [(ngModel)]="tObj.type" class="csel" required (click)="tObj.subType=tObj.type=='Privatni smještaj'?tObj.subType:-1"></app-custom-select>
+<app-custom-select name="subType" [values]="objectSubTypes" text="Odaberi  podkategoriju objekta" [(ngModel)]="tObj.subType" class="csel" required [disabled]="tObj.type!='Privatni smještaj'"></app-custom-select>
+
+        <!--<div ngbDropdown class="d-inline-block">
+          <span class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>{{objectSelected!=-1?objectTypes[objectSelected]:'Odaberi vrstu objekta'}}</span>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <span class="dropdown-item" *ngFor="let type of objectTypes; let i=index;" (click)="objectSelected=i;tObj.type=objectTypes[i]">{{type}}</span>
+          </div>
+        </div>-->
+        <!--<div ngbDropdown class="d-inline-block" >
+          <span class="btn btn-outline-primary" id="dropdownMenu2" ngbDropdownToggle>{{objectSubtype!=-1?objectSubTypes[objectSubtype]:'Odaberi  podkategoriju objekta'}}</span>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <span class="dropdown-item" *ngFor="let subtype of objectSubTypes; let i=index;" (click)="objectSubtype=i;tObj.subType=objectSubTypes[i]">{{subtype}}</span>
+          </div>
+        </div>-->
+        <!--
+        <div *ngIf="objectSelected==-1 && !typeTouched && beforeSubmit" class="validation-errors">
+          <div class="alert alert-danger error-msg">
+            Obavezno polje
+          </div>
+        </div>
+        <div *ngIf="objectSelected==0 && objectSubtype==-1 && !subtypeTouched && beforeSubmit" class="validation-errors">
+          <div class="alert alert-danger error-msg">
+            Morate odabrati podkategoriju!
+          </div>
+        </div>-->
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+
+
+        <div class="form-group row">
+          <div class="col-sm-12"><h5>Adresa</h5></div>
+          <app-location-picker [(ngModel)]="tObj.location" name="location"></app-location-picker>
+          <!--
+      <label class="col-sm-2">
+        Pretraga
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="autocompleteInput" placeholder="Npr. Vukovarska 3d Zadar">
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+
+      <label class="col-sm-2">
+       Ulica i broj 
+      </label>
+      <div class="col-sm-7">
+        <input type="text" class="form-control" id="street" placeholder="Ulica  i broj" [(ngModel)]="tObj.location.street" name="streetFull" #street="ngModel" required [ngClass]="{'custom-invalid':streetNr==''}" t2t-validator>
+        
+        <div *ngIf="street.errors && (street.dirty || street.touched)" class="validation-errors">
+          <div [hidden]="!street.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+        <div *ngIf="streetNr==''" class="validation-errors">
+          <div class="alert alert-danger error-msg">
+            Broj ulice nedostaje
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Mjesto
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="place" placeholder="Mjesto" [(ngModel)]="tObj.location.place" name="place" #place="ngModel" required>
+        <div *ngIf="place.errors && (place.dirty || place.touched)" class="validation-errors">
+          <div [hidden]="!place.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Poštanski broj
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="postcode" placeholder="Poštanski broj" [(ngModel)]="tObj.location.postcode" name="postcode" #postcode="ngModel" required>
+        <div *ngIf="postcode.errors && (postcode.dirty || postcode.touched)" class="validation-errors">
+          <div [hidden]="!postcode.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        Država
+      </label>
+      <div class="col-sm-7">
+         <input type="text" class="form-control" id="country" placeholder="Država" [(ngModel)]="tObj.location.country" name="country" #country="ngModel" required>
+        <div *ngIf="country.errors && (country.dirty || country.touched)" class="validation-errors">
+          <div [hidden]="!country.errors.required" class="alert alert-danger error-msg">
+            Name is required
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+    <div class="form-group row">
+      
+      <label class="col-sm-2">
+        
+      </label>
+      <div class="col-sm-7">
+         
+
+<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [styles]="'satellite/hybrid'" [zoomControl]="true" [scaleControl]="true" #addressMap>
+<map></map>
+  <sebm-google-map-marker *ngIf="locFound" [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="updateMarkerLocation($event)" ></sebm-google-map-marker>
+</sebm-google-map>
+   
+      </div>
+      <div class="col-sm-3">
+      </div>
+      -->
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="!tObjectForm.form.valid">Submit</button>
+  </form>

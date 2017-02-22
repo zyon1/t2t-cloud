@@ -1,0 +1,8 @@
+<div class="star-container">
+  <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<1, 'fa-star':stars>=1}" aria-hidden="true" (mouseenter)="stars=1" (mouseleave)="stars=selectedStars" (click)="select(1)"></i></a>
+  <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<2, 'fa-star':stars>=2}" aria-hidden="true" (mouseenter)="stars=2" (mouseleave)="stars=selectedStars" (click)="select(2)"></i></a>
+  <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<3, 'fa-star':stars>=3}" aria-hidden="true" (mouseenter)="stars=3" (mouseleave)="stars=selectedStars" (click)="select(3)"></i></a>
+  <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<4, 'fa-star':stars>=4}" aria-hidden="true" (mouseenter)="stars=4" (mouseleave)="stars=selectedStars" (click)="select(4)"></i></a>
+  <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<5, 'fa-star':stars>=5}" aria-hidden="true" (mouseenter)="stars=5" (mouseleave)="stars=selectedStars" (click)="select(5)"></i></a>
+  <button *ngIf="reset" type="button" class="btn btn-primary btn-sm" (click)="select(0)">Nema podatka</button>
+</div>

@@ -1,0 +1,39 @@
+
+
+ 
+  <div class="container">
+<app-loading-indicator [loadingState]="loading"></app-loading-indicator>
+      <form class="form-signin" *ngIf="!loading">
+         <div class="row form-header">
+          <div class="col-md-6 form-header-default first-header" (click)="isSelected=!isSelected;" (isSelected)="false" [ngClass] = "{selected: !isSelected}" >
+            <div class="header-text">Sign in</div>
+          </div>
+          <div class="col-md-6 form-header-default" (click)="isSelected=!isSelected;" [ngClass] = "{selected: isSelected}" >
+            <div class="header-text">Register</div>
+          </div>
+        </div>
+        <label *ngIf="isSelected" for="inputUsername" class="sr-only">Korisničko ime:</label>
+        <input *ngIf="isSelected" type="text" placeholder="Korisničko ime"  name="username" #username required autofocus id="inputUsername" class="form-control first">
+        <label for="inputEmail" class="sr-only">Email:</label>
+        <input type="email" placeholder="Email"  name="email" #email required autofocus id="inputEmail" class="form-control" [ngClass] = "{middle: isSelected, first: !isSelected}" >
+        <label for="inputPassword" class="sr-only">Lozinka:</label>
+        <input type="password" placeholder="Lozinka"  name="password" #password required id="inputPassword" class="form-control last">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+          <!--<a routerLink="/login/register" class="btn btn-primary btn-block">Izradi račun</a>-->
+      <button *ngIf="!x && !isSelected" (click)="login(email.value, password.value)" class="btn btn-lg btn-primary btn-block">Login</button>
+          <button *ngIf="!x && isSelected" (click)="register(email.value, password.value)" class="btn btn-lg btn-primary btn-block">Izradi račun</button>
+          <button *ngIf="x" (click)="logout()" class="btn btn-lg btn-primary btn-block">Logout</button>
+      </form>
+  <a routerLink="/login/admin" >admin</a>
+    </div>
+<!--<div class="login-box">
+  
+<input type="email" placeholder="Email" [(ngModel)]="email" name="email">
+<input type="password" placeholder="Password" [(ngModel)]="password" name="password">
+<button class="btn btn-primary" (click)="signIn()">Login</button>
+</div>-->
+<app-object-policies></app-object-policies>

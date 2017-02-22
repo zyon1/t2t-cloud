@@ -1,0 +1,101 @@
+<div class="wrapper">
+<div class="progress-container">
+
+   <div class="progress" style="">
+     <div class="progress-header1">
+     Do dolaska
+     </div>
+     <div class="progress-header2">
+       Akontacija
+     </div>
+    <div class="progress-bar" role="progressbar" 
+      *ngFor="let policy of testPolicies; let i=index" 
+      [ngStyle]="{'width': round(policy.pLength/total*100) + '%', 'background': 'rgb('+round(255-(tpLength-i)*75/tpLength)+', '+round(150+(tpLength-i)*100/tpLength)+','+'103'+')'}" 
+      [attr.aria-valuenow]="round(policy.pLength/total*100)" aria-valuemin="0" aria-valuemax="100"
+      [ngClass]="{'progress-first': i==0, 'progress-last': i==(tpLength-1) }"
+      >
+      
+         {{policy.percent}}%
+       <div class="progress-bottom">
+<div class="bot-interval"></div>
+           {{policy.pLength}} dana
+
+     
+   </div>
+   <div class="progress-label">
+     {{accValue(i)}} dana
+<div class="desc-arrow"></div>
+   </div>
+       <div class="progress-label-last" *ngIf="i==(tpLength-1)">
+      Dolazak gosta
+      <div class="desc-arrow"></div>
+    </div>
+    </div>
+
+</div>
+
+</div>
+<pre>{{asdf |json}}</pre>
+        <app-form-input-array [pairs]="testPolicies" [valRules]="valRules" [emptyPair]="emptyPolicy" 
+        [explainer]="expl" [(ngModel)]="testPolicies" name="others" (ngModelChange)="updateFn()" addDesc="period"
+        [options]="FIAOptions"
+        >
+        </app-form-input-array>
+</div>
+
+<!--<div style="display:inline-block;width:auto;overflow-y:visible;">
+					<ul class="timeline timeline-horizontal"  style="width:100%;">-->
+						<!--<li class="timeline-item" >
+							<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h5>Period 1</h5>
+									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i></small></p>
+								</div>
+								<div class="timeline-body">
+									<p>Ukoliko gost otkaže između x i y dana prije dolaska dužan je platiti proviziju od p%.</p>
+								</div>
+							</div>
+						</li>
+            <li class="timeline-item" >
+							<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>
+							<div class="timeline-panel">
+								<div class="timeline-heading">
+									<h5>Period 1</h5>
+									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i></small></p>
+								</div>
+								<div class="timeline-body">
+									<p>Ukoliko gost otkaže između x i y dana prije dolaska dužan je platiti proviziju od p%.</p>
+								</div>
+							</div>
+						</li>-->
+ 
+
+<!--
+            <li class="timeline-item" *ngFor="let policy of testPolicies; let i=index" [ngStyle]="{'width': (policy.pLength/total*100) + '%'}">
+							<div class="timeline-badge primary">
+                <i class="glyphicon glyphicon-check"></i>
+                <div class="timeline-desc">
+                  <div class="timeline-desc-inner">
+                    <span>Dolazak gosta</span>
+                    <div class="desc-arrow"></div>
+                  </div>
+                </div>
+              </div>
+						</li>
+
+						<li class="timeline-item last-item" style="width:100px;position:absolute;bottom:20px;right:0;">
+							<div class="timeline-badge primary" style="left:auto;right:0;">
+                <i class="glyphicon glyphicon-check"></i>
+                <div class="timeline-desc">
+                  <div class="timeline-desc-inner">
+                    <span>Dolazak gosta</span>
+                    <div class="desc-arrow"></div>
+                  </div>
+                </div>
+              </div>
+						</li>
+						
+						
+					</ul>
+				</div>-->

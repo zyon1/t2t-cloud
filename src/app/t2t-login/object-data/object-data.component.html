@@ -1,0 +1,124 @@
+<h2>Sadržaji objekta</h2>
+<form (ngSubmit)="onSubmit(ObjDataForm.form.value)" #ObjDataForm="ngForm">
+    <div class="form-group row">
+            <div class="col-sm-12">
+            <h5>Sadržaji objekta</h5>
+            ObjData<pre>{{objectData|json}}</pre>
+            form<pre>{{ ObjDataForm.value | json }}</pre>
+            </div>
+                      
+
+        
+      <label for="parking" class="col-sm-2 col-form-label">Naziv</label>
+      <div class="col-sm-7">
+        <app-custom-select name="parking" [values]="parkingTypes" text="Odaberi vrstu parking" [(ngModel)]="parking" class="csel"></app-custom-select>
+      </div>
+      <div class="col-sm-3">
+        
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Wifi</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="wifi" name="wifi"> 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Kućni ljubimci</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="pets" name="pets">
+            <input type="text" [(ngModel)]="petsPrice" name="petsPrice" [disabled]="!pets" class="form-control" id="petsPrice"  placeholder="Upišite cijenu za ljubimce u eurima ili ostavite prazno">
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Dječje igralište</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="playground" name="playground" id="playground" > 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Bazen</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="pool" name="pool" id="pool" > 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Grill</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="playground" name="playground" id="playground" > 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Peka</label>
+      <div class="col-sm-7">
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="peka" name="peka" id="peka" > 
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    
+    <div class="form-group row">
+      <label class="col-sm-2">Kratki opis</label>
+      <div class="col-sm-7 form-group">
+         <textarea class="form-control" id="shortDesc" rows="3" name="shortDesc" [(ngModel)]="shortDesc" maxlength="150"></textarea>
+         <small id="shortDescLength" class="form-text text-muted">{{shortDesc?shortDesc.length:0}}/150</small>
+
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2">Dugi opis</label>
+      <div class="col-sm-7">
+         <textarea class="form-control" id="longDesc" rows="8" name="longDesc" [(ngModel)]="longDesc" maxlength="450"></textarea>
+         <small id="longDescLength" class="form-text text-muted">{{longDesc?longDesc.length:0}}/450</small>      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Ostalo</label>
+      <div class="col-sm-7">
+        <h5>Ostala svojstva objekta</h5>
+    <small id="ostaloSm" class="form-text text-muted">Ovdje se upisuju ostala svojstva koje objekt.</small>
+        <app-form-input-array [pairs]="others" [emptyPair]="ePair" [explainer]="expl" [(ngModel)]="asdf" name="others"></app-form-input-array>
+        
+      </div>
+      <div class="col-sm-3">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success" [disabled]="false">Submit</button>
+  </form>
