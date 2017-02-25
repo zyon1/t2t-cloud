@@ -114,7 +114,7 @@
       <div class="col-sm-7">
         <h5>Ostala svojstva objekta</h5>
     <small id="ostaloSm" class="form-text text-muted">Ovdje se upisuju ostala svojstva koje objekt.</small>
-        <app-form-input-array [pairs]="others" [emptyPair]="ePair" [explainer]="expl" [(ngModel)]="asdf" name="others"></app-form-input-array>
+        <app-form-input-array [items]="others" [(ngModel)]="others" [options]="FIAOptions" name="others"></app-form-input-array>
         
       </div>
       <div class="col-sm-3">

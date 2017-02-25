@@ -37,6 +37,12 @@ export function createSelectRangeValidator(length) {
   ]
 })
 export class CustomSelectComponent implements OnInit, ControlValueAccessor {
+/*
+Stara verzija -> i dalje radi ["val1", "val2"]
+Proširenje ->
+Sada se može values zadati i u obliku: [{label:"Naziv1", value: "vrijednost1"},{label:"Naziv2", value: "vrijednost2"}]
+s tim da je onda value komonente cijeli objekt sa labelom i value-om
+ */
 @Input('values') values:any[]=[];
 @Input('text') text:string;
 selected:number=-1;

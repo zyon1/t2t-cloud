@@ -61,6 +61,15 @@ import { LocationPickerComponent } from './location-picker/location-picker.compo
 import { ObjectDataComponent } from './object-data/object-data.component';
 import { FormInputArrayComponent } from './form-input-array/form-input-array.component';
 import { ObjectPoliciesComponent } from './object-policies/object-policies.component';
+import { CancelationPoliciesComponent } from './cancelation-policies/cancelation-policies.component';
+import { UnitDataComponent } from './unit-data/unit-data.component';
+import { UnitBasicComponent } from './unit-data/unit-basic/unit-basic.component';
+import { UnitKitchenComponent } from './unit-data/unit-kitchen/unit-kitchen.component';
+import { UnitBathroomComponent } from './unit-data/unit-bathroom/unit-bathroom.component';
+import { UnitHvacComponent } from './unit-data/unit-hvac/unit-hvac.component';
+import { UnitMultimediaComponent } from './unit-data/unit-multimedia/unit-multimedia.component';
+import { UnitEquipmentComponent } from './unit-data/unit-equipment/unit-equipment.component';
+import { UnitsWizardComponent } from './units-wizard/units-wizard.component';
 
 
 /* Classes */
@@ -122,7 +131,16 @@ export const myFirebaseAuthConfig = {
     LocationPickerComponent,
     ObjectDataComponent,
     FormInputArrayComponent,
-    ObjectPoliciesComponent
+    ObjectPoliciesComponent,
+    CancelationPoliciesComponent,
+    UnitDataComponent,
+    UnitBasicComponent,
+    UnitKitchenComponent,
+    UnitBathroomComponent,
+    UnitHvacComponent,
+    UnitMultimediaComponent,
+    UnitEquipmentComponent,
+    UnitsWizardComponent
     ],
   providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper]
 })

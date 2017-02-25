@@ -1,0 +1,65 @@
+.wizzy-container{
+    padding-right:30px;
+    padding-left:15px;
+}
+.arrow-right {
+  width: 0; 
+  height: 0; 
+    box-sizing:border-box;
+  position:absolute;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+
+  border-left: 20px solid #0275d8;
+  right:-20px;
+  top:0;
+}
+.arrow-inverse{
+    border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+position: absolute;
+  border-left: 20px solid #fff;
+  width:20px;
+  height: 0;
+  background: #0275d8;
+      box-sizing:border-box;
+  top:0;
+left:0;
+}
+.wizzy-item-first{
+    position: relative;
+    padding-right:20px;
+    height: 40px;
+    background: #0275d8;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: #fff;
+    line-height: 40px;
+    
+}
+.wizzy-inside{
+    width:100%;
+      background: #0275d8;
+height:40px;
+/*margin-left:20px;*/
+line-height: 40px;
+padding-left:10px;
+box-sizing: border-box;
+color: #fff;
+}
+.wizzy-item{
+    position: relative;
+    padding-right:0;
+        padding-left:20px;
+    height: 40px;
+
+    
+}
+.active{
+    background: #6ed902;
+}
+.right-active{
+      border-left: 20px solid #6ed902;
+;
+
+}

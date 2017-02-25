@@ -26,44 +26,57 @@ export function createValidator() {
     }]
 })
 export class FormInputArrayComponent implements OnInit, ControlValueAccessor {
-  @Input('pairs')pairs:any[];
-  @Input('emptyPair')emptyPair:any; // u options
-  @Input('valRules')valRules:any; // u options
-  @Input('explainer')explainer:string; // u options
-  @Input('addDesc')addDesc:string="svojstvo"; // u options
+  
+  @Input('items')items:any[];
   @Input('options')options:any; 
+ chkStyle = {
+    // CSS styles: set per current state of component properties
+    'position':  'absolute',
+    'bottom': '-26px',
+    'left':'0'
+  };
+  chkParentStyle = {
+    'position':'relative',
+    'margin-bottom': '-27px'
+  }
 /*
 primjer za object-policies
 FIAOptions ={
-  pair{
-    percent:{
-      name:'Postotak',
+  fields:[
+    {
+      name: 'percent',
+     label:'Postotak',
       type: 'number',
-      default: 0,
+      default: "0",
       rules: {
-        min: 0,
-        max: 100
+        min: "0",
+        max: "100"
       }
     },
-    pLength:{
-      name:'Duljina perioda',
+    {
+        name:'pLength',
+      label:'Duljina perioda',
       type: 'number',
       default: 7,
       rules: {
-        min: 7,
-        max: 120
+        min: "7",
+        max: "120"
       }
-  },
-  explainer: ""
-  addDesc: "period"
-  checkbox: {
-    all: false,
-    first: true,
-    label: 'Postavi prvi period od dolaska gosta'
-  }
+    },
+       {
+      name:'startR',
+      label:'Početak perioda od trenutka rezervacije.',
+      type: 'checkbox',
+      default: false,
 
-
-}
+      firstOnly: true,
+    }
+  ],
+  explainer: "",
+  addDesc: "period",
+  static: false // ako je static true onda omogućava dodavanje i brisanje polja
+ 
+};
 
  */
   keys:any[]=['val1', 'val2'];
@@ -81,16 +94,16 @@ FIAOptions ={
     
   }
   ngOnInit() {
-  if (this.pairs){this.write(this.pairs);}
+  if (this.items){this.write(this.items);}
   console.log(this.options);
   
-    this.keys=Object.keys(this.emptyPair);
+   // this.keys=Object.keys(this.emptyPair);
     //ovo je u redu this.keysNew=Object.keys(this.options.pair);
-    console.log(this.keysNew);
+    //console.log(this.keysNew);
 //console.log(this.keys, this.emptyPair, this.pairs);
-    this.emptyVal={[this.keys[0]]:'', [this.keys[1]]:''};
+    //this.emptyVal={[this.keys[0]]:'', [this.keys[1]]:''};
     //ovo je u redu this.emptyValNew={[this.keysNew[0]]:this.options.pair[this.keysNew[0]].default, [this.keysNew[1]]:this.options.pair[this.keysNew[1]].default};
-    console.log(this.emptyValNew);
+    //console.log(this.emptyValNew);
 //console.log(this.emptyVal);
   }
   ngOnChanges(changes) {
@@ -120,11 +133,21 @@ FIAOptions ={
     this.onTouchedCallback = fn;
   }
 
-  addPair(){
-    this.emptyVal={[this.keys[0]]:'', [this.keys[1]]:''};
+  addItem(){
+    let emptyItem={};
+let defaultFlag=false;
 
-    this.pairs.push(this.emptyVal);
-    console.log(this.emptyVal);
+      this.options.fields.forEach(element => {
+        if (element.default) {
+          emptyItem[element.name]=element.default;
+          defaultFlag=true;
+        }
+  
+    });
+
+    this.items.push(emptyItem);
+    if (defaultFlag){this.write(this.items);}
+    console.log(emptyItem);
   }
 
 
@@ -134,7 +157,7 @@ setDisabledState(isDisabled: boolean){
 
    write(value){
      //console.log(value);
-     if (value) {this.pairs=value;}
+     if (value) {this.items=value;}
      //if(value && !this.loaded){this.location=value;this.loaded=true;}
     this.propagateChange(value);
   }

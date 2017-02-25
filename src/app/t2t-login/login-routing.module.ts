@@ -14,9 +14,9 @@ import { GroupComponent } from './group/group.component';
 import { UnitsComponent } from './group/units/units.component';
 import { NewObjectComponent } from './group/new-object/new-object.component';
 import { ObjectDataComponent } from './object-data/object-data.component';
-
+import { UnitsWizardComponent} from './units-wizard/units-wizard.component';
 import { InviteComponent } from './group/invite/invite.component';
-
+import { ObjectPoliciesComponent } from './object-policies/object-policies.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IntraNavComponent } from './intra-nav/intra-nav.component';
@@ -39,9 +39,10 @@ const loginRoutesNew: Routes = [
                         { path: 'units', canActivate: [], children:[
                             { path: '', canActivate: [], component: UnitsComponent},
                             { path: 'edit', canActivate:[], children:[
-                                { path: ':oid', canActivate:[], children:[
+                                { path: ':oid', canActivate:[], component: UnitsWizardComponent, children:[
                                     { path: '', canActivate:[], component: NewObjectComponent },
-                                    { path: 'data', canActivate:[], component: ObjectDataComponent }
+                                    { path: 'data', canActivate:[], component: ObjectDataComponent },
+                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
 
                                 ] },
                             ] },

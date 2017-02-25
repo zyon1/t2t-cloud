@@ -27,14 +27,56 @@ interface ObjData{
   styleUrls: ['./object-data.component.css']
 })
 export class ObjectDataComponent implements OnInit {
-others=[{name:'', value:''}];
+others=[{name:'sda', value:'sadsad'}];
 parking:any=-1;
 shortDesc:string='';
 longDesc:string='';
 ePair={name:'Naziv', value:'Vrijednost'};
 expl="* Ukoliko se želi opisati pojavnost nekog svojstva, tada se vrijednost ostavlja prazna";
 parkingTypes=['Javni besplanto', 'Javni naplata', 'Privatno prakirno mjesto', 'Privatna garaža'];
+FIAOptions ={
+  fields:[
+    {
+      name: 'name',
+     label:'Naziv',
+      type: 'text',
+      default: '',
 
+    },
+    {
+        name:'value',
+      label:'Vrijednost',
+      type: 'text',
+      default: '',
+
+    }
+  ],
+  explainer: "",
+  addDesc: "period",
+ 
+};
+/*FIAOptions ={
+  pair:{
+    name:{
+      name:'Naziv',
+      type: 'text',
+      default: '',
+      rules: {
+        maxLength: 30
+      }
+    },
+    value:{
+      name:'Vrijednost',
+      type: 'text',
+      default: '',
+      rules: {
+        maxLength: 30
+      }
+    }
+  },
+  explainer: "* Ukoliko se želi opisati pojavnost nekog svojstva, tada se vrijednost ostavlja prazna",
+  addDesc: "period"
+};*/
 
   constructor(
     private route: ActivatedRoute,

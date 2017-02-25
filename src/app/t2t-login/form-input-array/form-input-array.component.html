@@ -1,11 +1,71 @@
    <!-- <h5>Ostala svojstva objekta</h5>
     <small id="ostaloSm" class="form-text text-muted">Ovdje se upisuju ostala svojstva koje objekt.</small>-->
+
+
+    <!--
+FIAOptions ={
+  fields:{
+    0:{
+      fieldName: 'percent',
+      name:'Postotak',
+      type: 'number',
+      default: 0,
+      rules: {
+        min: 0,
+        max: 100
+      }
+    },
+    1:{
+        fieldName:'pLength',
+      name:'Duljina perioda',
+      type: 'number',
+      default: 7,
+      rules: {
+        min: 7,
+        max: 120
+      },
+    checkbox: {
+    chkName: 'startR'
+    all: false,
+    first: true,
+    label: 'Početak perioda od trenutka rezervacije.'
+  }
+    }
+  },
+  explainer: "",
+  addDesc: "period",
+ 
+};
+
+    -->
+
+
+    <div class="form-group" *ngFor="let item of items;let i=index">
+     
+            <div class="form-inline" style="position: relative;margin-bottom:15px;">
+
+                <label [for]="field.name" *ngFor="let field of options.fields;let j=index"  [hidden]="field.firstOnly==true && i!=0" 
+                [ngStyle]="field.type=='checkbox'?chkStyle:''">
+                    {{field.label}}
+                 <input [type]="field.type" class="form-control" [id]="field.name+i+j"  
+                 [(ngModel)]="item[field.name]" [name]="field.name" #name="ngModel" [attr.required]="field.required" 
+                 [attr.min]='(field && field.rules && field.rules.min)?field.rules.min:""'
+                  [attr.max]='(field && field.rules && field.rules.max)?field.rules.max:""'
+                 (ngModelChange)="write(items)">
+                 </label>
+                         <span class="btn btn-danger" (click)="items.splice(i, 1);write(items)" [hidden]="options.static">x</span>
+
+ 
+        </div>
+    </div>
+    <span class="btn btn-primary" (click)="addItem()" [hidden]="options.static">
+            <strong>+</strong>&nbsp;&nbsp;Dodaj {{options.addDesc}}&nbsp;
+        </span>
+    <!--
     <div class="form-group" *ngFor="let pair of pairs;let i=index">
-        <!--<pre>{{pair | json}}</pre>-->
-        <div class="form-inline" *ngIf="options && options.checkbox.first && i==0">
-            <label for="first-chkbox">{{options.checkbox.label}}
-                 <input class="form-check-input" type="checkbox" [(ngModel)]="pair.chkbox" name="{{pair}}chkfirst" id="peka" > 
-            </label>
+
+        <div class="form-inline" *ngIf="options && pair.checkbox.first && i==0">
+            
         </div>
         <div class="form-inline">
 
@@ -25,3 +85,4 @@
             <span class="btn btn-primary" (click)="addPair()">
             <strong>+</strong>&nbsp;&nbsp;Dodaj {{addDesc}}&nbsp;
         </span>
+        -->
