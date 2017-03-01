@@ -1,22 +1,39 @@
 <div class="wizzy-container row">
-  <div class="wizzy-item-first col-md-3 active">
-    asdd
-<div class="arrow-right right-active"></div>
+  <div class="wizzy-item-first col-md-3">
+    <div class="wizzy-inside-first done" ><a ></a>Objekt</div>
+    <div class="arrow-right done" ><a ></a></div>
   </div>
- <div class="wizzy-item col-md-3">
-   <div class="arrow-inverse"></div>
-   <div class="wizzy-inside">asdf</div>
-<div class="arrow-right"></div>
+  <div class="wizzy-item col-md-3">
+    <div class="arrow-inverse" ></div>
+    <div class="wizzy-inside" >Jedinica</div>
+    <div class="arrow-right" ></div>
   </div>
- <div class="wizzy-item col-md-3">
-   <div class="arrow-inverse active"></div>
-   <div class="wizzy-inside active">asdf</div>
-<div class="arrow-right right-active"></div>
+  <div class="wizzy-item col-md-3">
+    <div class="arrow-inverse inactive" ></div>
+    <div class="wizzy-inside inactive" >Sobe</div>
+    <div class="arrow-right inactive" ></div>
   </div>
- <div class="wizzy-item col-md-3">
-   <div class="arrow-inverse"></div>
-   <div class="wizzy-inside">asdf</div>
-<div class="arrow-right"></div>
+  <div class="wizzy-item col-md-3">
+    <div class="arrow-inverse inactive"></div>
+    <div class="wizzy-inside inactive">Cijene</div>
+    <div class="arrow-right inactive"></div>
   </div>
 </div>
+<ol class="breadcrumb" style="background:transparent">
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid">Osnovno</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/data'">Sadržaji</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+    <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'">Politika poslovanja</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+    
+  <li class="breadcrumb-item">Slike</li>
+
+</ol>
 <router-outlet></router-outlet>

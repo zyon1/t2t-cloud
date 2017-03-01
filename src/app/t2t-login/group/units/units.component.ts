@@ -32,8 +32,8 @@ ready:boolean=true;
             objects.forEach(element => {
                      this.us.getTObject(element['$key']).subscribe(data=>{
                    data.created=new Date(data.created);
-                   element.data=data
-                  })         
+                   element.data=data;
+                  });         
             });
             this.myObjects=objects;
         }
@@ -52,7 +52,7 @@ ready:boolean=true;
    this.us.addTObject(data).then(x=>{
      this.us.updateGroupObject(this.gid, x.key).then(
        update=>{
-         this.router.navigate([this.myUrl+'/edit/'+x.key])
+         this.router.navigate([this.myUrl+'/object/'+x.key])
        }
      );
      

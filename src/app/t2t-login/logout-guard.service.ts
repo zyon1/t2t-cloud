@@ -9,7 +9,7 @@ export class LogoutGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     this.loginService.logout();
     
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth']);
     return true;
   }
   }

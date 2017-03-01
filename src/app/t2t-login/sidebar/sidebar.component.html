@@ -1,6 +1,14 @@
-<ul class="nav nav-sidebar" *ngIf="navs">
-            <li><a routerLink="/auth/user"  routerLinkActive="active">Pregled<span class="sr-only">(current)</span></a></li>
-            <li><a routerLink="/auth/user/{{uid}}/groups/">Moje grupe</a></li>
-            <li><a routerLink="/auth/data">Uredi račun</a></li>
-            <li><a routerLink="/auth/my-actions">Moje aktivnosti</a></li>
+<ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/auth/user">Overview <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"routerLink="/auth/user" >Reports</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Analytics</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Export</a>
+            </li>
           </ul>

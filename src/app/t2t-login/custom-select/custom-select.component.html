@@ -3,9 +3,9 @@
           <span class="btn" 
           [ngClass]="{'btn-outline-secondary':disabled, 'cust-disabled':disabled, 'btn-outline-primary':!disabled && selected == -1, 'btn-outline-success':!disabled && selected != -1 }" 
           id="dropdownMenu1" ngbDropdownToggle>
-            {{selected!=-1?values[selected]:text}}</span>
+            {{selected!=-1?values[selected].label?values[selected].label:values[selected]:text}}</span>
           <div class="dropdown-menu" aria-labelledby="dropdownMenu1" *ngIf="!disabled">
             <span class="dropdown-item" *ngFor="let type of values; let i=index;" (click)="select(i);">
-              {{type}}</span>
+              {{type.label?type.label:type}}</span>
           </div>
         </div>

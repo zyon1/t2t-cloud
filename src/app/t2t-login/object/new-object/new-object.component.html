@@ -49,7 +49,7 @@
         <style>.star-container {
  cursor:pointer;
 }</style>
-<app-standard-picker [(ngModel)]="tObj.standard" name="standard"></app-standard-picker>
+<app-standard-picker [(ngModel)]="tObj.standard" name="standard" ></app-standard-picker>
 <!--
         <div class="star-container">
         <a><i class="fa fa-lg stars" [ngClass]="{'fa-star-o':stars<1, 'fa-star':stars>=1}" aria-hidden="true" (mouseenter)="stars=1" (mouseleave)="stars=tObj.standard" (click)="tObj.standard=1"></i></a>
@@ -106,7 +106,7 @@
 
         <div class="form-group row">
           <div class="col-sm-12"><h5>Adresa</h5></div>
-          <app-location-picker [(ngModel)]="tObj.location" name="location"></app-location-picker>
+          <app-location-picker [(ngModel)]="tObj.location" name="location" style="width:100%;padding:15px;"></app-location-picker>
           <!--
       <label class="col-sm-2">
         Pretraga

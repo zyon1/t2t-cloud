@@ -44,7 +44,7 @@
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
         }}</td>
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.task?object.data.task:""}}</td>
-      <td *ngIf="ready && object.data && object.data.ready"><a [routerLink]="[myUrl+'/edit/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="ready && object.data && object.data.ready"><a [routerLink]="[myUrl+'/object/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.active?true:false}}</td>
 
       <td *ngIf="!ready && object.data && !object.data.ready">{{++j}}</td>
@@ -52,7 +52,7 @@
       <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
         }}</td>
       <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.task?object.data.task:""}}</td>
-      <td *ngIf="!ready && object.data && !object.data.ready"><a [routerLink]="[myUrl+'/edit/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && object.data && !object.data.ready"><a [routerLink]="[myUrl+'/object/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
       <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.active?true:false}}</td>
 
 

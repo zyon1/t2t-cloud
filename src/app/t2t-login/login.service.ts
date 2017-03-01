@@ -1,7 +1,6 @@
 import 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { Router }    from '@angular/router';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState } from 'angularfire2';
 //import { FirebaseAuth } from 'angularfire2';
 import * as firebase from 'firebase';
@@ -10,7 +9,7 @@ import * as firebase from 'firebase';
 @Injectable()
 export class LoginService {
     redirectUrl: string;
-    constructor(  public af: AngularFire, private router: Router) {
+    constructor(  public af: AngularFire) {
     }
     // login izgleda u redu
     // TODO: dodati actionLog za akciju

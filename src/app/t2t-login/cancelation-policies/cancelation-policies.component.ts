@@ -49,17 +49,18 @@ export function createValidator() {
 })
 export class CancelationPoliciesComponent implements OnInit, ControlValueAccessor {
   stateExpression: string='in';
+  cancelationP:any={values:[]};
 disabled:boolean;
 //periodLength:number=400;
 policy:any=-1;
 policies:any[]=[
-  {name:"Besplatna", values: []}, 
-  {name: "Fleksibilna", values:[{percent:100, pLength: 7}]}, 
-  {name: "Umjerena1", values:[{percent: 30, pLength: 30},{percent:100, pLength: 7}]}, 
-   {name: "Umjerena2", values:[{percent: 30, pLength: 60},{percent:100, pLength: 7}]}, 
-  {name: "Stroga", values:[{percent:50, pLength: 30}, {percent: 100, pLength:30}]}, 
-  {name: "Vrlo stroga", values:[{percent:70, pLength: 30}, {percent: 100, pLength:30}]}, 
-  {name: "Po mjeri", values:[]} ];
+  {label:"Besplatna", values: []}, 
+  {label: "Fleksibilna", values:[{percent:100, pLength: 7}]}, 
+  {label: "Umjerena1", values:[{percent: 30, pLength: 30},{percent:100, pLength: 7}]}, 
+   {label: "Umjerena2", values:[{percent: 30, pLength: 60},{percent:100, pLength: 7}]}, 
+  {label: "Stroga", values:[{percent:50, pLength: 30}, {percent: 100, pLength:30}]}, 
+  {label: "Vrlo stroga", values:[{percent:70, pLength: 30}, {percent: 100, pLength:30}]}, 
+  {label: "Po mjeri", values:[]} ];
 
 FIAOptions ={
   fields:[
@@ -219,15 +220,16 @@ updateFn(event){
 this.animationState$.subscribe(state=>{
   console.log('state',state);
   if(state=='done'){*/
-    this.total=0;
+        this.total=0;
 
-this.tpLength=this.testPolicies.length;
+this.tpLength=this.cancelationP.values.length;
 //console.log(this.tpLength);
-        this.testPolicies.forEach(element => {
+        this.cancelationP.values.forEach(element => {
      if(element.pLength) {this.total+=+element.pLength;}
       //console.log(element);
     });
     console.log('total',this.total);
+  
     //this.write(this.testPolicies);
     /*
   }

@@ -11,8 +11,9 @@
   border-bottom: 20px solid transparent;
 
   border-left: 20px solid #0275d8;
-  right:-20px;
+  right:-15px;
   top:0;
+  z-index:500;
 }
 .arrow-inverse{
     border-top: 20px solid transparent;
@@ -26,7 +27,8 @@ position: absolute;
   top:0;
 left:0;
 }
-.wizzy-item-first{
+.wizzy-inside-first{
+    /*
     position: relative;
     padding-right:20px;
     height: 40px;
@@ -34,7 +36,17 @@ left:0;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     color: #fff;
-    line-height: 40px;
+    line-height: 40px;*/
+        width:100%;
+      background: #0275d8;
+height:40px;
+/*margin-left:20px;*/
+line-height: 40px;
+padding-left:10px;
+box-sizing: border-box;
+color: #fff;
+ border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     
 }
 .wizzy-inside{
@@ -49,17 +61,38 @@ color: #fff;
 }
 .wizzy-item{
     position: relative;
-    padding-right:0;
+    padding-right:5px;
         padding-left:20px;
     height: 40px;
 
     
 }
-.active{
+.wizzy-item-first{
+    position: relative;
+    padding-right:5px;
+        padding-left:0;
+    height: 40px;
+
+    
+}
+.done:not(.arrow-right){
     background: #6ed902;
 }
-.right-active{
+.arrow-right.done{
       border-left: 20px solid #6ed902;
 ;
 
+}
+.inactive:not(.arrow-right){
+    background: #cde7fe;
+}
+.arrow-right.inactive{
+          border-left: 20px solid #cde7fe;
+
+
+
+}
+.badge-pill{
+        padding: 2px;
+    border-radius: 8px;
 }

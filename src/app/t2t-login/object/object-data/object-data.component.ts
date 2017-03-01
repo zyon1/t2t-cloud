@@ -1,10 +1,10 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { GroupService } from '../group.service';
-import { LoginService } from '../login.service';
-import { UnitsService } from '../units.service';
-import { CustomSelectComponent } from '../custom-select/custom-select.component';
+import { GroupService } from '../../group.service';
+import { LoginService } from '../../login.service';
+import { UnitsService } from '../../units.service';
+import { CustomSelectComponent } from '../../custom-select/custom-select.component';
 
 interface ObjData{
         oid: {

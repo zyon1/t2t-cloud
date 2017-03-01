@@ -266,12 +266,19 @@ updateMarkerLocation(event){
    // console.log(event);
     this.lat=event.coords.lat;
     this.lng=event.coords.lng;
+    this.location.lat=event.coords.lat;
+    this.location.lng=event.coords.lng;
   }
    select(value){
      console.log(value);
      console.log(this.location);
      if (value) {this.location=value}
      //if(value && !this.loaded){this.location=value;this.loaded=true;}
+     if(value && value.lat && value.lng){
+       this.locFound=true;
+       this.lat=value.lat;
+       this.lng=value.lng;
+    }
     this.propagateChange(value);
  
   }

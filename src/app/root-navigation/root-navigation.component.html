@@ -1,13 +1,70 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top" style="background-color: #09224c;">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-brand nav-logo" [style.background-image]="'url('+fullPath+')'"></div>
+
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item" >
+        <a class="nav-link" routerLink="/home" routerLinkActive="active" >Naslovna</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/project" routerLinkActive="active">O Projektu</a>
+          </li>
+          <li class="nav-item">
+        <a class="nav-link" routerLink="/prices" routerLinkActive="active">Cjenik</a>
+          </li>
+          <li class="nav-item">
+        <a class="nav-item nav-link" routerLink="/about" routerLinkActive="active">O Nama</a>
+          </li>
+          <li class="nav-item">
+        <a class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Admin</a>
+          </li>
+          <li class="nav-item">
+        <a class="nav-link" routerLink="/prices" routerLinkActive="active">Cjenik</a>
+          </li>
+        </ul>
+     <!--   <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>-->
+           <div class="navbar-nav float-xs-right">
+    <a class="nav-item nav-link active" routerLink="/login" routerLinkActive="active"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+
+  </div>
+      </div>
+    </nav>
+
+
+        <div class="col-sm-3 col-md-2 sidebar">
+          
+    <!-- end of code -->
+<router-outlet name="sidebar"></router-outlet>
+
+
+
+          
+        </div>
+
+
+
+
+          
+
+
+
+<!--
 <nav class="navbar navbar-dark navbar-fixed-top" style="background-color: #09224c;">
-  <div class="nav navbar-nav">
+  <div class="navbar-nav">
         <a class="nav-item nav-link active" routerLink="/home" routerLinkActive="active">Naslovna</a>
         <a class="nav-item nav-link active" routerLink="/project" routerLinkActive="active">O Projektu</a>
         <a class="nav-item nav-link active" routerLink="/prices" routerLinkActive="active">Cjenik</a>
         <a class="nav-item nav-link active" routerLink="/about" routerLinkActive="active">O Nama</a>
         <a class="nav-item nav-link active" routerLink="/login" routerLinkActive="active">Admin</a>
   </div>
-   <div class="nav navbar-nav float-xs-right">
+   <div class=" navbar-nav float-xs-right">
     <a class="nav-item nav-link active" routerLink="/login" routerLinkActive="active"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
 
   </div>
-</nav>
+</nav>-->

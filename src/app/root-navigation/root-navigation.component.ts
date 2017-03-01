@@ -7,8 +7,13 @@ import { Router } from '@angular/router';
 })
 export class RootNavigationComponent implements OnInit {
   auth:boolean=false;
+  public fullPath:string;
+
+getMyPicture(myPicture){
+   this.fullPath = "../../img/"+ myPicture;
+ }
   constructor(private router: Router) {
-    
+    this.getMyPicture('Logo_final_all-14.png');
    }
 
   ngOnInit() {

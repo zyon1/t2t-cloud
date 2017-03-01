@@ -9,7 +9,7 @@
        Akontacija
      </div>
     <div class="progress-bar" role="progressbar" 
-      *ngFor="let policy of testPolicies; let i=index" 
+      *ngFor="let policy of cancelationP.values; let i=index" 
       [ngStyle]="{'width': round(policy.pLength/total*100) + '%', 'background': 'rgb('+round(255-(tpLength-i)*75/tpLength)+', '+round(150+(tpLength-i)*100/tpLength)+','+'103'+')'}" 
       [attr.aria-valuenow]="round(policy.pLength/total*100)" aria-valuemin="0" aria-valuemax="100"
       [ngClass]="{'progress-first': i==0, 'progress-last': i==(tpLength-1) }"
@@ -38,8 +38,9 @@
 </div>
 
 </div>
-<app-custom-select [values]="policies" [text]="'Politika otkazivanja'" name="cancelationP" [(ngModel)]="cancelationP"></app-custom-select>
-        <app-form-input-array [items]="testPolicies" [(ngModel)]="testPolicies" name="others" (ngModelChange)="updateFn($event)" [options]="FIAOptions">
+
+<app-custom-select [values]="policies" [text]="'Politika otkazivanja'" name="cancelationP" [(ngModel)]="cancelationP" (ngModelChange)="updateFn($event)"></app-custom-select>
+        <app-form-input-array [items]="cancelationP.values" [(ngModel)]="cancelationP.values" name="others" (ngModelChange)="updateFn($event)" [options]="FIAOptions" [hidden]="cancelationP?cancelationP.label=='Po mjeri'?false:true:true">
         </app-form-input-array>
 </div>
 

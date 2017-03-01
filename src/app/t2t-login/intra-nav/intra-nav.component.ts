@@ -17,10 +17,16 @@ export class IntraNavComponent implements OnInit {
   groups:any;
   gid:any;
   sidebar:any;
+    public fullPath:string;
+
+getMyPicture(myPicture){
+   this.fullPath = "../../../../img/"+ myPicture;
+ }
   constructor(private route: ActivatedRoute, private router: Router, private gs: GroupService, private ls: LoginService) {
     // console.log(ars);
     // this.router.navigate([{ outlets: { sidebar: 'sidebar' }}]);
-    
+        this.getMyPicture('Logo_final_all-14.png');
+
     
     this.ls.getLoggedUser().subscribe(
       user => {

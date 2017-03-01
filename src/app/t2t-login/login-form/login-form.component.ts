@@ -38,10 +38,14 @@ export class LoginFormComponent implements OnInit {
   login( email: string, password: string ) {
     this.loginService.login(email, password).then(r=>{
       console.log("Korisnik prijavljen", r);
-      this.router.navigate([this.loginService.redirectUrl]);
+      //this.router.navigate([this.loginService.redirectUrl]);
       let logData = {uid: r.uid, event: 'Korinsik prijavljen', time: firebase.database['ServerValue']['TIMESTAMP'] };
-      this.dataService.addAction(logData).subscribe(console.log);
-      this.router.navigate(['/auth/user']);
+      //this.dataService.addAction(logData).subscribe(console.log);
+      //this.router.navigateByUrl('http://localhost:4200/auth/user/'+r.uid);
+      //window.location.href='auth/user/'+r.uid;
+//this.router.navigate([])
+      this.router.navigate(['/auth','user', r.uid]);
+      //console.log("login fn completed");
     });
   }
    register(email: string, password: string) {
@@ -59,8 +63,8 @@ export class LoginFormComponent implements OnInit {
             // console.log(v);
             if (v) { this.dataService.addAction(logData).subscribe(x => {
               console.log(x);
-            
-            this.router.navigate(['/auth/data']);  
+
+            //this.router.navigate(['/auth/data']);  
             });
               // console.log(logData);
             }else {

@@ -12,11 +12,11 @@ import { UserDataComponent } from './user-data/user-data.component';
 import { AdminComponent } from './admin/admin.component';
 import { GroupComponent } from './group/group.component';
 import { UnitsComponent } from './group/units/units.component';
-import { NewObjectComponent } from './group/new-object/new-object.component';
-import { ObjectDataComponent } from './object-data/object-data.component';
+import { NewObjectComponent } from './object/new-object/new-object.component';
+import { ObjectDataComponent } from './object/object-data/object-data.component';
 import { UnitsWizardComponent} from './units-wizard/units-wizard.component';
 import { InviteComponent } from './group/invite/invite.component';
-import { ObjectPoliciesComponent } from './object-policies/object-policies.component';
+import { ObjectPoliciesComponent } from './object/object-policies/object-policies.component';
 import { CreateGroupComponent } from './create-group/create-group.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { IntraNavComponent } from './intra-nav/intra-nav.component';
@@ -30,21 +30,37 @@ const loginRoutesNew: Routes = [
         { path: 'user', children:[
             { path: '', canActivate: [AuthGuard], component: DashboardComponent },
             { path: ':id', canActivate: [], children:[
+                              
+
                 { path: '', canActivate: [], component: DashboardComponent },
                 { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
                 { path: 'groups', canActivate: [], component: MyGroupsComponent },
+                                
+
+                { path: 'new-group', canActivate: [], component: CreateGroupComponent },
+
                 { path: 'group', canActivate: [GroupGuard], children:[
                     { path: ':gid', canActivate: [], children:[
                         { path: '', canActivate: [], component: GroupComponent },
+                        { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
+
                         { path: 'units', canActivate: [], children:[
                             { path: '', canActivate: [], component: UnitsComponent},
-                            { path: 'edit', canActivate:[], children:[
+                            { path: 'object', canActivate:[], children:[
                                 { path: ':oid', canActivate:[], component: UnitsWizardComponent, children:[
                                     { path: '', canActivate:[], component: NewObjectComponent },
                                     { path: 'data', canActivate:[], component: ObjectDataComponent },
                                     { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
 
                                 ] },
+                                { path: 'unit', canActivate:[], children:[
+                                { path: ':unid', canActivate:[], component: UnitsWizardComponent, children:[
+                                    { path: '', canActivate:[], component: NewObjectComponent },
+                                    { path: 'data', canActivate:[], component: ObjectDataComponent },
+                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
+
+                                ] },
+                            ] },
                             ] },
                         ]},
                         
