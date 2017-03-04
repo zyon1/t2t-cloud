@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GroupService } from '../group.service';
 import { LoginService } from '../login.service';
 import { DataService } from '../data.service';
@@ -10,6 +10,8 @@ import { WatchingService } from '../watching.service';
 })
 
 export class SearchComponent implements OnInit {
+  @Input('chat')chat:boolean=false;
+  @Input('limit')limit:number;
   @Output() onAddUser = new EventEmitter<any>();
   users:any;
   groups:any;
@@ -31,15 +33,18 @@ export class SearchComponent implements OnInit {
       this.allFlags[0]=true;
       if (this.allFlags[0]==true && this.allFlags[1]==true){this.canSearch=true;}
     });
-    this.groups$.subscribe(groups=>{
-      this.groups=groups;
-      this.allFlags[1]=true;
-      if (this.allFlags[0]==true && this.allFlags[1]==true){this.canSearch=true;}
-      });
+
     //this.groupService.searchAllGroups('Neprimarna grupa').subscribe(src=>console.log('New search results', src));
     
   }
   ngOnInit() {
+        if (!this.chat){
+    this.groups$.subscribe(groups=>{
+      this.groups=groups;
+      this.allFlags[1]=true;
+      if (this.allFlags[0]==true && this.allFlags[1]==true){this.canSearch=true;}
+    });
+    }
   }
    addUser(user) {
     this.onAddUser.emit(user);
@@ -65,7 +70,8 @@ export class SearchComponent implements OnInit {
                         this.areResults=true;
                      }
                    });
-    
+            if (!this.chat){
+
        this.groups.forEach(element => {
          
         if (element.groupName.search(regExp) > -1){
@@ -73,7 +79,7 @@ export class SearchComponent implements OnInit {
           console.log(element);
           this.areResults=true;
         }
-     });
+     });}
     }else{
       this.areResults=false;
     }

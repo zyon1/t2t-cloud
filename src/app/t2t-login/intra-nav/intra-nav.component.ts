@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 import { LoginService } from '../login.service';
 import { GroupService } from '../group.service';
 import { Observable } from 'rxjs/Rx';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-intra-nav',
@@ -12,54 +13,40 @@ import { Observable } from 'rxjs/Rx';
 })
 export class IntraNavComponent implements OnInit {
   loggedIn:any;
-  email:any;
-  private uid:any;
   groups:any;
-  gid:any;
-  sidebar:any;
+  user:any;
     public fullPath:string;
 
 getMyPicture(myPicture){
    this.fullPath = "../../../../img/"+ myPicture;
  }
-  constructor(private route: ActivatedRoute, private router: Router, private gs: GroupService, private ls: LoginService) {
+  constructor(private route: ActivatedRoute, private router: Router, private gs: GroupService, private ls: LoginService, private datas: DataService) {
     // console.log(ars);
     // this.router.navigate([{ outlets: { sidebar: 'sidebar' }}]);
         this.getMyPicture('Logo_final_all-14.png');
-
-    
-    this.ls.getLoggedUser().subscribe(
+this.datas.getUserNew().subscribe(user=>{
+this.user=user;
+console.log(user);
+if (user && user.uid){
+  this.loggedIn=true;        
+      this.gs.getGroups(user.uid).subscribe(groups => this.groups=groups);
+      this.gs.getMyGroups2().subscribe(x=> console.log)
+}
+});    
+  /*  this.ls.getLoggedUser().subscribe(
       user => {
+        console.log(user);
         if (user){
           let tmpGroups=[];
-          // this.gs.getGroupsWithData2(user.uid).subscribe(v=>console.log(v));
         this.groups=this.gs.getGroups(user.uid);
-        this.gid=user.primaryGroup
-        this.email=user.auth.email;
-        this.uid=user.uid;
+
         this.loggedIn=true;
       
-      let routerSS=this.router.routerState.snapshot.url;
-   if(routerSS.search('group')>-1 &&  routerSS.search('groups')==-1 ){
-    this.sidebar=[
-      {link:'user', text:'Pregled'},
-      {link:'user/'+this.uid+'/groups', text:'Grupe'},
-      {link:'new-group', text:'Napravi novu grupu'}
-      ];
 
-
-   }else{
-    
-    this.sidebar=[
-      {link:'user', text:'Pregled'},
-      {link:'user/'+this.uid+'/groups', text:'Grupe'},
-      {link:'new-group', text:'Napravi novu grupu'}
-      ];
-    }
   
 }
       }
-    );
+    );*/
     
     
    }

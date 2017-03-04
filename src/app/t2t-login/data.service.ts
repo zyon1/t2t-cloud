@@ -103,14 +103,19 @@ export class DataService {
        return this.af.auth;
    }
    // new function needs to be tested
-   getUserNew(uid?){
-        if (!uid){
+   getUserNew(){
             return this.getFBUser$().flatMap(auth =>{
-                return this.af.database.object('/users/' + auth.uid);
-            });
-        }else{
-            return this.af.database.object('/users/' + uid);
-        }
+                return this.af.database.object('/users/' + auth.uid).map( user => {
+                    let tempUser=user;
+                    tempUser.displayName=auth.auth.displayName;
+                    tempUser.email=auth.auth.email;
+                    tempUser.uid=auth.uid;
+                    return tempUser})
+            }).catch((err)=>{
+                console.log('Not logged in!');
+                    //console.error(err);
+                    return this.getFBUser$()});;
+       
    }
    // if getUser and getUserData are called without parameter they return logged user data 
    getUser(uid?){
@@ -137,6 +142,26 @@ export class DataService {
             });
     }
        // new function needs to be tested
+       getLoggedUserData(){
+           return this.getFBUser$().flatMap(auth =>{
+                return this.af.database.object('/userData/' + auth.uid);
+            });
+       }
+          getUserDataWithEmail(uid){
+            return this.af.database.object('/userData/' + uid).flatMap(data => {
+              
+                 return this.af.database.object('/users/' + uid).map(
+                     user => {
+                        let tmpData:any=data;
+                         tmpData.email=user.email;
+                         //console.log(tmpData);
+                         return tmpData;
+                     }
+                 );
+  
+            });
+
+   }
    getUserDataNew(uid?){
         if (!uid){
             return this.getFBUser$().flatMap(auth =>{

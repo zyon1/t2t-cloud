@@ -9,8 +9,8 @@
                       
 
         
-      <label for="name" class="col-sm-2 col-form-label">Naziv</label>
-      <div class="col-sm-7">
+      <label for="name" class="col-lg-3 col-xl-2 col-form-label">Naziv</label>
+      <div class="col-lg-9 col-xl-7">
         <!--<input type="text" class="form-control" id="naziv" placeholder="Naziv" [(ngModel)]="tObj.name" name="name" (ngModelChange)="validator($event)" #name="ngModel" required>-->
         <input  type="text" class="form-control" id="name"  [(ngModel)]="tObj.name" name="name" #name="ngModel" required> <!--minlength="4" maxlength="24"-->
         <div *ngIf="name.errors && (name.dirty || name.touched)" class="validation-errors">
@@ -25,27 +25,27 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
         <pre>{{name.className}}</pre>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-2">Autonomni objekt</label>
-      <div class="col-sm-7">
+      <label class="col-lg-3 col-xl-2">Autonomni objekt</label>
+      <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox" [(ngModel)]="tObj.autonomus" name="autonomus"> 
           </label>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
       </div>
     </div>
     <div class="form-group row">
-      <div class="col-sm-2">
+      <div class="col-lg-3 col-xl-2">
         Kategorizacija
       </div>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
         <style>.star-container {
  cursor:pointer;
 }</style>
@@ -63,15 +63,15 @@
         </div>
         -->
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
       </div>
       
     </div>
     <div class="form-group row">
-      <div class="col-sm-2">
+      <div class="col-lg-3 col-xl-2">
         Vrsta objekta
       </div>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
 <app-custom-select name="type" [values]="objectTypes" text="Odaberi vrstu objekta" [(ngModel)]="tObj.type" class="csel" required (click)="tObj.subType=tObj.type=='Privatni smještaj'?tObj.subType:-1"></app-custom-select>
 <app-custom-select name="subType" [values]="objectSubTypes" text="Odaberi  podkategoriju objekta" [(ngModel)]="tObj.subType" class="csel" required [disabled]="tObj.type!='Privatni smještaj'"></app-custom-select>
 
@@ -99,7 +99,7 @@
           </div>
         </div>-->
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
       </div>
     </div>
 
@@ -108,22 +108,22 @@
           <div class="col-sm-12"><h5>Adresa</h5></div>
           <app-location-picker [(ngModel)]="tObj.location" name="location" style="width:100%;padding:15px;"></app-location-picker>
           <!--
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
         Pretraga
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
          <input type="text" class="form-control" id="autocompleteInput" placeholder="Npr. Vukovarska 3d Zadar">
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
 
       </div>
     </div>
     <div class="form-group row">
 
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
        Ulica i broj 
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
         <input type="text" class="form-control" id="street" placeholder="Ulica  i broj" [(ngModel)]="tObj.location.street" name="streetFull" #street="ngModel" required [ngClass]="{'custom-invalid':streetNr==''}" t2t-validator>
         
         <div *ngIf="street.errors && (street.dirty || street.touched)" class="validation-errors">
@@ -139,16 +139,16 @@
 
 
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
 
       </div>
     </div>
     <div class="form-group row">
       
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
         Mjesto
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
          <input type="text" class="form-control" id="place" placeholder="Mjesto" [(ngModel)]="tObj.location.place" name="place" #place="ngModel" required>
         <div *ngIf="place.errors && (place.dirty || place.touched)" class="validation-errors">
           <div [hidden]="!place.errors.required" class="alert alert-danger error-msg">
@@ -156,16 +156,16 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
 
       </div>
     </div>
     <div class="form-group row">
       
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
         Poštanski broj
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
          <input type="text" class="form-control" id="postcode" placeholder="Poštanski broj" [(ngModel)]="tObj.location.postcode" name="postcode" #postcode="ngModel" required>
         <div *ngIf="postcode.errors && (postcode.dirty || postcode.touched)" class="validation-errors">
           <div [hidden]="!postcode.errors.required" class="alert alert-danger error-msg">
@@ -173,16 +173,16 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
 
       </div>
     </div>
     <div class="form-group row">
       
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
         Država
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
          <input type="text" class="form-control" id="country" placeholder="Država" [(ngModel)]="tObj.location.country" name="country" #country="ngModel" required>
         <div *ngIf="country.errors && (country.dirty || country.touched)" class="validation-errors">
           <div [hidden]="!country.errors.required" class="alert alert-danger error-msg">
@@ -190,16 +190,16 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
 
       </div>
     </div>
     <div class="form-group row">
       
-      <label class="col-sm-2">
+      <label class="col-lg-3 col-xl-2">
         
       </label>
-      <div class="col-sm-7">
+      <div class="col-lg-9 col-xl-7">
          
 
 <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [styles]="'satellite/hybrid'" [zoomControl]="true" [scaleControl]="true" #addressMap>
@@ -208,7 +208,7 @@
 </sebm-google-map>
    
       </div>
-      <div class="col-sm-3">
+      <div class="col-xl-3 hidden-lg">
       </div>
       -->
     </div>

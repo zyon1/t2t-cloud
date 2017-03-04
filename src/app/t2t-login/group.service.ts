@@ -129,6 +129,87 @@ export class GroupService {
 
         });
     } 
+    getGroupsNew(uid){
+        return this.af.database.list('/groupMembers/').map(groups => {
+            groups.forEach(group => {
+                group.forEach(element => {
+                    console.log();
+                });
+            });
+        });
+    }
+    getMyGroupsMembers(){
+        return this.af.auth.flatMap(auth =>{
+            return this.af.database.list('/groupMembers/').map(groups => {
+                       let tmpGroups=[];
+            groups.forEach(group => {
+              if(group[auth.uid]){
+                  //console.log(group);
+                  tmpGroups.push( group) }/* 
+                group.forEach(element => {
+                    console.log(element);
+                return element;
+                });*/
+            });
+            return tmpGroups;
+        });
+        })
+    }
+    getMyGroupsWithData(uid){
+        return this.af.database.list('/groupMembers/').flatMap(groups => {
+                       let tmpGroups=[];
+            groups.forEach(group => {
+              if(group[uid]){
+                  
+                  
+                  //console.log(group);
+
+                                  tmpGroups.push(group) 
+
+
+                  return this.af.database.object('/groups/'+group.$key);
+                
+            
+        }/* 
+                group.forEach(element => {
+                    console.log(element);
+                return element;
+                });*/
+            });
+            //console.log(tmpGroups);
+            return tmpGroups;
+        });
+    }
+    getMyGroupsWithUid(uid){
+                   return this.af.database.list('/groupMembers/').map(groups => {
+                       let tmpGroups=[];
+            groups.forEach(group => {
+              if(group[uid]){console.log(group);
+                  tmpGroups.push( group) }/* 
+                group.forEach(element => {
+                    console.log(element);
+                return element;
+                });*/
+            });
+            return tmpGroups;
+        });
+    }
+    getMyGroups2(){
+        return this.af.auth.flatMap(auth=>{
+           return this.af.database.list('/groupMembers/').map(groups => {
+            groups.forEach(group => {
+              if(group[auth.uid]){
+                  //console.log(group); 
+                }
+              /* 
+                group.forEach(element => {
+                    console.log(element);
+                return element;
+                });*/
+            });
+        });
+        })
+    }
     getGroups(uid){
         let group$=Observable.from(this.af.database.list('/groupMembers/'));
         let search=( gid) => {  

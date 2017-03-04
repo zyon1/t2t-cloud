@@ -8,6 +8,9 @@
 height: 30px;
 padding-top:6px;
 }
+.user-results{
+    padding: 0 5px;
+}
 .form-control{
     padding-left:41px;
     border-radius:0;
@@ -23,11 +26,12 @@ height: 30px;
 }
 .search-results{ 
     position:absolute;
-    bottom:0;
+    bottom:38px;
     width: 210px;
-    padding-bottom:38px;
+    padding-bottom:10px;
     box-sizing: border-box;
     left:0;
-    background: #ccc;
-
+    background: #ddd;
+    z-index:10;
+    border-top:1px solid #ccc;
 }

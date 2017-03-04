@@ -9,11 +9,14 @@ import { Router, ActivatedRoute, Params} from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
 uid:string;
+gid:string;
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
      this.route.params.subscribe( params => {
        this.uid=params['uid'];
+       this.gid=params['gid'];
+       console.log(params);
      });
   }
 

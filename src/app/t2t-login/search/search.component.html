@@ -7,7 +7,7 @@
 <div class="search-results" *ngIf="searchText!=''">
 <div class="search-header" (click)="resultsMin=!resultsMin;">
   <span>Pretraživanje</span>
-  <i class="fa fa-minus" style="float:right;" aria-hidden="true"></i>
+  <i class="fa fa-minus" style="float:right;padding-top:5px;padding-right:5px;" aria-hidden="true"></i>
   </div>
 <div class="results" *ngIf="!resultsMin;">
   <div class="group-results" *ngFor="let result of groupResults">
@@ -16,8 +16,11 @@
   </div>
   <div class="user">
      <div class="user-results" *ngFor="let result of userResults">
-      <div>{{result.email }}</div>
-      <div (click)="addUser(result)">{{result.name + '' + result.surname}}</div>
+      <!--<div>{{result.email }}</div>-->
+      <div (click)="addUser(result)">{{result.name + '' + result.surname}}
+        <div style="line-height: 15px;"><small>{{result.email }}</small></div>
+      </div>
+      
   </div>
   </div>
 </div>

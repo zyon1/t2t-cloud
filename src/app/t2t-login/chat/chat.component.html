@@ -1,11 +1,11 @@
     <footer class="footer">
       <div class="container-fluid">
            <div class="float-right">
-             <div class="search-group"><app-search (onAddUser)="addUser($event);"></app-search></div>
+             <div class="search-group"><app-search chat="true" (onAddUser)="addUser($event);"></app-search></div>
              <div class="chat-group" *ngFor="let group of groups; let i=index">
-             <button type="button" class="btn btn-outline-secondary float-right chat-group nav-msg"   (click)="group.visible=!group.visible;openChat(group.$key, i);">
+             <div (click)="group.visible=!group.visible;openChat(group.$key, i);">
                {{group.groupName}}
-               </button>
+               </div>
                <div class="chat-window" *ngIf="group.visible">
                  <div class="chat-header" >
                    <i class="fa fa-comment-o fa-lg" aria-hidden="true" style="float:left;line-height: 23px;padding-left:5px;"></i>
@@ -31,10 +31,12 @@
                </div>
                </div>
 
-<div class="chat-group" *ngFor="let user of users; let i=index">
-             <button type="button" class="btn btn-outline-secondary float-right chat-group nav-msg"   (click)="user.visible=!user.visible;openUserChat(user.uid, i);user.new=false">
-               {{user.email?user.email:user.name + ' ' + user.surname}}<span *ngIf="user.new" style="background: #ff0000;color:#000;">New...</span>
-               </button>
+<div class="chat-group" *ngFor="let user of users; let i=index" >
+             <div  (click)="user.visible=!user.visible;openUserChat(user.$key, i);user.new=false">
+               {{(user.name && user.surname)? user.name + ' ' + user.surname:user.email}}<span *ngIf="user.new" style="background: #ff0000;color:#000;">New...</span>
+               </div>
+                              <span class="chat-remove" (click)="users.splice(i, 1);"><strong>x</strong></span>
+
                <div class="chat-window" *ngIf="user.visible" (click)="user.new=false;">
                  <div class="chat-header" >
                    <i class="fa fa-comment-o fa-lg" aria-hidden="true" style="float:left;line-height: 23px;padding-left:5px;"></i>
@@ -42,7 +44,7 @@
                   <i class="fa fa-times fa-lg group-close" aria-hidden="true" (click)="user.visible=!user.visible;"></i>
 
                  </div>
-                 <div class="chat-content" id="content{{i}}" >
+                 <div class="chat-content" id="content-{{i}}" >
                    <!--<a *ngIf="user.noMsg <= user.messages.length" (click)="loadMore(user.uid, i);">Load more</a>-->
                    <div *ngFor="let message of user.messages;let i=index;" class="messageBubble">
                        <!--<hr style="width:100%;clear:both;margin:0;" *ngIf="i==user.messages.length-10">-->
@@ -54,7 +56,7 @@
                    </div>
                  </div>
                  <div class="chat-input">
-                   <input type="text" placeholder="Upiši poruku..." #chatInput (keyup.enter)="sendUserMessage(user.uid, chatInput.value, i);chatInput.value='';"/>
+                   <input type="text" placeholder="Upiši poruku..." #chatInput (keyup.enter)="sendUserMessage(user.$key, chatInput.value);chatInput.value='';"/>
                  </div>
                </div>
                </div>
@@ -65,7 +67,22 @@
              
 
              
-               <div></div>
+               <div class="chat-sidebar col-md-0">
+                 <div class="sidebar-container">
+                   <div class="sidebar-groups">
+                   <div class="sidebar-headers"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<strong>Moje grupe</strong></div>
+                   <div *ngFor="let group of groupChats" class="chat-user" (click)="addGroup(group)">{{group.groupName}}
+                      <div style="line-height: 15px;"><small>{{group.groupType }}</small></div>
+                    </div>
+                   </div>
+                   <div class="sidebar-users">
+                    <div class="sidebar-headers" style="order:0;"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<strong>Zadnji kontakti</strong></div>
+                    <div *ngFor="let user of chats; let k=index" class="chat-user" (click)="addUser(user)" [ngStyle]="{'order': users.length-k+2}">{{user.name + ' ' + user.surname}}
+                      <div style="line-height: 15px;"><small>{{user.email }}</small></div>
+                    </div>
+                   </div>
+                 </div>
+               </div>
              
            </div>
       </div>

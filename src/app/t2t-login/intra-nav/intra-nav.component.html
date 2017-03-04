@@ -1,18 +1,17 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top" style="background-color: #09224c;">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top" style="background-color: #09224c;" *ngIf="user">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" (click)="toggle=!toggle">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-brand nav-logo" [style.background-image]="'url('+fullPath+')'"></div>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+      <div class="collapse navbar-collapse" id="navbarCollapse" [ngStyle]="{'display':toggle?'block':'none'}">
         <ul class="navbar-nav mr-auto">
-<li class="nav-item"><a class="nav-link" routerLink="/auth"  routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Home <span class="sr-only">(current)</span></a></li>
-   <li class="nav-item"><a class="nav-link" [routerLink]="['/auth/user']">Dashboard <span class="sr-only">(current)</span></a></li>
-    <li class="nav-item"><a class="nav-link" [routerLink]="['/auth/user', uid, 'groups']">Groups <span class="sr-only">(current)</span></a></li>
+    <li class="nav-item"><a class="nav-link" [routerLink]="['/auth/user']">Dashboard <span class="sr-only">(current)</span></a></li>
+    <li class="nav-item" *ngIf="user && user.uid"><a class="nav-link" [routerLink]="['/auth/user', user.uid, 'groups']">Groups <span class="sr-only">(current)</span></a></li>
         </ul>
          <ul class="navbar-nav float-xs-right">
-    <li class="nav-item"><a class="nav-link" *ngIf="loggedIn"><app-watcher [uid]="uid"></app-watcher></a></li>
+    <li class="nav-item"><a class="nav-link" *ngIf="loggedIn"><app-watcher [uid]="user.uid"></app-watcher></a></li>
     <li class="nav-item"><a class="nav-link" *ngIf="!loggedIn" routerLink="/auth"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a></li>
-    <li class="nav-item"><a class="nav-link" *ngIf="loggedIn" routerLink="/auth/dash">{{email}}</a></li>
+    <li class="nav-item"><a class="nav-link" *ngIf="loggedIn" routerLink="/auth/dash">{{user.displayName?user.displayName:user.email}}</a></li>
     <li class="nav-item"><a class="nav-link" *ngIf="loggedIn" routerLink="/auth/data"><i class="fa fa-cog fa-lg" aria-hidden="true"></i></a></li>
 
     <li class="nav-item"><a class="nav-link" *ngIf="loggedIn" href="/auth/logout"><i class="fa fa-sign-out" aria-hidden="true"></i>Logout</a></li>
@@ -47,12 +46,29 @@
 -->
  <div class="container-fluid page-wrapper">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sideb">
-          <!-- this is just until angular 2 issue with lazy loading and secondary outlets is solved -->
+ <div class="col-sm-3 col-md-2 sidebar" *ngIf="user">
           
     <!-- end of code -->
-
-
+<ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/auth/user">Grupa</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"routerLink="/auth/user" >Jedinice</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Kalendar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">B2B</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Računi</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Alati</a>
+            </li>
+          </ul>
 
 
           
@@ -69,6 +85,5 @@
           
         </div>
       </div>
-
-<app-chat *ngIf="loggedIn" [uid]="uid" [groups]="groups"></app-chat>
+<app-chat *ngIf="user"   ></app-chat>
 

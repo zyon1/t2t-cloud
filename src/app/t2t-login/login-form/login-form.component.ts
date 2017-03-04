@@ -34,7 +34,10 @@ export class LoginFormComponent implements OnInit {
   constructor ( public loginService: LoginService, private router: Router, public dataService: DataService ) {
             // this.x=this.loginService.authenticated;
             // this.loginService.asyncState().subscribe( v => this.x = v);
-          }
+            
+        this.loginService.getLoggedUser().subscribe(auth => {if(auth){      this.router.navigate(['/auth','user', auth.uid]);
+}});  
+                  }
   login( email: string, password: string ) {
     this.loginService.login(email, password).then(r=>{
       console.log("Korisnik prijavljen", r);
@@ -64,7 +67,7 @@ export class LoginFormComponent implements OnInit {
             if (v) { this.dataService.addAction(logData).subscribe(x => {
               console.log(x);
 
-            //this.router.navigate(['/auth/data']);  
+            this.router.navigate(['/auth/data']);  
             });
               // console.log(logData);
             }else {

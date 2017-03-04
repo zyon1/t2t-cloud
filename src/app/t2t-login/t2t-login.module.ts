@@ -70,6 +70,7 @@ import { UnitHvacComponent } from './unit-data/unit-hvac/unit-hvac.component';
 import { UnitMultimediaComponent } from './unit-data/unit-multimedia/unit-multimedia.component';
 import { UnitEquipmentComponent } from './unit-data/unit-equipment/unit-equipment.component';
 import { UnitsWizardComponent } from './units-wizard/units-wizard.component';
+import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
 
 
 /* Classes */
@@ -140,7 +141,8 @@ export const myFirebaseAuthConfig = {
     UnitHvacComponent,
     UnitMultimediaComponent,
     UnitEquipmentComponent,
-    UnitsWizardComponent
+    UnitsWizardComponent,
+    ObjectUnitsComponent
     ],
   providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper]
 })

@@ -96,6 +96,10 @@ interface DataStructure {
             }
         }
     }
+    myChats:{
+        uid:''/*array of recipents*/;
+    },
+    
     userMessages:{
         recipentUid: {
             pushID: {

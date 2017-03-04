@@ -10,57 +10,108 @@ import { Message, GroupMessage } from '../message';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit {
-  @Input('uid')uid:any;
-  @Input('groups')groupsObs:any;
-  users:any;
-  groups:any;
+  /*@Input('uid')uid:any;*/
+  /*
+  @Input('groups')groupsObs:any;*/
+  uid:string;
+  groupChats:any=[];
+  chats:any[];
+  users:any=[];
+  groups:any=[];
   name:string;
   surname:string;
-  constructor(private chatService:ChatService, private dataService:DataService, private groupService:GroupService) {
-
+  constructor(private chatService:ChatService, private dataService:DataService, private groupService:GroupService){
+//console.log(this.groups, this.uid);
+   // this.chatService.restructureBase();
    }
-
   ngOnInit() {
-   // this.groupsObs.subscribe(console.log);
-    this.groupsObs.subscribe(groups=>{
-      // this.groups=groups;
-      //console.log(groups, groups.length);
-      let j=0;
-      this.users=[];
-      this.groups=[];
-      groups.forEach(element => {
-        let temp:any={$key:element};
-        this.groupService.getGroupData(element).subscribe(gData=>{
-          //console.log(gData);
-          temp.groupName=gData.groupName;
-          temp.groupType=gData.groupType;
+      this.dataService.getLoggedUserData().subscribe(userData=>{
+      this.name=userData.name;
+      this.surname=userData.surname;
+      this.uid=userData.$key;
+      //console.log(userData);
+    })
+    this.groupService.getMyGroupsMembers().subscribe(
+        groups =>{
+        //console.log(groups);
+        let j=0;
+        this.groupChats=[];
+        groups.forEach(group=>{
+          let tmpGroup:any={};
+          this.groupService.getGroupData(group.$key).flatMap(gData=>{
+          tmpGroup.$key=group.$key;
+            return this.chatService.getGroupChat(group.$key).map(msgs=>{
+              tmpGroup.groupName=gData.groupName;
+              tmpGroup.groupType=gData.groupType;
+              tmpGroup.messages=msgs;
+              tmpGroup.noMsg=10;
+              return tmpGroup;
+            });
+          }).subscribe(groupFull => {
+            this.groupChats.push(groupFull);
+            console.log(this.groupChats);
+            //console.log(groupFull, this.groups);
         });
-        this.chatService.getGroupChat(element).subscribe(msgs=>{
-          temp.messages=msgs;
-          temp.noMsg=10;
+        j++;
+        });
+      }
+    );
+    this.chatService.getLastChats().subscribe(users => {
+      //console.log("ALOOOOO");
+      this.chats=[];
+      users.forEach(user =>{
+        //console.log(user);
+        let tmpUser:any={};
+          tmpUser.$key=user.$value;
 
-          //console.log("groups",this.groups);
-          /* scroll to last msg */
-            let objDiv = document.getElementById('content'+j);
-          if (objDiv){objDiv.scrollTop = objDiv.scrollHeight;}
-          
-          }
-        );
-        //
-        element=temp;
-        //console.log(element); 
-        this.groups.push(element);
-        //console.log("groups",this.groups);
+        this.dataService.getUserDataWithEmail(user.$value).subscribe(data => {
+          tmpUser.name=data.name;
+          tmpUser.surname=data.surname;
+          tmpUser.email=data.email;
+          //console.log('BBBBBBBBBBB',this.chats,  this.chats[this.chats.length]);
+          this.chats.push(tmpUser);
+        });
       });
-      
     });
-    this.dataService.getUserData().subscribe(user=>{
-      this.name=user.name;
-      this.surname=user.surname;
-    });
+    /*
+this.chatService.getUserChatNew().subscribe(users => {
+  let tmpUser:any={};
+  console.log(users);
+  let i=0;
+  
+              users.forEach(user => {
+                console.log(user);
+
+                /*
+                if (!message.recieved){
+                console.log(message);
+                //this.chatService.setRecieved(this.uid, message.$key);
+                console.log('primljeno svoje ili tuđe',users);
+                if(message.senderID!=this.uid){
+                  console.log('primljeno tuđe',users);
+                  user.uid=message.senderID;
+                  user.name=message.senderName;
+                  user.surname=message.senderSurname;
+                  user.new=true;
+                  this.addUser(user, 2);
+                  
+                
+              };  
+                
+                }
+              });
+              
+              
+              user.messages=msgs;
+              user.noMsg=10;*/
+             // })
+//})
+/*
 this.chatService.getUserChat(this.uid).subscribe(msgs=>{
   let user:any={};
+  console.log(msgs);
               msgs.forEach(element => {
+                
                 if (!element.recieved){
                 
                 this.chatService.setRecieved(this.uid, element.$key);
@@ -85,15 +136,14 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
               user.noMsg=10;
 
           //console.log("groups",this.groups);
-          /* scroll to last msg */
+          //scroll to last msg 
 
 
-});
+});*/
   }
   loadMore(gid:string, i){
          this.groups.forEach(element => {
            if (element.$key==gid){
-         
            let objDiv = document.getElementById('content'+i);
            let scrHeight=objDiv.scrollHeight;
          element.noMsg+=10;
@@ -108,8 +158,8 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
   loadMoreUser(uid:string, i){
          this.groups.forEach(element => {
            if (element.$key==uid){
-         
-           let objDiv = document.getElementById('content'+i);
+         console.log("==>",element.key, uid);
+           let objDiv = document.getElementById('content-'+i);
            let scrHeight=objDiv.scrollHeight;
          element.noMsg+=10;
          this.chatService.getUserChat(uid, element.noMsg).subscribe(msgs=>{
@@ -120,32 +170,32 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
             }
          });
   }
+addGroup(group){
+  console.log(group);
+ let isGroupChat=false;
+ this.groups.forEach(element => {
+if(element.$key==group.$key){
+  isGroupChat=true;
+}
+});
+if (!isGroupChat){
+    this.groups.push(group);
+}
+}
 
-  addUser(user , j){
-    let objDiv = document.getElementById('content'+j);
-          if (objDiv){objDiv.scrollTop = objDiv.scrollHeight;}
-            this.chatService.getUserChat(this.uid).subscribe(msgs=>{
-              msgs.forEach(element => {
-                if (!element.recieved){
-                
-                this.chatService.setRecieved(this.uid, element.$key);
-                console.log('primljeno',msgs);
-                if(element.senderID!=this.uid){user.new=true;};  
-                
-                }
-              });
-              
-              
-              user.messages=msgs;
-              user.noMsg=10;
-
-          //console.log("groups",this.groups);
-          /* scroll to last msg */
-            
-          
-          }
-        );
+  addUser(user){
+     
+    user.$key=user.uid?user.uid:user.$key;
+    let isUserChat=false;
+this.users.forEach(element => {
+if(element.$key==user.$key){
+  isUserChat=true;
+}
+});
+if (!isUserChat){
     this.users.push(user);
+}
+    this.chatService.setLastChats(user.$key);
   }
   
   openChat(gid, i){
@@ -156,8 +206,17 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
      
   }
   openUserChat(uid, i){
+    //console.log(this.users);
+    this.users.forEach(element => {
+      if(element.$key==uid){
+        this.chatService.getUserChatMsgs(uid).subscribe(msgs=>{
+          element.messages=msgs;
+        //  console.log(element, uid, msgs);
+        });
+      }
+    });
     setTimeout(function(){ 
-      let objDiv = document.getElementById('content'+i);
+      let objDiv = document.getElementById('content-'+i);
       if (objDiv){objDiv.scrollTop = objDiv.scrollHeight;}
      }, 0);
      
@@ -168,14 +227,13 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
     this.chatService.sendGroupMessage(gid, tmpMsg);
 
   }
-  sendUserMessage(uid, message, i){
-
-     // constructor(senderID, senderName, senderSurname, text, seen?, timestamp?)
+  sendUserMessage(uid, message){
+//console.log(this.chats);
     let tmpMsg=new Message(this.uid, this.name, this.surname, message);
         console.log(tmpMsg);
-
-    this.chatService.sendPrivateMessage(this.uid, tmpMsg);
-    this.chatService.sendPrivateMessage(uid, tmpMsg);
+//console.log(this.uid, uid);
+    this.chatService.sendPrivateMessage(this.uid, uid, tmpMsg);
+    this.chatService.sendPrivateMessage(uid, this.uid, tmpMsg);
   }
 
 }

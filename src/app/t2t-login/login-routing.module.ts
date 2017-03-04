@@ -22,6 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { IntraNavComponent } from './intra-nav/intra-nav.component';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
 const loginRoutesNew: Routes = [
    { path: '', component: IntraNavComponent, canActivateChild:[], children: [
         {path: '', canActivate: [], component: LoginFormComponent },
@@ -50,17 +51,17 @@ const loginRoutesNew: Routes = [
                                 { path: ':oid', canActivate:[], component: UnitsWizardComponent, children:[
                                     { path: '', canActivate:[], component: NewObjectComponent },
                                     { path: 'data', canActivate:[], component: ObjectDataComponent },
-                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
+                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent },
+                                    { path: 'unit', canActivate:[], children:[
+                                        { path: ':unid', canActivate:[], component: UnitsWizardComponent, children:[
+                                            { path: '', canActivate:[], component: ObjectUnitsComponent },
+                                            { path: 'data', canActivate:[], component: ObjectDataComponent },
+                                            { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
 
                                 ] },
-                                { path: 'unit', canActivate:[], children:[
-                                { path: ':unid', canActivate:[], component: UnitsWizardComponent, children:[
-                                    { path: '', canActivate:[], component: NewObjectComponent },
-                                    { path: 'data', canActivate:[], component: ObjectDataComponent },
-                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
-
+                            ] }
                                 ] },
-                            ] },
+                                
                             ] },
                         ]},
                         
