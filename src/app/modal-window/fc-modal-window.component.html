@@ -1,0 +1,55 @@
+<!-- The Modal -->
+
+<div id="myModal" class="t2t-modal" [hidden]="options.backdrop==false" [ngStyle]="{'display': open?'block':'none'}">
+
+  <!-- Modal content -->
+  <div class="t2t-modal-content">
+    <div class="t2t-modal-header">
+      <span class="close" [hidden]="options.closeButton==false">&times;</span>
+      <h2>{{content.title}}</h2>
+    </div>
+    <div class="t2t-modal-body">
+  <div class="alert alert-danger">
+    <p>
+    <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> Postoji datoteka s imenom: {{text}}! Molimo, odaberite jednu od ponuđenik akcija:
+    </p>
+    <ul>
+      <li><strong>Zadrži obje</strong> Na kraju imena nove slike će se dodati idući slobodni redni broj u zagradama. Npr.: Slika1.jpg će biti preimenovana u Slika1(1).jpg.</li>
+      <li><strong>Zadrži novu</strong> Nova slika će prebrisati staru.</li>
+      <li><strong>Zadrži staru</strong> Neće biti promjena.</li>
+    </ul>
+   </div> 
+    </div>
+    <div class="t2t-modal-footer">
+      <button *ngFor="let button of content.buttons" (click)="emitAction(button.action)" class="btn btn-outline-danger"  >
+        <strong>{{button.text}}</strong>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="t2t-modal-content no-backdrop" [hidden]="options.backdrop==true" [ngStyle]="{'display': open?'block':'none'}">
+    <div class="t2t-modal-header">
+      <span class="close" [hidden]="options.closeButton==false">&times;</span>
+      <h2>{{content.title}}</h2>
+    </div>
+    <div class="t2t-modal-body">
+  <div class="alert alert-danger">
+    <p>
+    <i class="fa fa-exclamation-triangle fa-2x" aria-hidden="true"></i> Postoji datoteka s imenom: {{text}}! Molimo, odaberite jednu od ponuđenik akcija:
+    </p>
+    <ul>
+      <li><strong>Zadrži obje</strong> Na kraju imena nove slike će se dodati idući slobodni redni broj u zagradama. Npr.: Slika1.jpg će biti preimenovana u Slika1(1).jpg.</li>
+      <li><strong>Zadrži novu</strong> Nova slika će prebrisati staru.</li>
+      <li><strong>Zadrži staru</strong> Neće biti promjena.</li>
+    </ul>
+   </div> 
+    </div>
+    <div class="t2t-modal-footer">
+      <button *ngFor="let button of content.buttons" (click)="emitAction(button.action)" class="btn btn-outline-danger" >
+        <strong>{{button.text}}</strong>
+      </button>
+    </div>
+  </div>

@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ModalModule } from 'angular2-modal';
+import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 
 /* overrider */
@@ -50,7 +52,9 @@ export function ngbdmpf() {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBK5kZUnD5OtI2Zupbg1YohUdqkU7DvuOI',
       libraries: ['places']
-    })
+    }),
+    ModalModule.forRoot(),
+    BootstrapModalModule
   ],
   providers: [PaginationService, { 
       provide: 'NgbDateParserFormatter', 

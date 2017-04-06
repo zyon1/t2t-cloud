@@ -1,3 +1,61 @@
-<p>
-  object-units works!
-</p>
+
+<!--<pre>{{myunits|json}}</pre>
+<pre>{{ready|json}}</pre>
+-->
+<h5>Jedinice objekta ...</h5>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':ready}" (click)="ready?'':ready=true">Jedinice</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':!ready}" (click)="ready?ready=false:''">Nedovršene jedinice</a>
+  </li>
+</ul>
+<div>asda</div>
+<table class="table table-sm">
+  <thead style="background: #2c77ff;color:#fff">
+    <tr>
+      <th>#</th>
+      <th>Naziv</th>
+      <th>Kreirano</th>
+      <th>Aktivnosti</th>
+      <th>Uredi</th>
+      <th>Aktivan</th>
+
+    </tr>
+    </thead>
+    <thead>
+    <tr>
+      <th style="text-align:center; vertical-align:middle;">+</th>
+      <th colspan="1">
+        <input type="text" class="form-control" id="naziv" placeholder="Naziv">
+      </th>
+      <th colspan="4">
+        <button type="button" class="btn btn-outline-success" (click)="createUnit()">Dodaj novu jedinicu</button>
+      </th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let unit of myUnits;let i=index;let j=index">
+
+      <td *ngIf="ready && unit.data && unit.data.ready">{{++i}}</td>
+      <td *ngIf="ready && unit.data && unit.data.ready">{{unit.data.name?unit.data.name:""}}</td>
+      <td *ngIf="ready && unit.data && unit.data.ready">{{unit.data.created?(unit.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="ready && unit.data && unit.data.ready">{{unit.data.task?unit.data.task:""}}</td>
+      <td *ngIf="ready && unit.data && unit.data.ready"><a [routerLink]="[myUrl+'/'+unit.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="ready && unit.data && unit.data.ready">{{unit.data.active?true:false}}</td>
+
+      <td *ngIf="!ready && unit.data && !unit.data.ready">{{++j}}</td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.name?unit.data.name:""}}</td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.created?(unit.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.task?unit.data.task:""}}</td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready"><a [routerLink]="[myUrl+'/'+unit.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.active?true:false}}</td>
+
+
+    </tr>
+  </tbody>
+</table>
+<app-wizzy-crumbs></app-wizzy-crumbs>

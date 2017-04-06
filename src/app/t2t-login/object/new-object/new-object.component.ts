@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GroupService } from '../../group.service';
 import { LoginService } from '../../login.service';
@@ -7,7 +7,7 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 import { CustomSelectComponent } from '../../custom-select/custom-select.component';
 import { StandardPickerComponent } from '../../standard-picker/standard-picker.component';
 import { LocationPickerComponent } from '../../location-picker/location-picker.component';
-
+import { UnitsWizzardService } from '../../units-wizzard.service';
 import { NgZone } from '@angular/core';
 import {
   FormGroup,
@@ -18,7 +18,6 @@ import {
   
 } from '@angular/forms';
 import { T2tValidatorDirective } from '../../t2t-validator.directive';
-
 
 declare var google: any;
 
@@ -107,26 +106,26 @@ submitted:boolean=false;
     private groupService: GroupService,
     private loginService: LoginService,
     private us: UnitsService,
+    private uws:UnitsWizzardService,
     private _loader: MapsAPILoader,
     private _zone: NgZone,
     ) { 
 
   }
   ngOnInit() {
-        this.route.params.subscribe( params => {
+      this.route.parent.parent.params.subscribe(params =>this.uid=params['id']);
+        this.route.parent.params.subscribe( params => {
       //console.log(params['oid']);  
       this.oid=params['oid'];
-      this.uid=params['uid'];
+      
       this.gid=params['gid'];
+      console.log(this.oid, this.uid, this.gid);
       this.us.getTObject(params['oid']).subscribe(
         x=>{
           Object.assign(this.tObj, x)
           console.log(this.tObj);
         });
       });
-
-
-
 
 let componentForm = {
         street_number: 'short_name', // broj
@@ -225,12 +224,7 @@ this.tObj.location.lat=this.lat;
                 
             });
         });
-
-
-
-
-  }
-  	
+  }  	
   updateMarkerLocation(event){
    // console.log(event);
     this.lat=event.coords.lat;
@@ -242,13 +236,14 @@ this.tObj.location.lat=this.lat;
   }
 }
   onSubmit(data) {
+    this.uws.emitChange({object:{osnovno:{available:true, completed: true}}});
     this.submitted = true;
     console.log(this.oid);
     this.us.updateObject(this.oid, data)
       .then( 
         r=>{
           console.log('updated');
-          this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/edit/'+this.oid+'/data']);
+         // this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/edit/'+this.oid+'/data']);
 
         })
       .catch(

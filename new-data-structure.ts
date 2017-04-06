@@ -15,6 +15,12 @@
  - form validation login-form.component, user-data.component, ...
  - kod kreiranja Observable -a ukoliko nije dio Guard servisa ... observer.next(false); observer.complete() treba zamijeniti sa observer.error(err); - RIJESENO - naucio komibnirati observables
 
+KADA SE BUDU FILTERI RADILI:
+- napraviti subject ili observable, da prekine search cim jedan filter ne bude zadovoljen (ovisno o filterima treba vuci iz razlicitih baza, iz koje baze prije fetcha rezultate, primjeni filtere automatski na druge jedinice
+- vuce iz baze ovisno di se filter nalazi
+- loadanje rezultata napraviti po segmentima
+) -> znatno prije ce 
+
 
    GOOGLE MAPS API key
    Project name: t2t-cloud (isti projekt kao i firebase)
@@ -117,7 +123,7 @@ interface DataStructure {
     tOjects:{
         oid: {
             name: string,
-            autonomus: boolean,
+            autonomus: boolean, // NAPOMENA sve obavezno osim ovog
             standard: number,
             location: {
                 street: string,
@@ -148,9 +154,9 @@ interface DataStructure {
     }
     objectData:{
         oid: {
-            parking: number, // 1: public free, 2. public paid, 3. parking place, 4. garage
+            parking: number, // 1: public free, 2. public paid, 3. parking place, 4. garage NAPOMENA: 5. nema parkinga OBAVEZNO
             wifi: boolean,
-            pets: boolean,
+            pets: boolean, // promijeniti iz boolean u 1. da, 2. ne, 3. na upit
             petsPrice:any,
             playground: boolean, //kids playground
             pool: boolean,
@@ -159,18 +165,18 @@ interface DataStructure {
             others: {
                 name: {value}//...
             }
-            shortDesc: string,
+            shortDesc: string, // NAPOMENA: obavezno
             lognDesc: string
 
         }
         objectPolicies:{
             chkInOut:[
-                {hour:number, minutes:number}, //chkin
-                {hour:number, minutes:number} //chkout
+                {hour:number, minutes:number}, //chkin // NAPOMENA: obavezno
+                {hour:number, minutes:number} //chkout // NAPOMENA: obavezno
                 ]
             smoking: boolean,
             rules: string,
-            cancellation:[ 
+            cancellation:[  // NAPOMENA: obavezno
                  {
                     pLength: number,
                     percent: number
@@ -180,17 +186,39 @@ interface DataStructure {
             other2: string //...
 
         }
-        unitData:{
+        objectUnits:{
+            oid:{unid: any;}
+        }
+        unitData:{ // split object into child objects
+/*
+--> old to new structure example
+--> reason for new structure: flattening data structure -> make data as flat as possible 
+OLD: unitData:{unid: basic: {...}}
+NEW: unitBasic:{unid: {}}
+
+-->new object names:
+unitBasic
+unitHvac
+unitKitchen
+unitBathroom
+unitMultimedia
+unitEquipment
+
+ */
             unid:{
-                name: string,
-                type: string, //maybe number 1:room, 2: studio, 3: appartment
-                size: number, //m2
-                floor: number,
-                disabledAccess: boolean,
-                separateEntrance: boolean,
-                view: boolean,
-                elevator: boolean,
+                basic : {
+                    name: string, // NAPOMENA: obavezno
+                    type: string, //maybe number 1:room, 2: studio, 3: appartment // NAPOMENA: obavezno
+                    size: number, //m2 
+                    floor: number, // NAPOMENA: obavezno
+                    disabledAccess: boolean,
+                    separateEntrance: boolean,
+                    view: boolean, // 1. more, 2. panorma, 3. priroda, 4. vrt, 5. lokalna atrakcija, 6. ostalo
+                    elevator: boolean,
+                },
+                
                 kitchen:{
+                    noKitchen: boolean, //kada jedinica ima neke kuhinjske aparate ali nema kuhinju npr. sobe imaju frižder i električno kuhalo za vodu, ali nemaju kuhinju
                     stove: boolean,
                     oven: boolean,
                     refrigerator: boolean,
@@ -204,6 +232,19 @@ interface DataStructure {
                 },
                 bathroom:{
                     wc: number, //number of wc-s
+                    /*
+tuš kabina, kada, Ostalo
+
+kada,
+kada u razini poda,
+jacuzzy, parna kupelj, 
+tuš kabina,
+kada/kabina u koju se ulazi
+sauna,
+...
+
+
+                     */
                     bathrooms:{
                         bkey: { bathtubType }, //
                         }

@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 // import { IntraNavComponent} from '../intra-nav/intra-nav.component';
 import * as firebase from 'firebase';
 /* services */
-import { LoginService } from '../login.service';
-import { DataService } from '../data.service';
+import { LoginService } from '../../login.service';
+import { DataService } from '../../data.service';
 /* classes */
 // import { User } from '../../common/user';
 // import { Credentials } from '../../common/credentials';

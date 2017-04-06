@@ -1,0 +1,57 @@
+
+<h5>Sobe jedinice ...</h5>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':ready}" (click)="ready?'':ready=true">Sobe</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':!ready}" (click)="ready?ready=false:''">Nedovršene sobe</a>
+  </li>
+</ul>
+<div>asda</div>
+<table class="table table-sm">
+  <thead style="background: #2c77ff;color:#fff">
+    <tr>
+      <th>#</th>
+      <th>Naziv</th>
+      <th>Kreirano</th>
+      <th>Aktivnosti</th>
+      <th>Uredi</th>
+      <th>Aktivan</th>
+
+    </tr>
+    </thead>
+    <thead>
+    <tr>
+      <th style="text-align:center; vertical-align:middle;">+</th>
+      <th colspan="1">
+        <input type="text" class="form-control" id="naziv" placeholder="Naziv">
+      </th>
+      <th colspan="4">
+        <button type="button" class="btn btn-outline-success" (click)="createRoom()">Dodaj novu sobu</button>
+      </th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let room of myRooms;let i=index;let j=index">
+
+      <td *ngIf="ready && room.data && room.data.ready">{{++i}}</td>
+      <td *ngIf="ready && room.data && room.data.ready">{{room.data.name?room.data.name:""}}</td>
+      <td *ngIf="ready && room.data && room.data.ready">{{room.data.created?(room.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="ready && room.data && room.data.ready">{{room.data.task?room.data.task:""}}</td>
+      <td *ngIf="ready && room.data && room.data.ready"><a [routerLink]="[myUrl+'/'+room.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="ready && room.data && room.data.ready">{{room.data.active?true:false}}</td>
+
+      <td *ngIf="!ready && room.data && !room.data.ready">{{++j}}</td>
+      <td *ngIf="!ready && room.data && !room.data.ready">{{room.data.name?room.data.name:""}}</td>
+      <td *ngIf="!ready && room.data && !room.data.ready">{{room.data.created?(room.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="!ready && room.data && !room.data.ready">{{room.data.task?room.data.task:""}}</td>
+      <td *ngIf="!ready && room.data && !room.data.ready"><a [routerLink]="[myUrl+'/'+room.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && room.data && !room.data.ready">{{room.data.active?true:false}}</td>
+
+
+    </tr>
+  </tbody>
+</table>

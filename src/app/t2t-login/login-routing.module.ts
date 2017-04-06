@@ -8,7 +8,7 @@ import { LogoutGuard }                from './logout-guard.service';
 /* components */
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
-import { UserDataComponent } from './user-data/user-data.component';
+import { UserDataComponent } from './user/user-data/user-data.component';
 import { AdminComponent } from './admin/admin.component';
 import { GroupComponent } from './group/group.component';
 import { UnitsComponent } from './group/units/units.component';
@@ -23,6 +23,15 @@ import { IntraNavComponent } from './intra-nav/intra-nav.component';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
+import { UnitDataComponent } from './unit/unit-data/unit-data.component';
+import { UnitDataTwoComponent } from './unit/unit-data-two/unit-data-two.component';
+import { UnitDataThreeComponent } from './unit/unit-data-three/unit-data-three.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
+import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
+
+
+
 const loginRoutesNew: Routes = [
    { path: '', component: IntraNavComponent, canActivateChild:[], children: [
         {path: '', canActivate: [], component: LoginFormComponent },
@@ -31,20 +40,14 @@ const loginRoutesNew: Routes = [
         { path: 'user', children:[
             { path: '', canActivate: [AuthGuard], component: DashboardComponent },
             { path: ':id', canActivate: [], children:[
-                              
-
                 { path: '', canActivate: [], component: DashboardComponent },
                 { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
                 { path: 'groups', canActivate: [], component: MyGroupsComponent },
-                                
-
                 { path: 'new-group', canActivate: [], component: CreateGroupComponent },
-
                 { path: 'group', canActivate: [GroupGuard], children:[
                     { path: ':gid', canActivate: [], children:[
                         { path: '', canActivate: [], component: GroupComponent },
                         { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
-
                         { path: 'units', canActivate: [], children:[
                             { path: '', canActivate: [], component: UnitsComponent},
                             { path: 'object', canActivate:[], children:[
@@ -52,20 +55,24 @@ const loginRoutesNew: Routes = [
                                     { path: '', canActivate:[], component: NewObjectComponent },
                                     { path: 'data', canActivate:[], component: ObjectDataComponent },
                                     { path: 'policies', canActivate:[], component: ObjectPoliciesComponent },
-                                    { path: 'unit', canActivate:[], children:[
-                                        { path: ':unid', canActivate:[], component: UnitsWizardComponent, children:[
-                                            { path: '', canActivate:[], component: ObjectUnitsComponent },
-                                            { path: 'data', canActivate:[], component: ObjectDataComponent },
-                                            { path: 'policies', canActivate:[], component: ObjectPoliciesComponent }
+                                    { path: 'pics', canActivate:[], component: ObjectPicsComponent },
+                                    { path: 'units', canActivate:[], children:[
+                                        { path: '', canActivate:[], component: ObjectUnitsComponent },
+                                        { path: ':unid', canActivate:[], children:[
+                                            { path: '', canActivate:[], component: UnitDataComponent},
+                                            { path: 'kb', canActivate:[], component: UnitDataTwoComponent},
+                                            { path: 'eq', canActivate:[], component: UnitDataThreeComponent },
+                                            { path: 'pics', canActivate:[], component: UnitPicsComponent },
+                                            { path: 'rooms', canActivate:[], children: [
+                                                { path: '', canActivate:[], component: RoomsComponent }
 
+                                            ] }
                                 ] },
                             ] }
                                 ] },
                                 
                             ] },
                         ]},
-                        
-                        
                         { path: 'invite', canActivate:[], component: InviteComponent } 
                     ]},
                 ] },
@@ -75,7 +82,6 @@ const loginRoutesNew: Routes = [
         { path: 'new-group', canActivate: [AuthGuard], component: CreateGroupComponent },
         { path: 'data', canActivate: [AuthGuard], component: UserDataComponent },
         { path: 'sidebar', component: SidebarComponent, outlet: 'sidebar' }
-
    ]},
    {
   path: 'side',

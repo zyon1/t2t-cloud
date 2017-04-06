@@ -1,0 +1,25 @@
+
+     <input type="file" (change)="selected($event)" #filesElement multiple>
+
+
+    <h4>Slike</h4>
+<div class="pics-container" [dragula]='"bag-one"' [dragulaModel]='uploaded'>
+
+    <div *ngFor="let image of uploaded; let i=index" class="pic-item" [ngClass]="{'main-pic':i==0, 'title-pics':i > 0 && i< 6}">
+        <img [hidden]="!image.loaded" [src]="image.src">
+
+        <div [hidden]="!image.resizing">Resizing...</div>
+        <div [hidden]="!image.loading">Loading...</div>
+        <div [hidden]="!image.uploading">Uploading...</div>
+        <div [hidden]="!image.waiting">Waiting...</div>
+
+
+
+
+    </div>
+</div>
+
+
+<app-modal-window (action)="filenameConflicts($event, conflict, i);" *ngFor="let conflict of conflicts; let i=index" [content]="conflict.content" [options]="modalOptions" [open]="true">
+
+</app-modal-window>

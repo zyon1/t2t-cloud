@@ -55,38 +55,28 @@ FIAOptions ={
   addDesc: "period",
  
 };
-/*FIAOptions ={
-  pair:{
-    name:{
-      name:'Naziv',
-      type: 'text',
-      default: '',
-      rules: {
-        maxLength: 30
-      }
-    },
-    value:{
-      name:'Vrijednost',
-      type: 'text',
-      default: '',
-      rules: {
-        maxLength: 30
-      }
-    }
-  },
-  explainer: "* Ukoliko se želi opisati pojavnost nekog svojstva, tada se vrijednost ostavlja prazna",
-  addDesc: "period"
-};*/
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+ oid:string;
+  uid:string;
+  gid:string;
+  unid:string;
+  constructor(private route: ActivatedRoute, private router: Router,
     private groupService: GroupService,
     private loginService: LoginService,
     private us: UnitsService
   ) { }
 
   ngOnInit() {
+
+     this.route.parent.params.subscribe(params=>
+    {
+      //console.log(this.route.params);
+      this.oid=params['oid'];
+      this.gid=params['gid'];
+      this.uid=params['id'];
+      console.log(this.gid, this.uid, this.oid);
+      }
+    );
+
   }
 
 }

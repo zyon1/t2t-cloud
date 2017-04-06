@@ -1,12 +1,12 @@
 <div class="wizzy-container row">
   <div class="wizzy-item-first col-md-3">
-    <div class="wizzy-inside-first done" ><a ></a><strong>1.</strong> Objekt</div>
-    <div class="arrow-right done" ><a ></a></div>
+    <div class="wizzy-inside-first" ><a ></a><strong>1.</strong> Objekt</div>
+    <div class="arrow-right" ><a ></a></div>
   </div>
   <div class="wizzy-item col-md-3">
-    <div class="arrow-inverse" ></div>
-    <div class="wizzy-inside" ><strong>2.</strong> Jedinica</div>
-    <div class="arrow-right" ></div>
+    <div class="arrow-inverse inactive" ></div>
+    <div class="wizzy-inside inactive" ><strong>2.</strong> Jedinica</div>
+    <div class="arrow-right inactive" ></div>
   </div>
   <div class="wizzy-item col-md-3">
     <div class="arrow-inverse inactive" ></div>
@@ -34,6 +34,38 @@
   </li>
     
   <li class="breadcrumb-item">Slike</li>
+
+</ol>
+<ol class="breadcrumb" style="background:transparent">
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units'">Dodaj jedinicu</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid">Osnovni podaci</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+    <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/kb'">Kuhinja i kupaonica</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+        <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/eq'">Oprema</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+  <li class="breadcrumb-item">Slike</li>
+
+</ol>
+<ol class="breadcrumb" style="background:transparent">
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms'">Dodaj sobu</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms/'+rid">Soba</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+
 
 </ol>
 <router-outlet></router-outlet>

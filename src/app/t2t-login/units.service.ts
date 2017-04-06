@@ -55,10 +55,17 @@ getGroupObjectsFull(gid){
         }
     )
 }
+
 getUnit(unid){
     return this.af.database.object('units/'+unid);
 }
-getRooms(unid, rid){
+getObjectUnits(oid){
+    return this.af.database.list('objectUnits/'+oid);
+}
+getUnitRooms(unid){
+        return this.af.database.list('unitRooms/'+unid);
+}
+getRooms(unid, rid){ // staro, nije dobro strukturirano, ima masu takvih funckija, kad zavrsis sa jedinicama prekontrolirati i pobrisati nepotrebno
     return this.af.database.object('unitRooms/'+rid);
 }
 getTObjects(){
@@ -76,7 +83,23 @@ addUnit(data){
     return this.af.database.list('units').push(data);
 }
 addRoom(data){
-     return this.af.database.list('unitRooms').push(data);
+     return this.af.database.list('rooms').push(data);
+}
+createUnit(oid, data){
+    this.addUnit(data).then(unit => {
+        console.log(unit);
+        this.af.database.object('objectUnits/'+oid).update({[unit.key]:true}).then(_ => {
+            console.log("object updated");
+        }).catch( err => { console.error("T2T error - cant add unit to objectUnits:",err)});
+    }).catch(err=> { console.error("T2T error: - cant create unit", err)});
+}
+createRoom(unid, data){
+    this.addRoom(data).then(room => {
+        console.log(room);
+        this.af.database.object('unitRooms/'+unid).update({[room.key]:true}).then(_ => {
+            console.log("object updated");
+        }).catch( err => { console.error("T2T error - cant add room to unitRooms:",err)});
+    }).catch(err=> { console.error("T2T error: - cant create room", err)});
 }
 
 //update elements

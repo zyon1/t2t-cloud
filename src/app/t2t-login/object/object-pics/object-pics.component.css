@@ -1,0 +1,36 @@
+.pic-item{
+    height:84px;
+    padding:0px;
+    float:left;
+    overflow:none;
+    width:109px;
+        border:5px solid #ffaf0f;
+
+}
+.pics-container{
+    width:100%;
+}
+.main-pic{
+    padding:0;
+    border:5px solid #ff0000;
+}
+.title-pics{
+    border:5px solid blue;
+    padding:0;
+}
+.modal-content {
+
+
+    }
+    .modal{
+                      z-index: 10001;
+
+    }
+    .modal-dialog{
+        margin-top:120px;
+    }
+    .close {
+    }
+    .modal-backdrop{
+        z-index: 10000;
+    }

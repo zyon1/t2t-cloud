@@ -6,8 +6,10 @@ import { FormsModule }   from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DatepickerModule } from 'ng2-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
+
 /* override */
 // import { NgbDateMomentParserFormatter } from '../date-picker/ngb-datepicker-parser-formatter';
 /* routing moudle */
@@ -23,6 +25,7 @@ import { GroupService } from './group.service';
 import { WatchingService } from './watching.service';
 import { ChatService } from './chat.service';
 import { UnitsService } from './units.service';
+import { UnitsWizzardService } from './units-wizzard.service';
 
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services';
 
@@ -31,7 +34,7 @@ import { T2tLoginComponent } from './t2t-login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { AdminComponent } from './admin/admin.component';
-import { UserDataComponent } from './user-data/user-data.component';
+import { UserDataComponent } from './user/user-data/user-data.component';
 import { GroupComponent } from './group/group.component';
 import { IntraNavComponent } from './intra-nav/intra-nav.component';
 import { DualDatePickerComponent } from '../date-picker/date-picker.component';
@@ -62,15 +65,22 @@ import { ObjectDataComponent } from './object/object-data/object-data.component'
 import { FormInputArrayComponent } from './form-input-array/form-input-array.component';
 import { ObjectPoliciesComponent } from './object/object-policies/object-policies.component';
 import { CancelationPoliciesComponent } from './cancelation-policies/cancelation-policies.component';
-import { UnitDataComponent } from './unit-data/unit-data.component';
-import { UnitBasicComponent } from './unit-data/unit-basic/unit-basic.component';
-import { UnitKitchenComponent } from './unit-data/unit-kitchen/unit-kitchen.component';
-import { UnitBathroomComponent } from './unit-data/unit-bathroom/unit-bathroom.component';
-import { UnitHvacComponent } from './unit-data/unit-hvac/unit-hvac.component';
-import { UnitMultimediaComponent } from './unit-data/unit-multimedia/unit-multimedia.component';
-import { UnitEquipmentComponent } from './unit-data/unit-equipment/unit-equipment.component';
+import { UnitDataComponent } from './unit/unit-data/unit-data.component';
+import { UnitBasicComponent } from './unit/unit-basic/unit-basic.component';
+import { UnitKitchenComponent } from './unit/unit-kitchen/unit-kitchen.component';
+import { UnitBathroomComponent } from './unit/unit-bathroom/unit-bathroom.component';
+import { UnitHvacComponent } from './unit/unit-hvac/unit-hvac.component';
+import { UnitMultimediaComponent } from './unit/unit-multimedia/unit-multimedia.component';
+import { UnitEquipmentComponent } from './unit/unit-equipment/unit-equipment.component';
 import { UnitsWizardComponent } from './units-wizard/units-wizard.component';
 import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
+import { WizzyCrumbsComponent } from './wizzy-crumbs/wizzy-crumbs.component';
+import { UnitDataTwoComponent } from './unit/unit-data-two/unit-data-two.component';
+import { UnitDataThreeComponent } from './unit/unit-data-three/unit-data-three.component';
+import { RoomsComponent } from './rooms/rooms.component';
+import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
+import {ModalWindowComponent, fcModalComponent } from '../modal-window/modal-window.component';
+import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
 
 
 /* Classes */
@@ -95,7 +105,9 @@ export const myFirebaseAuthConfig = {
     FormsModule,
     DatepickerModule,
     NgbModule,
-    AgmCoreModule
+    Ng2ImgMaxModule,
+    AgmCoreModule,
+    DragulaModule,
   ],
   declarations: [
     T2tLoginComponent,
@@ -142,9 +154,17 @@ export const myFirebaseAuthConfig = {
     UnitMultimediaComponent,
     UnitEquipmentComponent,
     UnitsWizardComponent,
-    ObjectUnitsComponent
+    ObjectUnitsComponent,
+    WizzyCrumbsComponent,
+    UnitDataTwoComponent,
+    UnitDataThreeComponent,
+    RoomsComponent,
+    ObjectPicsComponent,
+    ModalWindowComponent,
+    fcModalComponent,
+    UnitPicsComponent
     ],
-  providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper]
+  providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper, UnitsWizzardService]
 })
 export class T2tLoginModule {
   // x=console.log("login module loaded");

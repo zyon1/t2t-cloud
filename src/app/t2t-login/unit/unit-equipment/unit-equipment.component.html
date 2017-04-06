@@ -1,0 +1,74 @@
+<form (ngSubmit)="onSubmit()" #ObjDataForm="ngForm">
+<h5>Oprema</h5>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Sušilo za kosu</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="dryer" name="dryer"> 
+          </label>     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Perilica za rublje</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="washingmachine" name="washingmachine"> 
+          </label>     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Glačalo</div>
+     <div class="col-lg-9 col-xl-7">
+           <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="iron" name="iron"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Posteljina</div>
+     <div class="col-lg-9 col-xl-7">
+                <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="linen" name="linen"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Ručnici</div>
+     <div class="col-lg-9 col-xl-7">
+                 <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="towels" name="towels"> 
+          </label>
+
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Sef</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="safe" name="safe"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Kolijevka/ dječji krevetić</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="cot" name="cot"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Ostalo</div>
+     <div class="col-lg-9 col-xl-7">
+        
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+
+
+</form>

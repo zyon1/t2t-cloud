@@ -159,12 +159,13 @@ this.chatService.getUserChat(this.uid).subscribe(msgs=>{
          this.groups.forEach(element => {
            if (element.$key==uid){
          console.log("==>",element.key, uid);
-           let objDiv = document.getElementById('content-'+i);
-           let scrHeight=objDiv.scrollHeight;
+          // let scrHeight=objDiv.scrollHeight;
          element.noMsg+=10;
          this.chatService.getUserChat(uid, element.noMsg).subscribe(msgs=>{
            element.messages=msgs;
            console.log(element);
+                      let objDiv = document.getElementById('content-'+i);
+
            objDiv.scrollTop = objDiv.scrollHeight;
          });
             }
