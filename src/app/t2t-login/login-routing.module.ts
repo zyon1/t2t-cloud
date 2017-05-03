@@ -29,6 +29,8 @@ import { UnitDataThreeComponent } from './unit/unit-data-three/unit-data-three.c
 import { RoomsComponent } from './rooms/rooms.component';
 import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
 import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
+import { UnitRoomsComponent } from './unit/rooms/unit-rooms.component';
+
 
 
 
@@ -63,10 +65,14 @@ const loginRoutesNew: Routes = [
                                             { path: 'kb', canActivate:[], component: UnitDataTwoComponent},
                                             { path: 'eq', canActivate:[], component: UnitDataThreeComponent },
                                             { path: 'pics', canActivate:[], component: UnitPicsComponent },
+                                            { path: 'rooms', canActivate:[], component: UnitRoomsComponent }
+                                           /*
+                                           //Prvi koncept za popunjavanje soba, možda ćemo se vratiti na njega poslije ljeta
                                             { path: 'rooms', canActivate:[], children: [
                                                 { path: '', canActivate:[], component: RoomsComponent }
 
                                             ] }
+                                            */
                                 ] },
                             ] }
                                 ] },

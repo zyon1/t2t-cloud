@@ -6,7 +6,7 @@ import { Observable, Subject, Observer } from 'rxjs';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
 import * as firebase from 'firebase';
-
+import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 //declare var firebase: any;
 interface Image {
     path: string;
@@ -67,7 +67,8 @@ uploadDelay:number=0;
 finishUpload:boolean=true;
 conflicts:any[]=[];
 showModal=false;
-constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private af: AngularFire, private dragulaService: DragulaService) {
+constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private af: AngularFire, private dragulaService: DragulaService, private sanitizer:DomSanitizer
+) {
 this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
   result => {   
     let counter=0;
@@ -93,7 +94,7 @@ this.uid=params['id'];
     this.route.parent.params.subscribe( params => {
       //console.log(params);
       this.unid=params['unid'];
-      this.af.database.list(`unitPics/${this.unid}`).subscribe(pics => {
+      this.af.database.object(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
         //console.log('new database information about files');
         if (!initial)
           {  
@@ -101,9 +102,10 @@ this.uid=params['id'];
             initial=true;
           };
           //console.log(pics);
-        pics.forEach(pic => {
-          let key;
-          //console.log(pic);
+        //  let key=0;
+        pics.forEach((pic, key) => {
+          
+          console.log(pic);
           if (pic.success){
             let path=`/${this.unid}/100/100-${pic.filename}`;
             let fbStorageRef= firebase.storage().ref(path);
@@ -118,11 +120,11 @@ this.uid=params['id'];
 
                     this.uploaded[index]={pic:pic, state:'loading'};
                   }
-                  key=index;
+                  //key=index;
                 }                   
               }else{
   //              console.log('adding next index', pic['$key'], 'new-state: loading');
-                key=pic['$key'];
+//                key=pic['$key'];
 
                 this.uploaded.push({pic:pic, state:"loading"});
                                 this.picCount++;
@@ -131,23 +133,34 @@ this.uid=params['id'];
               }
               
             fbStorageRef.getDownloadURL().then(result => {
-             // console.log(result);
+     console.log('new result', key);
+                                        //  console.log('index', key, 'from:', this.uploaded[key].state, '=>to loaded');
+
               if (this.uploaded[key]){
-     //console.log('new result', key);
-                this.uploaded[key].src=result;
-    //                                  console.log('index', key, 'from:', this.uploaded[key].state, '=>to loaded');
+     console.log('new result', key);
+                this.uploaded[key].src=this.sanitizer.bypassSecurityTrustStyle('url('+result+')');
+;
+                                     console.log('index', key, 'from:', this.uploaded[key].state, '=>to loaded');
 
                 if(this.uploaded[key].state!='loaded'){
 
                   this.uploaded[key].state='loaded';}
                               
               }
-            }).then(result => setTimeout(function() {
-              
-            }, 100));
-          }
-        });
+           // key++;
+          }).catch(
+              err=>{
+                console.log(err);
+                if(this.uploaded[key].state!='error'){
 
+                  this.uploaded[key].state='error';}
+                             // key++;
+              
+              }
+            );
+          }
+
+        });
       });
     });
   }
@@ -172,17 +185,17 @@ this.uid=params['id'];
 //arr[name].resolution();
    let path = `/${this.unid}/${item.prefix}/${item.prefix}-${name}`;
    let iRef = storageRef.child(path);
-console.log('is piccount ok?', item.imageId, this.picCount);
+//console.log('is piccount ok?', item.imageId, this.picCount);
    let nextId=item.oldIndex || item.oldIndex==0?item.oldIndex:this.picCount+item.imageId;
-   console.log('__index itema(nama ako postoji)', item.imageID, 'iduci',nextId, 'stari',item.oldIndex);
-
+   //console.log('__index itema(nama ako postoji)', item.imageID, 'iduci',nextId, 'stari',item.oldIndex);
    if (upItem==nextId){
     //    console.log(upItem, nextId);
    //console.log(upItem, nextId, this.uploaded);
 
-//     console.log('index', nextId, 'from:', 'this.uploaded[nextId].state', '=>to uploading');
+   console.log('index', nextId, 'from:', this.uploaded[nextId].state, '=>to uploading', 'oldIndex', item.oldIndex, item.imageId);
    if(this.uploaded[nextId].state!='uploading'){
          
+
 
      this.uploaded[nextId].state='uploading';}
    //console.log(this.uploaded);
@@ -245,95 +258,111 @@ upld();
         this.af.database.object(`unitPics/${this.unid}/`).remove()
     }
 bundler(fileIndex, resolutionIndex,  files){
-  let firstFile=true;
-  let firstBundle=true;
-  let firstAdded=false;
-  let isSkip=false;
+
   let skipCount=0;
+  console.log(files);
   let recBundler=(i, j, file)=>{
-    //console.log(i, j, file);
+    console.log(i, j);
+    if(i!=0){//previous file exists
+        if (files[i-1].oldIndex || files[i-1].oldIndex==0){//previous file have old index
+          if(this.uploaded[files[i-1].oldIndex].state!='waiting'){
+          this.uploaded[files[i-1].oldIndex].state='waiting';
+          this.uploaded[files[i-1].oldIndex].src='';
+        }
+          
+      }else{ //preovious file doenst have old index
+        if(i-skipCount==this.picCount-1){
+let newInd=i-skipCount+this.picCount-1;
+if(this.uploaded[newInd].state!='waiting'){
+          this.uploaded[newInd].state='waiting';
+          this.uploaded[newInd].src='';
+        }
+        }
+        }
+      }
+
+
+    if(j==0 && (files[i].oldIndex || files[i].oldIndex==0) ){
+      if(this.uploaded[files[i].oldIndex].state!='resizing'){
+          this.uploaded[files[i].oldIndex].state='resizing';
+          this.uploaded[files[i].oldIndex].src='';}
+      skipCount++;
+      
+console.log('updatingSkip',skipCount, files[i].oldIndex);} 
     return this.ng2ImgMaxService.resizeImage(file, this.bundleResolutions[j], this.bundleResolutions[j]).map(
       result => {
         this.itemSize+=result.size;
-
-if(files[i].oldIndex){
-
-          // console.log('file have old index:', files[i].oldIndex);
-
-          this.upArray[this.upArray.length-1].oldIndex=files[i].oldIndex;
-          console.log('SKIP:',isSkip, 'picCount', this.picCount, files[i]);
-                    if (isSkip==false){
-                      skipCount++;
-                      console.log('file have old index and it skips:', skipCount, 'files!');
-                                          isSkip=true;
-
-                      //imageId je kriv napraviti mozda skip couter
-          }
-
+        
+        if((files[i].oldIndex || files[i].oldIndex==0)){ //if file have old index
+          //console.log('file have old index');
+        
+          this.upArray.push({image:result, prefix:this.bundleResolutions[j], imageId:i-skipCount, oldIndex: files[i].oldIndex});
+          
+          
+          //this.upArray[this.upArray.length-1].oldIndex=files[i].oldIndex;
+          /*
           if (this.bundleResolutions[j]==this.bundleResolutions[this.bundleResolutions.length-1]){
- //                             console.log('index', files[i].oldIndex, 'from:', this.uploaded[files[i].oldIndex].state, '=>to waiting');
-
             if(this.uploaded[files[i].oldIndex].state!='waiting'){
-
               this.uploaded[files[i].oldIndex].state='waiting';
-                    
+            }
           }
-             //this.uploaded[files[i].oldIndex].waiting=true;
-          }
+          */
          }else{
+           if (files[i].newName){
+//console.log('file have new name but doesnt have old index');
+          this.upArray.push({image:result, prefix:this.bundleResolutions[j], imageId:i-skipCount, newName: files[i].newName});
 
+           }else{
+  //           console.log('file doesnt have new name nor old index');
+             this.upArray.push({image:result, prefix:this.bundleResolutions[j], imageId:i-skipCount});
+
+
+           }
+           /*
+           if (this.bundleResolutions[j]==this.bundleResolutions[this.bundleResolutions.length-1]){
+             if(this.uploaded[this.picCount+i-skipCount].state!='waiting'){
+               this.uploaded[this.picCount+i-skipCount].state='waiting';
+             }
+           }
+           */
          }
 
 
+         if (!this.uploaded[this.picCount+i-skipCount]){
+                    console.log('pushing file on location', this.picCount+i-skipCount );
 
-        if(files[i].newName){
-      //    console.log('file have new name', this.picCount, i, files[i], files);
-
-          this.upArray.push({image:result, prefix:this.bundleResolutions[j], imageId:i, newName:files[i].newName});
-        }else{
-          
-        //  console.log('file doesnt have new name', files[i].oldIndex);
+this.uploaded.push({pic:{filename:files[i].newName?files[i].newName:files[i].name}, state:'resizing', index:this.picCount+i-skipCount}); //interface file have read-only property filename, so new property newName is introduced
+            //  console.log(this.picCount+i-skipCount-1);
+}
 
 
 
 
-
-
-          let tmpIndex=files[i].oldIndex||files[i].oldIndex==0?files[i].oldIndex:null;
-         // console.log(tmpIndex);
-         console.log('==>upl pic index:',i, 'skip:',skipCount, 'total:',i-skipCount, 'OLDINDEX:', tmpIndex);
-          this.upArray.push({image:result, prefix:this.bundleResolutions[j], imageId:i-skipCount, oldIndex:tmpIndex});
-          //console.log(this.upArray);
-          
-        }
-        
+        //console.log(j<this.bundleResolutions.length-1);
         if (j<this.bundleResolutions.length-1){
         //same file next resolution
+        //console.log('same file next resolution');
           return recBundler(i,j+1, result).subscribe(); 
         }else{
           if (i>=files.length){
           // all files bundled 
+          console.log('all files are bundled');
         }else{
-
+console.log('bundling last file');
           //bundle next file
          // console.log(Date.now());
             this.itemStart=Date.now();
             this.cumuSize+=this.itemSize;
             this.itemSize=0;
+            
             if(files[i].skip!=true){ //if file doesnt need to be overwritten
-             // console.log('skip  is not true');
-              if (!firstAdded){
-               //                 console.log('first added', this.uploaded);
-
-                //this.uploaded[this.uploaded.length-1].state='waiting';
-                 //                               console.log('waiting');
-
-            }
-            console.log('==>upl pic index:',i,'piccount:',this.picCount,'skip:',skipCount, 'total',this.picCount+i-skipCount);
-              this.uploaded.push({pic:{filename:files[i].newName?files[i].newName:files[i].name}, state:'resizing', index:this.picCount+i-skipCount}); //interface file have read-only property filename, so new property newName is introduced
-              firstAdded=false;
+             
+            //console.log('==>upl pic index:',i,'piccount:',this.picCount,'skip:',skipCount, 'total',this.picCount+i-skipCount);
+              
+              //firstAdded=false;
             }else{
-              console.log(files);
+              
+              //console.log(files);
               //this.uploaded.[]({pic:{filename:files[i].newName?files[i].newName:files[i].name}, resizing:true, index:this.picCount+i});
             }
             //console.log(this.uploadActive);
@@ -342,11 +371,8 @@ if(files[i].oldIndex){
               console.log('activiting upload');
               this.serializeUpload();
             } 
-            if(firstBundle){
-              firstBundle=false;
-            }
-            firstFile=false;
-            isSkip=false;
+
+//console.log('next file, bundler', i+1, 'prevFileIndex', i+skipCount+this.picCount);
 
             return recBundler(i+1,0, files[i+1]).subscribe(); //go to next file
           }
@@ -357,8 +383,7 @@ if(files[i].oldIndex){
  }
  selected(imageResult: any) {
    this.tempFiles=[];
-     // this.uploadActive=true;
-    // console.log(imageResult.target.files["0"].name);
+    
 if (this.uploaded.length==0){ // if no files are uploaded yet    
   console.log('no files are uploaded yet, calling bundler');    
   this.bundler(0, 0, imageResult.target.files);}
@@ -435,12 +460,12 @@ switch(action){
   this.tempFiles[conflict.target].oldIndex=conflict.source;
   //console.log(this.tempFiles[conflict.target]);
       console.log('index', conflict.source, 'from:', this.uploaded[conflict.source].state, '=>to resizing');
-
+/*
   if(this.uploaded[conflict.source].state!="resizing"){
     this.uploaded[conflict.source].state="resizing";
   }
   //this.uploaded[conflict.source].resizing=true;//={pic:{filename:this.uploaded[index].pic.filename}, resizing:true};
-  this.uploaded[conflict.source].src='';
+  this.uploaded[conflict.source].src='';*/
   //this.picCount--;
   break;
 }

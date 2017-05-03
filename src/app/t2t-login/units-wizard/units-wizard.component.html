@@ -33,7 +33,10 @@
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
     
-  <li class="breadcrumb-item">Slike</li>
+      <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'">Slike</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
 
 </ol>
 <ol class="breadcrumb" style="background:transparent">
@@ -53,7 +56,10 @@
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/eq'">Oprema</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-  <li class="breadcrumb-item">Slike</li>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/pics'">Slike</a>
+    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
 
 </ol>
 <ol class="breadcrumb" style="background:transparent">

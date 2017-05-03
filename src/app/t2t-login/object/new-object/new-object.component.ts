@@ -154,6 +154,7 @@ if (place && place.geometry && place.geometry.location){
   this.tObj.location.streetNr='';
   this.lat=place.geometry.location.lat();
 this.tObj.location.lat=this.lat;
+console.log(this.lat);
 //this.locFound=true;
     this.lng=place.geometry.location.lng();
     this.tObj.location.lng=this.lng;

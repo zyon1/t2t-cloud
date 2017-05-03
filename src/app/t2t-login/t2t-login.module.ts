@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
+import { CalendarModule } from 'angular-calendar';
 
 /* override */
 // import { NgbDateMomentParserFormatter } from '../date-picker/ngb-datepicker-parser-formatter';
@@ -81,6 +82,10 @@ import { RoomsComponent } from './rooms/rooms.component';
 import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
 import {ModalWindowComponent, fcModalComponent } from '../modal-window/modal-window.component';
 import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
+import { UnitRoomsComponent } from './unit/rooms/unit-rooms.component';
+import { CalendarTestComponent } from './calendar-test/calendar-test.component';
+
+
 
 
 /* Classes */
@@ -108,6 +113,7 @@ export const myFirebaseAuthConfig = {
     Ng2ImgMaxModule,
     AgmCoreModule,
     DragulaModule,
+   // CalendarModule.forRoot()
   ],
   declarations: [
     T2tLoginComponent,
@@ -162,7 +168,10 @@ export const myFirebaseAuthConfig = {
     ObjectPicsComponent,
     ModalWindowComponent,
     fcModalComponent,
-    UnitPicsComponent
+    UnitPicsComponent,
+    UnitRoomsComponent,
+    RoomsComponent,
+    CalendarTestComponent
     ],
   providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper, UnitsWizzardService]
 })

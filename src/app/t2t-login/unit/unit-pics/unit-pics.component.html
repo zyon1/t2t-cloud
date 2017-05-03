@@ -6,58 +6,192 @@
 <div class="pics-container" [dragula]='"bag-one"' [dragulaModel]='uploaded'>
 
     <div *ngFor="let image of uploaded; let i=index" class="pic-item" [ngClass]="{'main-pic':i==0, 'title-pics':i > 0 && i< 6}">
-        <img [hidden]="image.state!='loaded'" [src]="image.src">
+    <!--{{image.src=='undefined'?image.src:image.filename | json}}-->
+    <div class="pic-bg" [hidden]="image.state!='loaded'" [style.background-image]="image.src">
+       
+    </div>
+     <!--  <img [hidden]="image.state!='loaded'" [src]="image.src">-->
 
-        <div [hidden]="image.state!='resizing'">
+        <div [hidden]="image.state!='resizing'" class="state-container">
           <div class="res-indicator">Resizing...</div>
-          <div class="sk-cube-grid">
-  <div class="sk-cube sk-cube1"></div>
-  <div class="sk-cube sk-cube2"></div>
-  <div class="sk-cube sk-cube3"></div>
-  <div class="sk-cube sk-cube4"></div>
-  <div class="sk-cube sk-cube5"></div>
-  <div class="sk-cube sk-cube6"></div>
-  <div class="sk-cube sk-cube7"></div>
-  <div class="sk-cube sk-cube8"></div>
-  <div class="sk-cube sk-cube9"></div>
-</div>
+         <i class="fa fa-cog fa-spin fa-3x fa-fw" style="margin:3px 18px;"></i>
           </div>
-        <div [hidden]="image.state!='loading'">
+      <div [hidden]="image.state!='loading' || image.src==null" class="state-container">
+
             <div class="res-indicator">Loading...</div>
-<div class="sk-circle">
-  <div class="sk-circle1 sk-child"></div>
-  <div class="sk-circle2 sk-child"></div>
-  <div class="sk-circle3 sk-child"></div>
-  <div class="sk-circle4 sk-child"></div>
-  <div class="sk-circle5 sk-child"></div>
-  <div class="sk-circle6 sk-child"></div>
-  <div class="sk-circle7 sk-child"></div>
-  <div class="sk-circle8 sk-child"></div>
-  <div class="sk-circle9 sk-child"></div>
-  <div class="sk-circle10 sk-child"></div>
-  <div class="sk-circle11 sk-child"></div>
-  <div class="sk-circle12 sk-child"></div>
-</div>
+<i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="margin: 9px 29px;"></i>
 
         </div>
-        <div [hidden]="image.state!='uploading'">
+       <div [hidden]="image.state!='uploading'" class="state-container">
+
                     <div class="res-indicator">Uploading...</div>
 
-          <div class="spinner">
-  <div class="bounce1"></div>
-  <div class="bounce2"></div>
-  <div class="bounce3"></div>
-</div>
+         <i class="fa fa-cloud-upload fa-2x t2t-pulsate" aria-hidden="true" style="margin: 9px 31px;"></i>
         </div>
-        <div [hidden]="image.state!='waiting'">{{image.pic.filename}}<br>Waiting...</div>
+        <!--<div [ngStyle]="{'display':image.src==null?'block':'none'}" class="state-container err-container">
 
+                    <div class="res-indicator">error</div>
 
+        </div>-->
+        <div [hidden]="image.state!='waiting'" class="state-container">
+
+                   <div class="res-indicator">Waiting...</div>
+
+<i class="fa fa-hourglass fa-2x t2t-eieo" aria-hidden="true" style="margin: 8px 36px;"></i>
+
+        </div>
 
 
     </div>
 </div>
 
+<style>
+    .search-container{
+        margin-top:300px;
+    }
+.kartica{
+    width:100%;
+    height:299px;
+    box-sizing: border-box;
+    border:1px solid #000;
+    padding:0 0;
+    margin: 10px 0;
+}
+.kartica-objekt{
+width:100%;
+box-sizing: border-box;
+height: 85px;
+border:1px solid #000;
+    padding:0;
+    margin: 0;
+}
+.kartica-jedinica{
+width:100%;
+height: 212px;
+box-sizing: border-box;
+border:1px solid #000;
+    padding:0;
+    margin: 0;
+}
+.kartica-slike-container{
+    float:left;
+    width:212px;
+    height:210px;
+    border:1px solid #000;
+        padding:0;
+    margin: 0;
+}
+.slike-main{
+box-sizing: border-box;
+width:208px;
+height: 158px;
+float:left;
+border:4px solid #7777ff;
+    padding:0;
+    margin: 0;
+}
+.slike-rest{
+    width:52px;
+    height:47px;
+    box-sizing: border-box;
+    float:left;
+    border:2px solid #00ff00;
+        padding:0;
+    margin: 0;
 
+}
+.slika-objekt{
+    width:110px;
+    height: 85px;
+    
+    border:5px solid #ff9999;
+    box-sizing: border-box;
+}
+.search-filters{
+    background: #f2f2f2;
+}
+.content-container{
+    float:left;
+    box-sizing: border-box;
+    border: 1px solid #ff0000;
+}
+</style>
+<div class="search-container row">
+    <div class="col-md-3 search-filters">
+        SEARCH
+    </div>
+    <div class="col-md-9">
+<div class="kartica">
+<div class="kartica-objekt">
+<div class="slika-objekt"></div>
+</div>
+<div class="kartica-jedinice">
+<div class="kartica-slike-container">
+    <div class="slike-main"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+</div>
+<div class="content-container"></div>
+<h5><strong>Apartman apartman 12</strong></h5>
+<p>Kapacitet</p>
+<p>Kreveti</p>
+<p>Udaljenosti</p>
+<p>Klima</p>
+<p>5 istaknutih</p>
+<h3>Kalendar</h3>
+</div>
+
+</div>
+<div class="kartica">
+<div class="kartica-objekt">
+<div class="slika-objekt"></div>
+</div>
+<div class="kartica-jedinice">
+<div class="kartica-slike-container">
+    <div class="slike-main"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+</div>
+</div>
+
+</div>
+<div class="kartica">
+<div class="kartica-objekt">
+<div class="slika-objekt"></div>
+</div>
+<div class="kartica-jedinice">
+<div class="kartica-slike-container">
+    <div class="slike-main"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+</div>
+</div>
+
+</div>
+<div class="kartica">
+<div class="kartica-objekt">
+<div class="slika-objekt"></div>
+</div>
+<div class="kartica-jedinice">
+<div class="kartica-slike-container">
+    <div class="slike-main"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+    <div class="slike-rest"></div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
 <app-fc-modal-window (action)="filenameConflicts($event, conflict, i);" *ngFor="let conflict of conflicts; let i=index" [content]="modalContent" [text]="conflict.filename"  [options]="modalOptions" [open]="true">
 
 </app-fc-modal-window>

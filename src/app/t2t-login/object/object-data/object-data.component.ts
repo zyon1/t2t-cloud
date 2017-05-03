@@ -27,13 +27,13 @@ interface ObjData{
   styleUrls: ['./object-data.component.css']
 })
 export class ObjectDataComponent implements OnInit {
-others=[{name:'sda', value:'sadsad'}];
+others=[];
 parking:any=-1;
 shortDesc:string='';
 longDesc:string='';
 ePair={name:'Naziv', value:'Vrijednost'};
 expl="* Ukoliko se želi opisati pojavnost nekog svojstva, tada se vrijednost ostavlja prazna";
-parkingTypes=['Javni besplanto', 'Javni naplata', 'Privatno prakirno mjesto', 'Privatna garaža'];
+parkingTypes=['Javni besplanto', 'Javni naplata', 'Privatno prakirno mjesto', 'Privatna garaža', 'Nema parkinga'];
 FIAOptions ={
   fields:[
     {
@@ -52,7 +52,7 @@ FIAOptions ={
     }
   ],
   explainer: "",
-  addDesc: "period",
+  addDesc: "svojstvo",
  
 };
  oid:string;
@@ -78,5 +78,8 @@ FIAOptions ={
     );
 
   }
+   onSubmit(data) {
+     console.log(data);
+   }
 
 }
