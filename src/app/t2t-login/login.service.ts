@@ -1,19 +1,27 @@
 import 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
+import * as firebase from 'firebase/app';
+
+//import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState } from 'angularfire2';
 //import { FirebaseAuth } from 'angularfire2';
-import * as firebase from 'firebase';
+//import * as firebase from 'firebase';
 //import { User } from '../common/user';
 // import { Credentials } from '../common/credentials';
 @Injectable()
 export class LoginService {
     redirectUrl: string;
-    constructor(  public af: AngularFire) {
+    constructor(  private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
     }
     // login izgleda u redu
     // TODO: dodati actionLog za akciju
     login( email: string, password: string) {
+        return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+        
+        /*
         return this.af.auth.login( {
             email: email,
             password: password,
@@ -21,7 +29,7 @@ export class LoginService {
         {
             provider: AuthProviders.Password,
             method: AuthMethods.Password,
-        });
+        });*/
            /* .then( response => { 
                 // tu se generiraju podaci za actionLog
                 console.log(response);
@@ -32,26 +40,27 @@ export class LoginService {
             */
     }
     // podaci za action log u login-form komponenti
-   register( email: string, password: string): firebase.Promise<FirebaseAuthState> {
+   register( email: string, password: string): any {
 
-        return this.af.auth.createUser( { email: email, password: password } );
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+        //.auth.createUser( { email: email, password: password } );
     }
 // update firebase usera
-    updateUser( displayName: string, photoURL?: string ): firebase.Promise<FirebaseAuthState>{
+    updateUser( displayName: string, photoURL?: string ):any{
         return firebase.auth().currentUser.updateProfile( {displayName: displayName, photoURL: photoURL ? photoURL : null } );
     }
     // seems fine
     logout() {
-        return this.af.auth.logout();
+        return this.afAuth.auth.signOut();
     }
     // TODO: after data restructuring change function to getUser()
     // untested
     getPermissionsNew(){
         let tempPermissions: any;
-        return this.af.auth.flatMap(auth => {
+        return this.afAuth.authState.flatMap(auth => {
              tempPermissions = { };
                 if (auth){
-                    return this.af.database.object('/users/' + auth.uid);
+                    return this.db.object('/users/' + auth.uid);
                 }
                 else{
                 }
@@ -60,11 +69,11 @@ export class LoginService {
     public getPermissions(): any {
         return Observable.create( observer => {
             let tempPermissions: any;
-            this.af.auth.subscribe(auth => {
+            this.afAuth.authState.subscribe(auth => {
                 // console.log(auth);
                 tempPermissions = { };
                 if (auth)
-                {this.af.database.object('/users/' + auth.uid).subscribe( snap => {
+                {this.db.object('/users/' + auth.uid).subscribe( snap => {
                     Object.assign( tempPermissions, {
                         isAdmin: snap.isAdmin,
                         touched: snap.touched,
@@ -85,15 +94,15 @@ export class LoginService {
         });
     }
     public getLoggedUser(): any{
-        return this.af.auth;
+        return this.afAuth.authState;
     }
     // deprecated -> call method from data service
     public getUser(): any {
         return Observable.create( observer => {
             let tempFBUser: any;
-            this.af.auth.subscribe(auth => {
-                tempFBUser = { email: auth.auth.email, displayName: auth.auth.displayName };
-                this.af.database.object('/users/' + auth.uid).subscribe( snap => {
+            this.afAuth.authState.subscribe(auth => {
+                tempFBUser = { email: auth.email, displayName: auth.displayName };
+                this.db.object('/users/' + auth.uid).subscribe( snap => {
                     Object.assign(tempFBUser, snap);
                     observer.next(tempFBUser);
                     observer.complete();
@@ -104,7 +113,7 @@ export class LoginService {
     // Deprecated
     // TODO: check if function is used anywhere
     asyncStateNew(){
-        return this.af.auth.map( auth => {
+        return this.afAuth.authState.map( auth => {
             if (auth){
                 return true;
             }else{
@@ -115,7 +124,7 @@ export class LoginService {
      public asyncState(): Observable<any> {
         {
     return Observable.create( observer => {
-        this.af.auth.subscribe(auth => {
+        this.afAuth.authState.subscribe(auth => {
             let isLoggedIn = auth !== null;
             if (isLoggedIn) {
                  // this.router.navigate([this.redirectUrl]);

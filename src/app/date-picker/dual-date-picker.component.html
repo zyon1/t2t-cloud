@@ -31,11 +31,11 @@
 
 <!-- class.calDay="return of a function to apply class"-->
 
-<template #dayTemplate let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
+<ng-template #dayTemplate let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
   <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
     {{ date.day }}
   </span>
-</template>
+</ng-template>
 <!--<pre>Start date is: <em *ngIf="startDT">{{ getStartDate() | date:'d.M.y'}}</em></pre>
 <pre>End date is: <em *ngIf="endDT">{{ getEndDate() | date:'fullDate'}}</em></pre>
 <div class="row">

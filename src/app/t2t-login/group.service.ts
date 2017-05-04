@@ -1,8 +1,8 @@
 import 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { AngularFire } from 'angularfire2';
-// import { User } from '../common/user';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';// import { User } from '../common/user';
 // import { Credentials } from '../common/credentials';
 @Injectable()
 export class GroupService {
@@ -14,17 +14,17 @@ export class GroupService {
    groups$:any;
    groupObj$:any;
    groupMembers$:any;
-    constructor(public af: AngularFire) {
-        this.users$=this.af.database.list('users'); 
-        this.userData$=this.af.database.list('usersData'); 
-        this.actionLog$=this.af.database.list('actionLog');
-        this.usersObj$=this.af.database.object('users');
-        this.userDataObj$=this.af.database.object('userData');
-        this.groups$=this.af.database.list('groups');
-        this.groupObj$=this.af.database.object('groups');
-        this.groupMembers$=this.af.database.list('groupMembers');
+    constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+        this.users$=this.db.list('users'); 
+        this.userData$=this.db.list('usersData'); 
+        this.actionLog$=this.db.list('actionLog');
+        this.usersObj$=this.db.object('users');
+        this.userDataObj$=this.db.object('userData');
+        this.groups$=this.db.list('groups');
+        this.groupObj$=this.db.object('groups');
+        this.groupMembers$=this.db.list('groupMembers');
         /*
-        to push custom key to database af.database needs to be object, and object should be updated not pushed
+        to push custom key to database db needs to be object, and object should be updated not pushed
         if you want to push with automatic key from firebase you can use databaseref as object or list
          */
     }
@@ -35,22 +35,22 @@ export class GroupService {
 
     }
     joinUser(gid, uid){
-          this.af.database.object('/groupMembers/' + gid).update({[uid]:{role:'member'}}).then(_ => console.log('update!'));
+          this.db.object('/groupMembers/' + gid).update({[uid]:{role:'member'}}).then(_ => console.log('update!'));
     }
     getMyRoles(gid,uid){
-        return this.af.database.object('/groupMembers/'+gid+'/'+uid);
+        return this.db.object('/groupMembers/'+gid+'/'+uid);
     }
     getMyGroups(){}
     getRolesNew(gid){
-        return this.af.auth.flatMap( user => {
-            return this.af.database.object('/groupMembers/'+gid+'/'+user.uid);
+        return this.afAuth.authState.flatMap( user => {
+            return this.db.object('/groupMembers/'+gid+'/'+user.uid);
         });
     }
     getRoles(gid){
        let tempObj={};
         return Observable.create(observer => {
-            this.af.auth.subscribe(user=>{
-               this.af.database.object('/groupMembers/'+gid+'/'+user.uid).map(roles=>{
+            this.afAuth.authState.subscribe(user=>{
+               this.db.object('/groupMembers/'+gid+'/'+user.uid).map(roles=>{
                    //console.log('roles service', roles);
                    observer.next(roles);
                    observer.complete();
@@ -59,7 +59,7 @@ export class GroupService {
         });
     }
     getMemberData(gid, uid){
-        return this.af.database.object('/groupMembers/'+gid+'/'+uid);
+        return this.db.object('/groupMembers/'+gid+'/'+uid);
     }
      getAllGroupData(){
         return this.groups$;
@@ -69,7 +69,7 @@ export class GroupService {
     }
     searchAllGroups(text){
         
-        return this.af.database.list('groups', {
+        return this.db.list('groups', {
   query: {
     orderByChild: 'groupName',
     startAt: text,
@@ -78,12 +78,12 @@ export class GroupService {
         }});
     }
     getGroupData(gid){
-        return this.af.database.object('/groups/'+gid);
+        return this.db.object('/groups/'+gid);
     }
     getGroupsOld(uid){
         return Observable.create( observer => {
             let tempGroups:any=[];
-            this.af.database.list('/groupMembers/').map(snapshots => {
+            this.db.list('/groupMembers/').map(snapshots => {
                 snapshots.forEach(snapshot => {
                     // console.log(snapshot);
                     // console.log(snapshot[uid]);
@@ -102,7 +102,7 @@ export class GroupService {
       
 
         return Observable.create( observer => {
-            this.af.database.list('/groupMembers/').subscribe(snapshots => {
+            this.db.list('/groupMembers/').subscribe(snapshots => {
                let tempGroups:any=[];
                 snapshots.forEach(snapshot => {
                    
@@ -130,7 +130,7 @@ export class GroupService {
         });
     } 
     getGroupsNew(uid){
-        return this.af.database.list('/groupMembers/').map(groups => {
+        return this.db.list('/groupMembers/').map(groups => {
             groups.forEach(group => {
                 group.forEach(element => {
                     console.log();
@@ -139,8 +139,8 @@ export class GroupService {
         });
     }
     getMyGroupsMembers(){
-        return this.af.auth.flatMap(auth =>{
-            return this.af.database.list('/groupMembers/').map(groups => {
+        return this.afAuth.authState.flatMap(auth =>{
+            return this.db.list('/groupMembers/').map(groups => {
                        let tmpGroups=[];
             groups.forEach(group => {
               if(group[auth.uid]){
@@ -156,7 +156,7 @@ export class GroupService {
         })
     }
     getMyGroupsWithData(uid){
-        return this.af.database.list('/groupMembers/').flatMap(groups => {
+        return this.db.list('/groupMembers/').flatMap(groups => {
                        let tmpGroups=[];
             groups.forEach(group => {
               if(group[uid]){
@@ -167,7 +167,7 @@ export class GroupService {
                                   tmpGroups.push(group) 
 
 
-                  return this.af.database.object('/groups/'+group.$key);
+                  return this.db.object('/groups/'+group.$key);
                 
             
         }/* 
@@ -181,7 +181,7 @@ export class GroupService {
         });
     }
     getMyGroupsWithUid(uid){
-                   return this.af.database.list('/groupMembers/').map(groups => {
+                   return this.db.list('/groupMembers/').map(groups => {
                        let tmpGroups=[];
             groups.forEach(group => {
               if(group[uid]){console.log(group);
@@ -195,8 +195,8 @@ export class GroupService {
         });
     }
     getMyGroups2(){
-        return this.af.auth.flatMap(auth=>{
-           return this.af.database.list('/groupMembers/').map(groups => {
+        return this.afAuth.authState.flatMap(auth=>{
+           return this.db.list('/groupMembers/').map(groups => {
             groups.forEach(group => {
               if(group[auth.uid]){
                   //console.log(group); 
@@ -211,7 +211,7 @@ export class GroupService {
         })
     }
     getGroups(uid){
-        let group$=Observable.from(this.af.database.list('/groupMembers/'));
+        let group$=Observable.from(this.db.list('/groupMembers/'));
         let search=( gid) => {  
             let temp=[];
             gid.forEach(gid => {
@@ -241,7 +241,7 @@ export class GroupService {
     getGroupMembers(gid){
         return this.groupMembers$;
        /* return Observable.create( observer => {
-            this.af.database.list('/groupMembers/' + gid+'/').subscribe(val => {
+            this.db.list('/groupMembers/' + gid+'/').subscribe(val => {
                 observer.next(val);
             });
         });

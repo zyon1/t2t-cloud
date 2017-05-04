@@ -1,7 +1,8 @@
 import 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { AngularFire } from 'angularfire2';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { User } from '../common/user';
 // import { Credentials } from '../common/credentials';
 @Injectable()
@@ -11,15 +12,15 @@ export class DataService {
    usersObj$:any;
    userDataObj$:any;
    userData$:any;
-    constructor(public af: AngularFire) {
-        this.users$=af.database.list('users'); 
-        this.userData$=af.database.list('userData'); 
+    constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+        this.users$=db.list('users'); 
+        this.userData$=db.list('userData'); 
 
-        this.actionLog$=af.database.list('actionLog');
-        this.usersObj$=af.database.object('users');
-        this.userDataObj$=af.database.object('userData');
+        this.actionLog$=db.list('actionLog');
+        this.usersObj$=db.object('users');
+        this.userDataObj$=db.object('userData');
         /*
-        to push custom key to database af.database needs to be object, and object should be updated not pushed
+        to push custom key to database db needs to be object, and object should be updated not pushed
         if you want to push with automatic key from firebase you can use databaseref as object or list
          */
     }
@@ -100,15 +101,15 @@ export class DataService {
         */
     }
   private getFBUser$(){
-       return this.af.auth;
+       return this.afAuth.authState;
    }
    // new function needs to be tested
    getUserNew(){
             return this.getFBUser$().flatMap(auth =>{
-                return this.af.database.object('/users/' + auth.uid).map( user => {
+                return this.db.object('/users/' + auth.uid).map( user => {
                     let tempUser=user;
-                    tempUser.displayName=auth.auth.displayName;
-                    tempUser.email=auth.auth.email;
+                    tempUser.displayName=auth.displayName;
+                    tempUser.email=auth.email;
                     tempUser.uid=auth.uid;
                     return tempUser})
             }).catch((err)=>{
@@ -124,7 +125,7 @@ export class DataService {
                if (!uid){
                this.getFBUser$().subscribe(
                    auth=>{
-                       this.af.database.object('/users/' + auth.uid).subscribe(
+                       this.db.object('/users/' + auth.uid).subscribe(
                            x => {
                                 observer.next(x);
                                 observer.complete();
@@ -132,7 +133,7 @@ export class DataService {
                        );
                     });
                }else{
-                   this.af.database.object('/users/' + uid).subscribe(
+                   this.db.object('/users/' + uid).subscribe(
                            x => {
                                 observer.next(x);
                                 observer.complete();
@@ -144,13 +145,13 @@ export class DataService {
        // new function needs to be tested
        getLoggedUserData(){
            return this.getFBUser$().flatMap(auth =>{
-                return this.af.database.object('/userData/' + auth.uid);
+                return this.db.object('/userData/' + auth.uid);
             });
        }
           getUserDataWithEmail(uid){
-            return this.af.database.object('/userData/' + uid).flatMap(data => {
+            return this.db.object('/userData/' + uid).flatMap(data => {
               
-                 return this.af.database.object('/users/' + uid).map(
+                 return this.db.object('/users/' + uid).map(
                      user => {
                         let tmpData:any=data;
                          tmpData.email=user.email;
@@ -165,10 +166,10 @@ export class DataService {
    getUserDataNew(uid?){
         if (!uid){
             return this.getFBUser$().flatMap(auth =>{
-                return this.af.database.object('/userData/' + auth.uid);
+                return this.db.object('/userData/' + auth.uid);
             });
         }else{
-            return this.af.database.object('/userData/' + uid);
+            return this.db.object('/userData/' + uid);
         }
    }
       getUserData(uid?){
@@ -177,7 +178,7 @@ export class DataService {
                if (!uid){
                this.getFBUser$().subscribe(
                    auth=>{
-                       this.af.database.object('/userData/' + auth.uid).subscribe(
+                       this.db.object('/userData/' + auth.uid).subscribe(
                            x => {
                                 observer.next(x);
                                 observer.complete();
@@ -185,7 +186,7 @@ export class DataService {
                        );
                     });
                }else{
-                   this.af.database.object('/userData/' + uid).subscribe(
+                   this.db.object('/userData/' + uid).subscribe(
                            x => {
                                 observer.next(x);
                                 observer.complete();
@@ -219,18 +220,18 @@ export class DataService {
    //update user havent changed
     updateUser(data: any, uid?: string) {
         if (uid){
-        this.af.database.object('/users/' + uid).update(data).then(_ => console.log('update!'));
+        this.db.object('/users/' + uid).update(data).then(_ => console.log('update!'));
         }
         else{
             this.usersObj$.update(data).then(_ => console.log('update!'));
         }
   }
   updateMember(group:string, data: any) {
-        return this.af.database.object('/groupMembers/' + group).update(data);
+        return this.db.object('/groupMembers/' + group).update(data);
   }
   updateUserData(data: any, uid?: string) {
     if (uid){
-        this.af.database.object('/userData/' + uid).update(data).then(_ => console.log('update!'));
+        this.db.object('/userData/' + uid).update(data).then(_ => console.log('update!'));
         }
         else{
             this.userDataObj$.update(data).then(_ => console.log('update!'));

@@ -9,7 +9,7 @@
   </div>
 </button>
   
-<template #popContent>
+<ng-template #popContent>
   <div class="notification-content" *ngIf="noNew==0">Nema novih notifikacija!</div>
   <hr style="margin-top:3px;margin-bottom:5px;">
   <div class="notification-content" *ngFor="let notification of notifications">
@@ -24,4 +24,4 @@
   <hr style="margin-top:3px;">
 
 </div>
-</template>
+</ng-template>

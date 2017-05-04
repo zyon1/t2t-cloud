@@ -17,7 +17,12 @@ const routes: Routes = [
   { path: 'prices', component: PricesComponent},
   { path: 'about', component: AboutComponent},
   { path: 'login', loadChildren: 'app/t2t-login/t2t-login.module#T2tLoginModule' },
-  { path: 'auth', loadChildren: 'app/t2t-login/t2t-login.module#T2tLoginModule' },
+  { path: 'auth', loadChildren: () => new Promise(resolve => {
+            (require as any).ensure([], require => {
+                resolve(require('./t2t-login/t2t-login.module').T2tLoginModule);
+            })
+        }) 
+  },
   { path: 'popup', component: PopupComponent, outlet: 'popup'}
   ];
 @NgModule({

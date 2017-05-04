@@ -1,6 +1,6 @@
-<template #dt let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
+<ng-template #dt let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
        <div ngbDatepickerDayView [date]="date" [currentMonth]="currentMonth" [selected]="selected" [disabled]="disabled"></div>
-    </template>
+    </ng-template>
     <ngb-datepicker-navigation *ngIf="navigation !== 'none'"
       [date]="months[0]?.firstDate"
       [minDate]="_minDate"

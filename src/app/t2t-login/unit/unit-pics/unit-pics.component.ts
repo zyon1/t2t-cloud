@@ -3,7 +3,7 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable, Subject, Observer } from 'rxjs';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
 import * as firebase from 'firebase';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
@@ -67,7 +67,7 @@ uploadDelay:number=0;
 finishUpload:boolean=true;
 conflicts:any[]=[];
 showModal=false;
-constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private af: AngularFire, private dragulaService: DragulaService, private sanitizer:DomSanitizer
+constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private db: AngularFireDatabase, private dragulaService: DragulaService, private sanitizer:DomSanitizer
 ) {
 this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
   result => {   
@@ -94,7 +94,7 @@ this.uid=params['id'];
     this.route.parent.params.subscribe( params => {
       //console.log(params);
       this.unid=params['unid'];
-      this.af.database.object(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
+      this.db.object(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
         //console.log('new database information about files');
         if (!initial)
           {  
@@ -207,7 +207,7 @@ return Observable.from(iRef.put(item.image)).subscribe((snapshot) => {
   //console.log('uploading item to fbstorage');
   console.log(this.bundleResolutions.every(elem => arr[name].resolution.indexOf(elem) > -1));
   if (this.bundleResolutions.every(elem => arr[name].resolution.indexOf(elem) > -1)){
-    this.af.database.object(`unitPics/${this.unid}/${nextId}`).update(
+    this.db.object(`unitPics/${this.unid}/${nextId}`).update(
        {
          ['resolution'+item.prefix]: true,
          success: true,
@@ -220,7 +220,7 @@ return Observable.from(iRef.put(item.image)).subscribe((snapshot) => {
 return upld();
                }); 
   }else{
-    this.af.database.object(`unitPics/${this.unid}/${nextId}`).update(
+    this.db.object(`unitPics/${this.unid}/${nextId}`).update(
        {
          ['resolution'+item.prefix]: true,
          success:false,
@@ -255,7 +255,7 @@ upld();
             (error) => console.error("Error deleting stored file",storagePath)
         );
         // Delete references
-        this.af.database.object(`unitPics/${this.unid}/`).remove()
+        this.db.object(`unitPics/${this.unid}/`).remove()
     }
 bundler(fileIndex, resolutionIndex,  files){
 

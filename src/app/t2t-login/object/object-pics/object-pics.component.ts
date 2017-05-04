@@ -3,10 +3,9 @@ import { Ng2ImgMaxService } from 'ng2-img-max';
 import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Observable, Subject, Observer } from 'rxjs';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
 import * as firebase from 'firebase';
-
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 //declare var firebase: any;
 interface Image {
     path: string;
@@ -64,7 +63,7 @@ uploadDelay:number=0;
 finishUpload:boolean=true;
 conflicts:any[]=[];
 showModal=false;
-constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private af: AngularFire, private dragulaService: DragulaService) {
+constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private db: AngularFireDatabase, private dragulaService: DragulaService) {
 this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
   result => {   
     let counter=0;
@@ -86,7 +85,7 @@ this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
     this.route.parent.params.subscribe( params => {
       this.oid=params['oid'];
       this.uid=params['id'];
-      this.af.database.list(`objectPics/${this.oid}`).subscribe(pics => {
+      this.db.list(`objectPics/${this.oid}`).subscribe(pics => {
         if (!initial)
           {  
             this.picCount=pics.length;
@@ -146,7 +145,7 @@ console.log(item);
 
       
 return Observable.from(iRef.put(item.image)).subscribe((snapshot) => {
-     this.af.database.object(`objectPics/${this.oid}/${nextId}`).update(
+     this.db.object(`objectPics/${this.oid}/${nextId}`).update(
        {
          ['resolution'+item.prefix]: true,
          filename: item.newName?item.newName:item.image.name, //clear name
@@ -177,7 +176,7 @@ upld();
             (error) => console.error("Error deleting stored file",storagePath)
         );
         // Delete references
-        this.af.database.object(`objectPics/${this.oid}/`).remove()
+        this.db.object(`objectPics/${this.oid}/`).remove()
     }
 bundler(fileIndex, resolutionIndex,  files){
   let firstFile=true;

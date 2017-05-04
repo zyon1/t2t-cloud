@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AngularFire, AuthProviders, AuthMethods, FirebaseAuthState } from 'angularfire2';
 //import { FirebaseAuth } from 'angularfire2';
 import * as firebase from 'firebase';
 @Injectable()
@@ -78,7 +77,7 @@ export class UnitsWizzardService {
   
 event$:any;
 emmitter;
-  constructor(private af:AngularFire) {
+  constructor() {
     this.event$=Observable.create(e => this.emmitter = e);
    // this.wizzardState.foreach(element => { console.log(element)});
     

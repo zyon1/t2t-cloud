@@ -16,7 +16,10 @@ import { CalendarModule } from 'angular-calendar';
 /* routing moudle */
 import { LoginRouting, appRoutingProviders } from './login-routing.module';
 /* list of firebase modules */
-import { AngularFireModule, AuthProviders, AuthMethods, FirebaseAuthState  } from 'angularfire2';
+import { AngularFireModule} from 'angularfire2';
+import {AngularFireAuth} from 'angularfire2/auth';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
 /* services  */
 import { AuthGuard, AdminGuard, GroupGuard } from './auth-guard.service';
 import { LogoutGuard } from './logout-guard.service';
@@ -98,15 +101,14 @@ export const myFirebaseConfig = {
     storageBucket: 't2t-cloud-325cd.appspot.com',
     messagingSenderId: '108080425518'
   };
-export const myFirebaseAuthConfig = {
-  provider: AuthProviders.Google,
-  method: AuthMethods.Redirect
-};
+
 @NgModule({
   imports: [
     CommonModule,
     LoginRouting,
-    AngularFireModule.initializeApp(myFirebaseConfig, myFirebaseAuthConfig),
+    AngularFireModule.initializeApp(myFirebaseConfig),
+    
+
     FormsModule,
     DatepickerModule,
     NgbModule,
@@ -173,7 +175,22 @@ export const myFirebaseAuthConfig = {
     RoomsComponent,
     CalendarTestComponent
     ],
-  providers: [ LoginService, DataService, AuthGuard, LogoutGuard, AdminGuard, GroupGuard, GroupService, WatchingService, ChatService, appRoutingProviders, UnitsService, GoogleMapsAPIWrapper, UnitsWizzardService]
+  providers: [ 
+    LoginService, 
+    DataService, 
+    AuthGuard, 
+    LogoutGuard, 
+    AdminGuard, 
+    GroupGuard, 
+    GroupService, 
+    WatchingService, 
+    ChatService, 
+    appRoutingProviders, 
+    UnitsService, 
+    GoogleMapsAPIWrapper, 
+    UnitsWizzardService, 
+    AngularFireAuth, 
+    AngularFireDatabase]
 })
 export class T2tLoginModule {
   // x=console.log("login module loaded");
