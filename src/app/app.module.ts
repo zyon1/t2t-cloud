@@ -1,5 +1,7 @@
 /* system*/
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgModule, ModuleWithProviders, ApplicationRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -45,6 +47,7 @@ export function ngbdmpf() {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
     NgbModule.forRoot(),

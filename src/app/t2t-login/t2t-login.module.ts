@@ -11,8 +11,6 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
 import { CalendarModule } from 'angular-calendar';
 
-/* override */
-// import { NgbDateMomentParserFormatter } from '../date-picker/ngb-datepicker-parser-formatter';
 /* routing moudle */
 import { LoginRouting, appRoutingProviders } from './login-routing.module';
 /* list of firebase modules */
@@ -115,7 +113,7 @@ export const myFirebaseConfig = {
     Ng2ImgMaxModule,
     AgmCoreModule,
     DragulaModule,
-   // CalendarModule.forRoot()
+    CalendarModule.forRoot()
   ],
   declarations: [
     T2tLoginComponent,
