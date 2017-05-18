@@ -3,6 +3,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GroupService } from '../../group.service';
 import { LoginService } from '../../login.service';
 import { UnitsService } from '../../units.service';
+import { UnitsWizzardService } from '../../units-wizzard.service';
+
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/switchMap';
 
@@ -17,7 +19,7 @@ gid:any;
 myObjects:any;
 myUrl:string;
 ready:boolean=true;
-  constructor(private route: ActivatedRoute, private router: Router, private groupService: GroupService, private loginService: LoginService, private us: UnitsService) { 
+  constructor(private route: ActivatedRoute, private router: Router, private groupService: GroupService, private loginService: LoginService, private us: UnitsService, private uws: UnitsWizzardService) { 
     this.myUrl=this.router.url;
   }
 
@@ -65,5 +67,7 @@ ready:boolean=true;
             ready: boolean // ako nije minimalan broj podataka popunjen onda je false       
             */
   }
-
+emitOid(oid){
+  this.uws.setOid(oid);
+}
 }

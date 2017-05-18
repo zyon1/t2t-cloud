@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GroupService } from '../group.service';
 import { LoginService } from '../login.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-my-groups',
@@ -13,7 +14,9 @@ uid:any;
 groups:any;
 loader:boolean=true;
 reset=false;
+
   constructor(private route: ActivatedRoute, private router: Router, private gs: GroupService, private ls: LoginService) { 
+    this.uid=this.ls.uid;
   }
 
   ngOnInit() {
@@ -22,7 +25,7 @@ reset=false;
                this.groups=[];
 
       this.uid=params['id'];
-      console.log('GROUPS', groups);
+     // console.log('GROUPS', groups);
         groups.forEach(group=>{
           this.gs.getGroupData(group).subscribe(groupData=>{
             this.groups.push(groupData);

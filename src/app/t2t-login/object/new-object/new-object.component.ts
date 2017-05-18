@@ -237,7 +237,8 @@ console.log(this.lat);
   }
 }
   onSubmit(data) {
-    this.uws.emitChange({object:{osnovno:{available:true, completed: true}}});
+   let state={osnovno:{completed: true}, sadrzaji: {available:true}};
+    this.uws.setObjectState(this.oid, state);
     this.submitted = true;
     console.log(this.oid);
     this.us.updateObject(this.oid, data)

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
+import { UnitsWizzardService} from '../../units-wizzard.service';
 
 @Component({
   selector: 'app-unit-data',
@@ -11,7 +12,7 @@ export class UnitDataComponent implements OnInit {
   oid:string;
   gid:string;
   unid:string="";
-  constructor(private route: ActivatedRoute, private router: Router) { 
+  constructor(private route: ActivatedRoute, private router: Router, private uws: UnitsWizzardService) { 
    
   }
 
@@ -25,7 +26,7 @@ export class UnitDataComponent implements OnInit {
     this.route.params.subscribe(params=>
     {
       //console.log(this.route.params);
-
+            this.uws.setUnid(params['unid']);
             this.unid=params['unid'];
 
      // console.log( 'unid',this.unid);

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';// import { User } from '../common/user';
+import { Subject} from 'rxjs';
 // import { Credentials } from '../common/credentials';
 @Injectable()
 export class GroupService {
@@ -14,7 +15,12 @@ export class GroupService {
    groups$:any;
    groupObj$:any;
    groupMembers$:any;
+   gid;
+gidSource=new Subject<string>();
+gid$=this.gidSource.asObservable();
     constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+            this.gid$.subscribe(gid => this.gid=gid);
+
         this.users$=this.db.list('users'); 
         this.userData$=this.db.list('usersData'); 
         this.actionLog$=this.db.list('actionLog');
@@ -23,11 +29,16 @@ export class GroupService {
         this.groups$=this.db.list('groups');
         this.groupObj$=this.db.object('groups');
         this.groupMembers$=this.db.list('groupMembers');
+        
         /*
         to push custom key to database db needs to be object, and object should be updated not pushed
         if you want to push with automatic key from firebase you can use databaseref as object or list
          */
     }
+    setGroup(gid){
+  this.gid=null;
+  this.gidSource.next(gid);
+}
     createGroup(name, type){
         let tempObj={groupName: name, groupType: type};
                 return this.groups$.push(tempObj);
@@ -80,6 +91,7 @@ export class GroupService {
     getGroupData(gid){
         return this.db.object('/groups/'+gid);
     }
+    /*
     getGroupsOld(uid){
         return Observable.create( observer => {
             let tempGroups:any=[];
@@ -97,7 +109,8 @@ export class GroupService {
 
         });
     }
-    
+    */
+    /*
     getGroupsWithData(uid){
       
 
@@ -128,7 +141,7 @@ export class GroupService {
             });
 
         });
-    } 
+    } */
     getGroupsNew(uid){
         return this.db.list('/groupMembers/').map(groups => {
             groups.forEach(group => {

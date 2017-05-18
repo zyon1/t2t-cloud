@@ -40,7 +40,7 @@ export class LoginFormComponent implements OnInit {
                   }
   login( email: string, password: string ) {
     this.loginService.login(email, password).then(r=>{
-      console.log("Korisnik prijavljen", r);
+     // console.log("Korisnik prijavljen", r);
       //this.router.navigate([this.loginService.redirectUrl]);
       let logData = {uid: r.uid, event: 'Korinsik prijavljen', time: firebase.database['ServerValue']['TIMESTAMP'] };
       //this.dataService.addAction(logData).subscribe(console.log);
@@ -55,7 +55,7 @@ export class LoginFormComponent implements OnInit {
      this.loading=true;
     this.loginService.register(email, password).then(
         response => {
-          console.log(response);
+         // console.log(response);
           let userData = {[response.uid]: {email: email, isAdmin: false,
                 touched: false,
                 activated: false,

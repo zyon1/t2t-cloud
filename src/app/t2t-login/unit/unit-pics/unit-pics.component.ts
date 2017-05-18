@@ -7,6 +7,8 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { ModalWindowComponent } from '../../../modal-window/modal-window.component';
 import * as firebase from 'firebase';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
+import { UnitsWizzardService} from '../../units-wizzard.service';
+
 //declare var firebase: any;
 interface Image {
     path: string;
@@ -67,8 +69,17 @@ uploadDelay:number=0;
 finishUpload:boolean=true;
 conflicts:any[]=[];
 showModal=false;
-constructor( private route: ActivatedRoute, private router: Router, private ng2ImgMaxService: Ng2ImgMaxService, private db: AngularFireDatabase, private dragulaService: DragulaService, private sanitizer:DomSanitizer
+constructor( 
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private ng2ImgMaxService: Ng2ImgMaxService, 
+    private db: AngularFireDatabase, 
+    private dragulaService: DragulaService, 
+    private sanitizer:DomSanitizer,
+    private uws:UnitsWizzardService
+      
 ) {
+
 this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
   result => {   
     let counter=0;
@@ -94,7 +105,9 @@ this.uid=params['id'];
     this.route.parent.params.subscribe( params => {
       //console.log(params);
       this.unid=params['unid'];
-      this.db.object(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
+             this.uws.setUnid(params['unid']);
+
+      this.db.list(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
         //console.log('new database information about files');
         if (!initial)
           {  

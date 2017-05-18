@@ -1,8 +1,8 @@
 <h2>Politika poslovanja objekta</h2>
-<form (ngSubmit)="onSubmit()" #ObjDataForm="ngForm">
+<form (ngSubmit)="onSubmit(ObjPoliciesForm.form.value)" #ObjPoliciesForm="ngForm">
     <div class="form-group row">
             <div class="col-sm-12">
-            form<pre>{{ ObjDataForm.value | json }}</pre>
+            form<pre>{{ ObjPoliciesForm.value | json }}</pre>
             </div>
 
       <div class="col-sm-2 col-form-label">
@@ -11,7 +11,7 @@
 
 </div>
 <div class="col-sm-7">
-    <app-form-input-array [options]="chkInOutOpts" [items]="[{hour:'',minute:''},{hour:'',minute:''}]" name="chkInOut" [(ngModel)]="chkInOut"></app-form-input-array>
+    <app-form-input-array [options]="chkInOutOpts" [items]="[{hour:'',minute:''},{hour:'',minute:''}]" name="chkInOut" [(ngModel)]="ObjPolicies.chkInOut"></app-form-input-array>
 </div>
       <div class="col-sm-3">
         
@@ -21,7 +21,7 @@
      <div class="col-sm-2 col-form-label">Dozvoljno pušenje:</div>
      <div class="col-sm-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="smoking" name="smokin"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjPolicies.smoking" name="smoking"> 
           </label>
      </div>
      <div class="col-sm-3"></div>
@@ -30,13 +30,12 @@
 <div class="form-group row">
      <div class="col-sm-2 col-form-label">Pravila kuće:</div>
      <div class="col-sm-7">
-         <textarea class="form-control" id="rules" rows="3" name="rules" [(ngModel)]="rules" maxlength="250"></textarea>
+         <textarea class="form-control" id="rules" rows="3" name="rules" [(ngModel)]="ObjPolicies.rules" maxlength="250"></textarea>
      </div>
      <div class="col-sm-3"></div>
 </div>
 
 
-
-<app-cancelation-policies name="cancelation" [(ngModel)]="obj.cancelation"></app-cancelation-policies>
+<app-cancelation-policies name="cancelation" [(ngModel)]="ObjPolicies.cancelation"></app-cancelation-policies>
     <button type="submit" class="btn btn-success" [disabled]="false">Submit</button>
   </form>

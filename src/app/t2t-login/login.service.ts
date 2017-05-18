@@ -14,7 +14,14 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class LoginService {
     redirectUrl: string;
+    uid:string;
+    userData:any;
     constructor(  private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+        this.afAuth.authState.subscribe(auth => {
+            if (auth){
+this.uid=auth.uid;
+}
+        })
     }
     // login izgleda u redu
     // TODO: dodati actionLog za akciju
@@ -66,6 +73,7 @@ export class LoginService {
                 }
         });
     }
+    /*
     public getPermissions(): any {
         return Observable.create( observer => {
             let tempPermissions: any;
@@ -92,11 +100,14 @@ export class LoginService {
             }
             });
         });
-    }
+    }*/
     public getLoggedUser(): any{
         return this.afAuth.authState;
     }
     // deprecated -> call method from data service
+    
+    /*
+
     public getUser(): any {
         return Observable.create( observer => {
             let tempFBUser: any;
@@ -109,9 +120,11 @@ export class LoginService {
                 });
             });
         });
-    }
+    }*/
+
     // Deprecated
     // TODO: check if function is used anywhere
+    /*
     asyncStateNew(){
         return this.afAuth.authState.map( auth => {
             if (auth){
@@ -120,7 +133,8 @@ export class LoginService {
                 return false;
             }
         });
-    }
+    }*/
+    /*
      public asyncState(): Observable<any> {
         {
     return Observable.create( observer => {
@@ -133,5 +147,6 @@ export class LoginService {
         });
         });
     }
-    };
+};*/
+
 }

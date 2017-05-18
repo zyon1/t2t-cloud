@@ -10,9 +10,9 @@
       
     </div>
     <div *ngIf="content.content.link">
-      <a [routerLink]="[content.content.link]">{{content.header}}</a>
-      <a [routerLink]="[content.content.link+'/invite']">Invite members</a>
-      <a [routerLink]="[content.content.link+'/units']">Units</a>
+      <a [routerLink]="[content.content.link]" (click)="setActiveGid(content.content.gid)">{{content.header}}</a>
+      <a [routerLink]="[content.content.link+'/invite']" (click)="setActiveGid(content.content.gid)">Invite members</a>
+      <a [routerLink]="[content.content.link+'/units']" (click)="setActiveGid(content.content.gid)">Units</a>
     </div>
     
     

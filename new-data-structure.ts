@@ -313,4 +313,14 @@ sauna,
             unid: { priceObj }
         }
     }
+    reservation : {
+        unid: {
+            uid: string,
+            timestamp: number,
+            from: number,
+            to: number,
+            note: string
+
+        }
+    }
 }

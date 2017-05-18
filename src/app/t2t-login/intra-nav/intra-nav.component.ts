@@ -26,11 +26,11 @@ getMyPicture(myPicture){
         this.getMyPicture('Logo_final_all-14.png');
 this.datas.getUserNew().subscribe(user=>{
 this.user=user;
-console.log(user);
+//console.log(user);
 if (user && user.uid){
   this.loggedIn=true;        
       this.gs.getGroups(user.uid).subscribe(groups => this.groups=groups);
-      this.gs.getMyGroups2().subscribe(x=> console.log)
+     // this.gs.getMyGroups2().subscribe(x=> console.log)
 }
 });    
   /*  this.ls.getLoggedUser().subscribe(

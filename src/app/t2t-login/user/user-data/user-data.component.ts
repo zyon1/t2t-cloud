@@ -62,7 +62,7 @@ export class UserDataComponent implements OnInit {
         // assign fetched data to userData object (automaticly fill the userData form)
         Object.assign(this.userData, tempUserData);
         this.uid=userData.$key;
-        this.loginService.getUser().subscribe(user=>{
+        this.dataService.getUser().subscribe(user=>{
         console.log(user);
         this.userData.email=user.email;
         this.afDisplayName=user.displayName});

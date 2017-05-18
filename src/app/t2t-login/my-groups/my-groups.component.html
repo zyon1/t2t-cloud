@@ -2,7 +2,7 @@
 <div *ngIf="!loader">
   <div class="row">
   <div *ngFor="let group of groups" class="col-md-3">
-  <app-box *ngIf="group" [content]="{header:group.groupName, content:{type:group.groupType, link:'/auth/user/'+uid+'/group/'+group.$key, decorator:none}}"></app-box>
+  <app-box *ngIf="group" [content]="{header:group.groupName, content:{type:group.groupType, link:'/auth/user/'+uid+'/group/'+group.$key, decorator:none, gid:group.$key}}"></app-box>
   </div>
 </div>
 </div>

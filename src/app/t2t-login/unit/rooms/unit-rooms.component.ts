@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-
+import { ActivatedRoute} from '@angular/router';
+import { UnitsWizzardService} from '../../units-wizzard.service';
 
 @Component({
   selector: 'app-rooms',
@@ -10,7 +11,11 @@ export class UnitRoomsComponent implements OnInit {
 @ViewChild('RoomsForm') form;
 mainCap:number=0;
 extraCap:number=0;
-  constructor() { }
+  constructor(private route: ActivatedRoute, private uws:UnitsWizzardService) { 
+            this.route.params.subscribe( params => {
+       console.log(params);
+       this.uws.setUnid(params['unid']);
+       });}
 
   ngOnInit() {
   }

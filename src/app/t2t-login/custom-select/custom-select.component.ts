@@ -68,11 +68,13 @@ private onChangeCallback: (_: any) => void = noop;
   }
 
    writeValue(value: any) {
-      if (value !== undefined) {
+      if (value !== undefined && value !== null) {
         let i=0;
         this.values.forEach(element => {
-          if (element==value){
-            console.log(element, value, i);
+               //console.log(value, element);
+
+          if (element==value || (element &&  element.label && value && value.label && element.label==value.label)){
+            //console.log('selecting',element, value, i);
             this.select(i);
           }
           i++;
@@ -108,7 +110,7 @@ setDisabledState(isDisabled: boolean){
   }
 */
    select(value: number){
-
+//console.log(value, this.values[value]);
     this.selected=value;
     if (value!=-1){
     this.propagateChange(this.values[value]);
@@ -116,7 +118,7 @@ setDisabledState(isDisabled: boolean){
   else{
     this.propagateChange(value);
   }
-    console.log(value);
+  //  console.log(value, value, this.values[value], this.values, this.selected);
   }
 
 }

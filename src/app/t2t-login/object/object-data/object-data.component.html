@@ -11,7 +11,7 @@
         
       <label for="parking" class="col-lg-3 col-xl-2 col-form-label">Naziv</label>
       <div class="col-lg-9 col-xl-7">
-        <app-custom-select name="parking" [values]="parkingTypes" text="Odaberi vrstu parking" [(ngModel)]="parking" class="csel"></app-custom-select>
+        <app-custom-select name="parking" [values]="parkingTypes" text="Odaberi vrstu parking" [(ngModel)]="ObjData.parking" class="csel"></app-custom-select>
       </div>
       <div class="col-xl-3 hidden-lg">
         
@@ -22,7 +22,7 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="wifi" name="wifi"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.wifi" name="wifi"> 
           </label>
         </div>
       </div>
@@ -34,8 +34,8 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="pets" name="pets">
-            <input type="text" [(ngModel)]="petsPrice" name="petsPrice" [disabled]="!pets" class="form-control" id="petsPrice"  placeholder="Upišite cijenu za ljubimce u eurima ili ostavite prazno">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.pets" name="pets">
+            <input type="text" [(ngModel)]="ObjData.petsPrice" name="petsPrice" [disabled]="!ObjData.pets" class="form-control" id="petsPrice"  placeholder="Upišite cijenu za ljubimce u eurima ili ostavite prazno">
           </label>
         </div>
       </div>
@@ -47,7 +47,7 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="playground" name="playground" id="playground" > 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.playground" name="playground" id="playground" > 
           </label>
         </div>
       </div>
@@ -59,7 +59,7 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="pool" name="pool" id="pool" > 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.pool" name="pool" id="pool" > 
           </label>
         </div>
       </div>
@@ -71,7 +71,7 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="grill" name="grill" id="grill" > 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.grill" name="grill" id="grill" > 
           </label>
         </div>
       </div>
@@ -83,7 +83,7 @@
       <div class="col-lg-9 col-xl-7">
         <div class="form-check">
           <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="peka" name="peka" id="peka" > 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="ObjData.peka" name="peka" id="peka" > 
           </label>
         </div>
       </div>
@@ -94,7 +94,7 @@
     <div class="form-group row">
       <label class="col-lg-3 col-xl-2">Kratki opis</label>
       <div class="col-lg-9 col-xl-7 form-group">
-         <textarea class="form-control" id="shortDesc" rows="3" name="shortDesc" [(ngModel)]="shortDesc" maxlength="150"></textarea>
+         <textarea class="form-control" id="shortDesc" rows="3" name="shortDesc" [(ngModel)]="ObjData.shortDesc" maxlength="150"></textarea>
          <small id="shortDescLength" class="form-text text-muted">{{shortDesc?shortDesc.length:0}}/150</small>
 
       </div>
@@ -104,7 +104,7 @@
     <div class="form-group row">
       <label class="col-lg-3 col-xl-2">Dugi opis</label>
       <div class="col-lg-9 col-xl-7">
-         <textarea class="form-control" id="longDesc" rows="8" name="longDesc" [(ngModel)]="longDesc" maxlength="450"></textarea>
+         <textarea class="form-control" id="longDesc" rows="8" name="longDesc" [(ngModel)]="ObjData.longDesc" maxlength="450"></textarea>
          <small id="longDescLength" class="form-text text-muted">{{longDesc?longDesc.length:0}}/450</small>      </div>
       <div class="col-xl-3 hidden-lg">
       </div>
@@ -114,7 +114,7 @@
       <div class="col-lg-9 col-xl-7">
         <h5>Ostala svojstva objekta</h5>
     <small id="ostaloSm" class="form-text text-muted">Ovdje se upisuju ostala svojstva koje objekt.</small>
-        <app-form-input-array [items]="others" [(ngModel)]="others" [options]="FIAOptions" name="others"></app-form-input-array>
+        <app-form-input-array [items]="others" [(ngModel)]="ObjData.others" [options]="FIAOptions" name="others"></app-form-input-array>
         
       </div>
       <div class="col-xl-3 hidden-lg">

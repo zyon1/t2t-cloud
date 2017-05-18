@@ -37,7 +37,7 @@ export class AuthGuard implements CanActivate {
       // console.log("chk login");
       return Observable.create(observer => {
           let tempState=false;
-           return this.loginService.getPermissions().subscribe(loginState => {
+           return this.loginService.getPermissionsNew().subscribe(loginState => {
               // console.log(loginState);
                if (loginState) {
                    // redirect if user data is not entered
@@ -95,7 +95,7 @@ export class AdminGuard implements CanActivate {
       return Observable.create(observer => {
           let tempState=false;
           console.log("Creating observable");
-           this.loginService.getPermissions().subscribe(loginState => {
+           this.loginService.getPermissionsNew().subscribe(loginState => {
                console.log(loginState);
                if (loginState) {
                  if (!loginState.touched){

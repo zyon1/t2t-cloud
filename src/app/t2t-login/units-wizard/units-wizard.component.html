@@ -19,25 +19,27 @@
     <div class="arrow-right inactive"></div>
   </div>
 </div>
+<pre>{{objectState | json}}</pre>
+<pre>{{uid + '/' + gid + '/' + oid}}</pre>
+<pre>{{unid }}</pre>
+
 <ol class="breadcrumb" style="background:transparent">
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid">Osnovno</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid" >Osnovno</a>
+    <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.osnovno && objectState.osnovno.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/data'">Sadržaji</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/data'" (click)="console.log(gid, oid, unid, uid)" [ngClass]="{'link-disabled': (objectState && objectState.sadrzaji && objectState.sadrzaji.available)?false:true }">Sadržaji</a>
+    <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.sadrzaji && objectState.sadrzaji.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-    <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'">Politika poslovanja</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'"  (click)="console.log(gid, oid, unid, uid)" [ngClass]="{'link-disabled': (objectState && objectState.politika && objectState.politika.available)?false:true }">Politika poslovanja</a>
+    <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.politika && objectState.politika.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-    
-      <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'">Slike</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+  <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'" (click)="console.log(gid, oid, unid, uid)"  [ngClass]="{'link-disabled': (objectState && objectState.slike && objectState.slike.available)?false:true }">Slike</a>
+    <span class="badge badge-pill badge-success"  *ngIf="objectState && objectState.slike && objectState.slike.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-
 </ol>
 <ol class="breadcrumb" style="background:transparent">
   <li class="breadcrumb-item">
@@ -45,14 +47,14 @@
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid">Osnovni podaci</a>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid" (click)="console.log(gid, oid, unid, uid)">Osnovni podaci</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
     <li class="breadcrumb-item">
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/kb'">Kuhinja i kupaonica</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-        <li class="breadcrumb-item">
+  <li class="breadcrumb-item">
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/eq'">Oprema</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
@@ -60,7 +62,6 @@
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/pics'">Slike</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-
 </ol>
 <ol class="breadcrumb" style="background:transparent">
   <li class="breadcrumb-item">
@@ -71,7 +72,5 @@
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms/'+rid">Soba</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
-
-
 </ol>
 <router-outlet></router-outlet>

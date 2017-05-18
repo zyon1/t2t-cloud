@@ -118,9 +118,26 @@ updateObjectPolicies(oid, data){
 updateUnit(unid, data){
     return this.db.object('units/'+unid).update(data);
 }
+
+
 updateRoom(rid, data){
     return this.db.object('unitRooms/'+rid).update(data);
 }
  
-    
+
+getUnitBasic(unid){
+    return this.db.object('unitBasic/'+unid);
+
+}
+updateUnitBasic(unid, data){
+    return this.db.object('unitBasic/'+unid).update(data);
+}
+ 
+getUnitKB(unid){
+    return this.db.object('unitKB/'+unid);
+
+}
+updateUnitKB(unid, data){
+    return this.db.object('unitKB/'+unid).update(data);
+}   
 }

@@ -1,99 +1,52 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 //import { FirebaseAuth } from 'angularfire2';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { Router, ActivatedRoute} from '@angular/router';
 import * as firebase from 'firebase';
+import {LoginService } from './login.service';
 @Injectable()
 export class UnitsWizzardService {
-  wizzardState:any={
-    object:{
-      osnovno: {
-        available: true,
-        completed: false
-      },
-      sadrzaji:{
-        available: false,
-        completed: false
-      },
-      politika: {
-        available: false,
-        completed: false
-      },
-      slike: {
-        available: false,
-        completed: false
-      },
-      available: true,
-      completed: false,
-    },
-    unit:{
-      dodaj: {
-        available: false,
-        completed: false
-      },
-      osnovno: {
-        available: false,
-        completed: false
-      }, //osnovno + grijanje
-      kuhinja: {
-        available: false,
-        completed: false
-      }, // kuhinja i kupaonica
-      oprema: {
-        available: false,
-        completed: false
-      }, //oprema i multimedia
-      slike: {
-        available: false,
-        completed: false
-      },
-      available: false,
-      completed: false
-    },
-    rooms: {
-      dodaj: {
-        available: false,
-        completed: false
-      },
-      soba: {
-        available: false,
-        completed: false
-      },
-      available: false,
-      completed: false
-    },
-  prices: {
-    dodaj: {
-        available: false,
-        completed: false
-      },
-    jedinica: {
-        available: false,
-        completed: false
-      },
-      available: false,
-      completed: false
-    }
-  }
-  
-event$:any;
-emmitter;
-  constructor() {
-    this.event$=Observable.create(e => this.emmitter = e);
+oid:string;
+gid:string;
+uid:string;
+unid:string;
+private oidSource = new Subject<string>();
+private unidSource = new Subject<string>();
+private gidSource = new Subject<string>();
+  // Observable string streams
+  oid$ = this.oidSource.asObservable();
+  unid$ = this.unidSource.asObservable();
+  gid$=this.gidSource.asObservable();
+  constructor(private db: AngularFireDatabase, private ls:LoginService) {
    // this.wizzardState.foreach(element => { console.log(element)});
-    
+   this.uid=this.ls.uid;
+    this.oid$.subscribe(oid=>{
+      this.oid=oid;
+      console.log('received oid');
+    });
+    this.gid$.subscribe(gid=>{
+      this.gid=gid;
+      console.log('received gid');
+    });
+    this.unid$.subscribe(unid=>{
+      this.unid=unid;
+      console.log('received unid', unid);
+    });
   }
- findState(){
-   
+  setOid(oid){
+    this.oidSource.next(oid);
+  }
+  setUnid(unid){
+    this.unidSource.next(unid);
+  }
+    setGid(gid){
+    this.gidSource.next(gid);
+  }
+ getObjectState(oid){
+   return this.db.object('objectState/'+oid+'/object');
  }
-  emitChange(change){
-    this.emmitter.next(change);
-   // this.event$.onNext(change);
+  setObjectState(oid, data){
+    this.db.object('objectState/'+oid+'/object').update(data);
   }
-  recieveChange(){
-    return this.event$.map(change=>{
-      Object.assign(this.wizzardState, change);
-      return this.wizzardState;
-    })
-  }
-
 }

@@ -145,7 +145,7 @@ tpLength:number=this.testPolicies.length;
     this.testPolicies.forEach(element => {
       this.total+=element.pLength;
     });
-    console.log(this.policies);
+   // console.log(this.policies, this.cancelationP);
     
   }
   ngOnInit() {
@@ -160,6 +160,7 @@ tpLength:number=this.testPolicies.length;
   }
   ngOnChanges(changes) {
    // this.validateFn = createValidator();
+   console.log('CHANGES', changes);
   
   }
 
@@ -191,11 +192,23 @@ setDisabledState(isDisabled: boolean){
 }
 
    write(value){
-     console.log(value);
+     if (value){this.cancelationP=value}
+      this.total=0;
+
+this.tpLength=this.cancelationP.values.length;
+//console.log(this.tpLength);
+        this.cancelationP.values.forEach(element => {
+     if(element.pLength) {this.total+=+element.pLength;}
+      //console.log(element);
+    });
+  //  console.log('total',this.total);
+  //console.log(this.cancelationP);
+   //  console.log("VALUE",value);
+    // console.log(value);
      if (value) {
-       this.policies=value;
+      // this.policies=value;
        
-    console.log(this.total, this.tpLength);
+  //  console.log(this.total, this.tpLength);
 
       }
      //if(value && !this.loaded){this.location=value;this.loaded=true;}
@@ -215,22 +228,13 @@ setDisabledState(isDisabled: boolean){
     return Math.floor(x);
   }
 updateFn(event){
-  console.log(event);
+//  console.log('event',event);
   /*
 this.animationState$.subscribe(state=>{
   console.log('state',state);
   if(state=='done'){*/
-        this.total=0;
-
-this.tpLength=this.cancelationP.values.length;
-//console.log(this.tpLength);
-        this.cancelationP.values.forEach(element => {
-     if(element.pLength) {this.total+=+element.pLength;}
-      //console.log(element);
-    });
-    console.log('total',this.total);
-  
-    //this.write(this.testPolicies);
+       
+  this.write(this.cancelationP);
     /*
   }
 });

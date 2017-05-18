@@ -40,10 +40,9 @@
 </div>
 
 <app-custom-select [values]="policies" [text]="'Politika otkazivanja'" name="cancelationP" [(ngModel)]="cancelationP" (ngModelChange)="updateFn($event)"></app-custom-select>
-        <app-form-input-array [items]="cancelationP.values" [(ngModel)]="cancelationP.values" name="others" (ngModelChange)="updateFn($event)" [options]="FIAOptions" [hidden]="cancelationP?cancelationP.label=='Po mjeri'?false:true:true">
+        <app-form-input-array [items]="cancelationP.values" [(ngModel)]="cancelationP" name="others" (ngModelChange)="updateFn($event)" [options]="FIAOptions" *ngIf="cancelationP?cancelationP.label=='Po mjeri'?true:false:false">
         </app-form-input-array>
 </div>
-
 <!--<div style="display:inline-block;width:auto;overflow-y:visible;">
 					<ul class="timeline timeline-horizontal"  style="width:100%;">-->
 						<!--<li class="timeline-item" >

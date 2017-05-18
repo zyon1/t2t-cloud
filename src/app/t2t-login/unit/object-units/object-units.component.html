@@ -2,6 +2,7 @@
 <!--<pre>{{myunits|json}}</pre>
 <pre>{{ready|json}}</pre>
 -->
+<pre>{{gid + '/' + oid + '/' + uid}}</pre>
 <h5>Jedinice objekta ...</h5>
 <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -51,7 +52,7 @@
       <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.created?(unit.data.created | date :"dd.MM.yy HH:mm" ):""
         }}</td>
       <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.task?unit.data.task:""}}</td>
-      <td *ngIf="!ready && unit.data && !unit.data.ready"><a [routerLink]="[myUrl+'/'+unit.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && unit.data && !unit.data.ready"><a [routerLink]="[myUrl+'/'+unit.data.$key]" (click)="emitUnid(unit.data.$key)">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
       <td *ngIf="!ready && unit.data && !unit.data.ready">{{unit.data.active?true:false}}</td>
 
 

@@ -1,6 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { GroupService} from '../../group.service';
 import { UnitsService } from '../../units.service';
+import { LoginService } from '../../login.service';
+import { UnitsWizzardService } from '../../units-wizzard.service';
+
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/switchMap';
 
@@ -10,27 +14,23 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./object-units.component.css']
 })
 export class ObjectUnitsComponent implements OnInit {
+unid:any;
 uid:any;
 gid:any;
 oid:any;
 myUnits:any;
 myUrl:string;
 ready:boolean=true;
-  constructor(private route: ActivatedRoute, private router: Router,  private us: UnitsService) { 
-    this.myUrl=this.router.url;
-
+  constructor(private route: ActivatedRoute, private router: Router,  private us: UnitsService, private uws:UnitsWizzardService, private gs:GroupService, private ls:LoginService) { 
+    //this.myUrl=this.router.url;
+    this.oid=this.uws.oid;
+    this.unid=this.uws.unid;
+    this.uid=this.uws.uid;
+    this.gid=this.uws.gid;
+    this.myUrl='/auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/units';
   }
-
   ngOnInit() {
- 
-    this.route.parent.parent.params.subscribe( params => {
-       //console.log(params['id']);
-       this.uid=params['id'];
-       this.gid=params['gid'];
-       this.oid=params['oid'];
-       console.log(this.oid, this.uid, this.gid);
-
-       this.us.getObjectUnits(this.oid).subscribe(
+    this.us.getObjectUnits(this.oid).subscribe(
          units => {
             units.forEach(element => {
                      this.us.getUnit(element['$key']).subscribe(data=>{
@@ -39,10 +39,8 @@ ready:boolean=true;
                   });         
             });
             this.myUnits=units;
-        }
+        });
 
-       );
-    });
   }
   createUnit(){
     let data={
@@ -60,5 +58,8 @@ ready:boolean=true;
             ready: boolean // ako nije minimalan broj podataka popunjen onda je false       
             */
   }
+emitUnid(unid){
+  this.uws.setUnid(unid);
+}
 
 }
