@@ -5,6 +5,8 @@ import { RouterModule, Routes, CanActivate, Router, ActivatedRouteSnapshot, Rout
 /* services */
 import { AuthGuard, AdminGuard, GroupGuard }                from './auth-guard.service';
 import { LogoutGuard }                from './logout-guard.service';
+
+import { HavePermissionGuardService} from './have-permission-guard.service';
 /* components */
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
@@ -23,53 +25,55 @@ import { IntraNavComponent } from './intra-nav/intra-nav.component';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
-import { UnitDataComponent } from './unit/unit-data/unit-data.component';
-import { UnitDataTwoComponent } from './unit/unit-data-two/unit-data-two.component';
-import { UnitDataThreeComponent } from './unit/unit-data-three/unit-data-three.component';
+import { UnitBasicComponent } from './unit/unit-basic/unit-basic.component';
+import { UnitKitchenComponent } from './unit/unit-kitchen/unit-kitchen.component';
+import { UnitEquipmentComponent } from './unit/unit-equipment/unit-equipment.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
 import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
 import { UnitRoomsComponent } from './unit/rooms/unit-rooms.component';
-
-
-
+import { UnitPricesComponent} from './unit-prices/unit-prices.component';
+import { MyObjectsComponent } from './my-objects/my-objects.component';
+import { UnitPreviewComponent } from './unit-preview/unit-preview.component';
 
 const loginRoutesNew: Routes = [
    { path: '', component: IntraNavComponent, canActivateChild:[], children: [
-        {path: '', canActivate: [], component: LoginFormComponent },
+        {path: '', component: LoginFormComponent },
         {path: 'side', component: SidebarComponent, outlet:'sidebar'},
         {path: 'logout', canActivate:[LogoutGuard], component: LoginFormComponent },
         { path: 'user', children:[
             { path: '', canActivate: [AuthGuard], component: DashboardComponent },
-            { path: ':id', canActivate: [], children:[
-                { path: '', canActivate: [], component: DashboardComponent },
+            { path: ':id', children:[
+                { path: '', component: DashboardComponent },
                 { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
-                { path: 'groups', canActivate: [], component: MyGroupsComponent },
-                { path: 'new-group', canActivate: [], component: CreateGroupComponent },
+                { path: 'groups', component: MyGroupsComponent },
+                { path: 'new-group', component: CreateGroupComponent },
                 { path: 'group', canActivate: [GroupGuard], children:[
-                    { path: ':gid', canActivate: [], children:[
-                        { path: '', canActivate: [], component: GroupComponent },
+                    { path: ':gid', children:[
+                        { path: '', component: GroupComponent },
                         { path: 'side', component: SidebarComponent, outlet: 'sidebar' },
-                        { path: 'units', canActivate: [], children:[
-                            { path: '', canActivate: [], component: UnitsComponent},
-                            { path: 'object', canActivate:[], children:[
-                                { path: ':oid', canActivate:[], component: UnitsWizardComponent, children:[
-                                    { path: '', canActivate:[], component: NewObjectComponent },
-                                    { path: 'data', canActivate:[], component: ObjectDataComponent },
-                                    { path: 'policies', canActivate:[], component: ObjectPoliciesComponent },
-                                    { path: 'pics', canActivate:[], component: ObjectPicsComponent },
-                                    { path: 'units', canActivate:[], children:[
-                                        { path: '', canActivate:[], component: ObjectUnitsComponent },
-                                        { path: ':unid', canActivate:[], children:[
-                                            { path: '', canActivate:[], component: UnitDataComponent},
-                                            { path: 'kb', canActivate:[], component: UnitDataTwoComponent},
-                                            { path: 'eq', canActivate:[], component: UnitDataThreeComponent },
-                                            { path: 'pics', canActivate:[], component: UnitPicsComponent },
-                                            { path: 'rooms', canActivate:[], component: UnitRoomsComponent }
+                        { path: 'units', children:[
+                            { path: '', component: UnitsComponent},
+                            { path: 'object', children:[
+                                { path: ':oid', component: UnitsWizardComponent, children:[
+                                    { path: '', component: NewObjectComponent },
+                                    { path: 'data', component: ObjectDataComponent },
+                                    { path: 'policies', component: ObjectPoliciesComponent },
+                                    { path: 'pics', component: ObjectPicsComponent },
+                                    { path: 'units', children:[
+                                        { path: '', component: ObjectUnitsComponent },
+                                        { path: ':unid', children:[
+                                            { path: '', component: UnitBasicComponent},
+                                            { path: 'kb', component: UnitKitchenComponent},
+                                            { path: 'eq', component: UnitEquipmentComponent },
+                                            { path: 'pics', component: UnitPicsComponent },
+                                            { path: 'rooms', component: UnitRoomsComponent },
+                                            { path: 'prices', component: UnitPricesComponent }
+
                                            /*
-                                           //Prvi koncept za popunjavanje soba, možda ćemo se vratiti na njega poslije ljeta
-                                            { path: 'rooms', canActivate:[], children: [
-                                                { path: '', canActivate:[], component: RoomsComponent }
+                                          //Prvi koncept za popunjavanje soba, možda ćemo se vratiti na njega poslije ljeta
+                                            { path: 'rooms', children: [
+                                                { path: '', component: RoomsComponent }
 
                                             ] }
                                             */
@@ -79,9 +83,16 @@ const loginRoutesNew: Routes = [
                                 
                             ] },
                         ]},
-                        { path: 'invite', canActivate:[], component: InviteComponent } 
+                        { path: 'invite', component: InviteComponent } 
                     ]},
                 ] },
+                { path: 'view-unit', children:[
+                    {path: ':unid', component: UnitPreviewComponent}
+                ] },
+                { path: 'my-objects', component: MyObjectsComponent},
+                { path: 'object', children:[
+                    {path: ':oid', canActivate:[HavePermissionGuardService]}
+                ]}
             ] },
         ] },
         { path: 'admin', canActivate:[AdminGuard], component: AdminComponent},
@@ -94,7 +105,8 @@ const loginRoutesNew: Routes = [
   component: SidebarComponent,
   outlet: 'sidebar'
 },
-   
+
+
 ];
 const loginRoutes: Routes = [
     { path: '', 
@@ -109,16 +121,16 @@ const loginRoutes: Routes = [
 
     },
      { path: 'intra', component: IntraNavComponent,  children: [
-          {path: '', canActivate: [], component: LoginFormComponent },
-           { path: 'user/:id', canActivate: [], component: DashboardComponent },
-           { path: 'user/:uid/group/:gid', canActivate: [], component: GroupComponent },
-           { path: 'user/:uid/groups', canActivate: [], component: MyGroupsComponent } ,
-           { path: 'group/new', canActivate: [], component: IntraNavComponent }
+          {path: '', component: LoginFormComponent },
+           { path: 'user/:id', component: DashboardComponent },
+           { path: 'user/:uid/group/:gid', component: GroupComponent },
+           { path: 'user/:uid/groups', component: MyGroupsComponent } ,
+           { path: 'group/new', component: IntraNavComponent }
         ]
     },
     /* { path: 'group',  children: [
            { path: '', canActivate: [GroupGuard], component: GroupComponent },
-           { path: 'id/:id', canActivate: [], component: GroupComponent } ,// canActivate memberGuard after it is finished
+           { path: 'id/:id', component: GroupComponent } ,// canActivate memberGuard after it is finished
            { path: 'new', canActivate: [AuthGuard], component: CreateGroupComponent }
         ]
     },*/

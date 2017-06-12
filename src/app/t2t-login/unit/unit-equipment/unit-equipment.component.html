@@ -1,10 +1,10 @@
-<form (ngSubmit)="onSubmit()" #ObjDataForm="ngForm">
+<form (ngSubmit)="onSubmit(UnitEqForm.form.value)" #UnitEqForm="ngForm">
 <h5>Oprema</h5>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Sušilo za kosu</div>
      <div class="col-lg-9 col-xl-7">
-         <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="dryer" name="dryer"> 
+         <label class="form-check-label" for="dryer">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.dryer" name="dryer"> 
           </label>     </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -12,7 +12,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Perilica za rublje</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="washingmachine" name="washingmachine"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.washingmachine" name="washingmachine"> 
           </label>     </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -20,7 +20,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Glačalo</div>
      <div class="col-lg-9 col-xl-7">
            <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="iron" name="iron"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.iron" name="iron"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -29,7 +29,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Posteljina</div>
      <div class="col-lg-9 col-xl-7">
                 <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="linen" name="linen"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.linen" name="linen"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -38,7 +38,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Ručnici</div>
      <div class="col-lg-9 col-xl-7">
                  <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="towels" name="towels"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.towels" name="towels"> 
           </label>
 
      </div>
@@ -48,7 +48,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Sef</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="safe" name="safe"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.safe" name="safe"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -57,7 +57,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Kolijevka/ dječji krevetić</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="cot" name="cot"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.cot" name="cot"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -69,6 +69,104 @@
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
+<h5>Multimedia</h5>
+<h6>Televizija</h6>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Flatscreen TV</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.flatscreen" name="flatscreen"> 
+          </label>     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Kabelska</div>
+     <div class="col-lg-9 col-xl-7">
+           <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.cable" name="cable"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Satelitska</div>
+     <div class="col-lg-9 col-xl-7">
+                <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.satellite" name="satellite"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Antena</div>
+     <div class="col-lg-9 col-xl-7">
+                 <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.local" name="local"> 
+          </label>
+
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Ostalo</div>
+     <div class="col-lg-9 col-xl-7">
+         
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<h6>Glazba</h6>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Radio</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.radio" name="radio"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">HI-FI/ Linija</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.hifi" name="hifi"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Ostalo</div>
+     <div class="col-lg-9 col-xl-7">
+        
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<h6>Ostala multimedia</h6>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Projektor</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.projector" name="projector"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Profesionalni audio sustav</div>
+     <div class="col-lg-9 col-xl-7">
+         <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="EqObject.professionalAudio" name="professionalAudio"> 
+          </label>
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-3 col-xl-2 col-form-label">Ostalo</div>
+     <div class="col-lg-9 col-xl-7">
+
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
 
 
 </form>

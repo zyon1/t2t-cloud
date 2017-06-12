@@ -1,0 +1,323 @@
+/* Overriding main css template in intranet*/
+.main-wrapper{
+    padding:0!important;
+}
+/*  Main styles*/
+.unit-preview-jumbo{
+    background: #1abc9c;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    background-size:cover;
+    width: 100%;
+  padding-top: 40%;
+  height: 0;
+}
+.up-action-container{
+    height: 40px;
+    background: transparent;
+    margin-bottom:10px;
+    position: relative;
+    z-index: 101;
+}
+.action-row{
+    margin-top:-60px;
+}
+.action-txt{
+    color:#fff;
+    font-size: 1.2em;
+    padding:8px;
+     line-height: 24px;
+     font-weight: 600;
+  text-align: center;
+    text-transform: uppercase;
+    z-index:101;
+    position: absolute;
+    top:0;
+    left: 10%;
+    width:80%;
+    height: 100%;
+    letter-spacing: 1px;
+ 
+}
+.action-bg{
+    z-index:100;
+    position: absolute;
+    top:0;
+    left: 10%;
+    background: #27ae60;
+    opacity: 0.75;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-radius: 8px;
+    width:80%;
+    height: 100%;
+    
+}
+/* because of override add extra padding*/
+.unit-preview-row{
+    padding: 25px 25px;
+    
+}
+.up-map{
+    height: 350px;
+}
+.sebm-google-map-container {
+     height: 300px;
+   }
+   .stars{
+    color:#F0D611;
+}
+.first-box-container{
+    
+   /* display:table;*/
+}
+.icon-container{
+    width:50px;
+    height: 50px;
+    border: 3px solid #8ECDB5;
+    background:  #fff8be;
+    border-radius:50%;
+    text-align: center;
+    padding-top:9px;
+    margin:0 auto;
+
+}
+.first-box-item{
+margin:0 auto;
+    box-sizing: border-box;
+        text-align: center;
+
+    /* display:table-cell;*/
+}
+.pets{
+    margin-top:-8px;
+}
+.no-smoking{
+    position: relative;
+
+}
+.no-smoking-cigarette{
+    display: table;
+    position:absolute;
+    top:20px;
+    left:50%;
+    margin-left:-6px;
+}
+.empty-cigarette{
+    background:transparent;
+    display:table-cell;
+    width:1px;
+    height: 3px;
+}
+.cigarette{
+    background:#000;
+        display:table-cell;
+        width:8px;
+height: 3px;
+}
+.cigarette-ash{
+    background:#000;
+        display:table-cell;
+        width:2px;
+        height: 3px;
+}
+.pool-box{
+    width:30px;
+    border:3px solid #000;
+    border-radius:2px;
+    margin: 2px auto;
+    height: 23px;
+}
+.pool-water{
+    clear:both;
+    line-height: 10px;
+    font-size:25px;
+    margin-top:-3px;
+
+}
+.up-description > h5 {
+background: #fff;
+}
+.up-description > p {
+    background: #FFF38B;
+    padding: 5px ;
+    border-radius:5px;
+}
+.bed-description{
+    float:left;
+    padding-left:0px;
+}
+.bed-borders{
+    width:22px;
+    border:2px solid #000;
+    border-radius:2px;
+    height:35px;
+    float:left;
+    box-sizing: border-box;
+}
+.bed-pillow{
+    margin: 2px auto;
+    width:14px;
+    border:2px solid #000;
+    border-radius: 2px;
+    height: 8px;
+    box-sizing: border-box;
+}
+.king-pillow{
+float:left;
+margin:2px 1px;
+box-sizing: border-box;
+}
+.king{
+    width: 38px;
+    box-sizing: border-box;
+}
+.queen-pillow{
+float:left;
+box-sizing: border-box;
+}
+.queen{
+    width: 32px;
+    box-sizing: border-box;
+
+}
+.bed-text{
+    float:left;
+    padding: 5px 8px;
+}
+.up-unit-pics-container{
+    margin-left: -10px;
+}
+.pic-bg{
+   background-size: auto 75px;
+     background-repeat: no-repeat;
+     background-position: center center;
+     width: 100%;
+     height: 100%;
+   }
+   .pic-item{
+    height:84px;
+    padding:0px;
+    float:left;
+overflow: hidden;
+    width:109px;
+        border:5px solid #fff;
+        background: #ecf0f1;
+        margin: 2px;
+        border-radius:3px;
+     
+
+
+}
+.pic-big{
+    width:100%;
+    height: 80vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size:contain;
+    display: table-row;
+    outline: none;
+}
+.up-gallery{
+    position:absolute;
+    top:0;
+    left: 0;
+    width: 120%;
+    height:100vh;
+}
+.up-gallery-overlay{
+    background:#000;
+    opacity:0.5;
+    width: 100%;
+    height:100vh;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:10000;
+}
+.up-pic-gal-container{
+    display: table;
+    position:relative;
+    margin: 5% auto 0 auto;
+    z-index:10001;
+    width:80%;
+}
+@media (min-width: 768px){
+.up-gallery {
+    margin-left: -20%;
+}
+}
+.up-text-baloon{
+    background: #FFF38B;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
+
+ * {
+    outline: none;
+}
+h6{
+width: 100%;
+}
+.up-row{
+    padding:0 15px;;
+}
+.up-list{
+    list-style: none;
+    padding-left:8px;
+}
+.up-list > li:not(.countable):before {
+    content: "+";
+    margin-right: 4px;
+
+}
+
+/* 5 column setup*/
+.col-xs-15,
+.col-sm-15,
+.col-md-15,
+.col-lg-15,
+.col-xl-15 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.col-xs-15 {
+    width: 20%;
+    max-width:20%;
+    float: left;
+}
+
+@media (min-width: 576px) {
+.col-sm-15 {
+        width: 20%;
+        max-width:20%;
+        float: left;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-15 {
+        width: 20%;
+        max-width:20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-lg-15 {
+        width: 20%;
+        max-width:20%;
+        float: left;
+    }
+
+}
+@media (min-width: 1200px) {
+    .col-xl-15 {
+        width: 20%;
+        max-width:20%;
+        float: left;
+    }
+
+}

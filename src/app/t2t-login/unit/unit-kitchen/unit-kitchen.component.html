@@ -1,10 +1,10 @@
-<form (ngSubmit)="onSubmit()" #ObjDataForm="ngForm">
+<form (ngSubmit)="onSubmit(UnitKBForm.form.value)" #UnitKBForm="ngForm">
 <h5>Kuhinja</h5>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Nema kuhinje</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="noKitchen" name="noKitchen"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.noKitchen" name="noKitchen"> 
           </label>     </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -12,7 +12,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Štednjak</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="stove" name="stove"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.stove" name="stove"> 
           </label>     </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -20,7 +20,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Pećnica</div>
      <div class="col-lg-9 col-xl-7">
            <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="oven" name="oven"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.oven" name="oven"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -29,7 +29,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Hladnjak</div>
      <div class="col-lg-9 col-xl-7">
                 <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="refrigerator" name="refrigerator"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.refrigerator" name="refrigerator"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -38,7 +38,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Mikrovalna</div>
      <div class="col-lg-9 col-xl-7">
                  <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="microwawe" name="microwawe"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.microwave" name="microwave"> 
           </label>
 
      </div>
@@ -48,7 +48,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Posuđe</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="kitchenware" name="kitchenware"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.kitchenware" name="kitchenware"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -57,7 +57,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Grijalo za vodu</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="electricKettle" name="electricKettle"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.electricKettle" name="electricKettle"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -66,7 +66,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Espresso aparat</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="espresso" name="espresso"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.espresso" name="espresso"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -75,7 +75,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Perilica posuđa</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="dishwasher" name="dishwasher"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.dishwasher" name="dishwasher"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -91,7 +91,7 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Broj kupaonica</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="noBathroom" name="noBathroom"> 
+        <input class="form-control" type="number" [(ngModel)]="KBObject.noBathroom" name="noBathroom"> 
 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -99,7 +99,7 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Broj wc-a</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="noWc" name="noWc"> 
+        <input class="form-control" type="number" [(ngModel)]="KBObject.noWc" name="noWc"> 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -107,7 +107,7 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Broj tuš kabina</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="noBathroom" name="noBathroom"> 
+        <input class="form-control" type="number" [(ngModel)]="KBObject.showers" name="showers"> 
 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -115,14 +115,14 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Broj kada</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="noWc" name="noWc"> 
+        <input class="form-control" type="number" [(ngModel)]="KBObject.bathtubs" name="bathtubs"> 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Broj jacuzzija/parnih kupelji</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="noWc" name="noWc"> 
+        <input class="form-control" type="number" [(ngModel)]="KBObject.jacuzzy" name="jacuzzy"> 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
@@ -130,10 +130,11 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Sauna</div>
      <div class="col-lg-9 col-xl-7">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" [(ngModel)]="sauna" name="sauna"> 
+          <input class="form-check-input" type="checkbox" [(ngModel)]="KBObject.sauna" name="sauna"> 
         </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
 
 </form>

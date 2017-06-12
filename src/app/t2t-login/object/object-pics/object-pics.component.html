@@ -1,3 +1,4 @@
+<form (ngSubmit)="onSubmit(picsArray)">
 
      <input type="file" (change)="selected($event)" #filesElement multiple>
 
@@ -6,20 +7,49 @@
 <div class="pics-container" [dragula]='"bag-one"' [dragulaModel]='uploaded'>
 
     <div *ngFor="let image of uploaded; let i=index" class="pic-item" [ngClass]="{'main-pic':i==0, 'title-pics':i > 0 && i< 6}">
-        <img [hidden]="!image.loaded" [src]="image.src">
-
-        <div [hidden]="!image.resizing">Resizing...</div>
-        <div [hidden]="!image.loading">Loading...</div>
-        <div [hidden]="!image.uploading">Uploading...</div>
-        <div [hidden]="!image.waiting">Waiting...</div>
-
-
-
-
+    <!--{{image.src=='undefined'?image.src:image.filename | json}}-->
+    <div class="pic-bg" [hidden]="image.state!='loaded'" [style.background-image]="image.src">
+       
     </div>
+     <!--  <img [hidden]="image.state!='loaded'" [src]="image.src">-->
+
+        <div [hidden]="image.state!='resizing'" class="state-container">
+          <div class="res-indicator">Resizing...</div>
+         <i class="fa fa-cog fa-spin fa-3x fa-fw" style="margin:3px 18px;"></i>
+          </div>
+      <div [hidden]="image.state!='loading' || image.src==null" class="state-container">
+
+            <div class="res-indicator">Loading...</div>
+<i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="margin: 9px 29px;"></i>
+
+        </div>
+       <div [hidden]="image.state!='uploading'" class="state-container">
+
+                    <div class="res-indicator">Uploading...</div>
+
+         <i class="fa fa-cloud-upload fa-2x t2t-pulsate" aria-hidden="true" style="margin: 9px 31px;"></i>
+        </div>
+        <!--<div [ngStyle]="{'display':image.src==null?'block':'none'}" class="state-container err-container">
+
+                    <div class="res-indicator">error</div>
+
+        </div>-->
+        <div [hidden]="image.state!='waiting'" class="state-container">
+
+                   <div class="res-indicator">Waiting...</div>
+
+<i class="fa fa-hourglass fa-2x t2t-eieo" aria-hidden="true" style="margin: 8px 36px;"></i>
+
+        </div>
+    </div>
+
+
+
+
 </div>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
 
+</form>
+<app-fc-modal-window (action)="filenameConflicts($event, conflict, i);" *ngFor="let conflict of conflicts; let i=index" [content]="modalContent" [text]="conflict.filename"  [options]="modalOptions" [open]="true">
 
-<app-modal-window (action)="filenameConflicts($event, conflict, i);" *ngFor="let conflict of conflicts; let i=index" [content]="conflict.content" [options]="modalOptions" [open]="true">
-
-</app-modal-window>
+</app-fc-modal-window>

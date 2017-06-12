@@ -25,7 +25,9 @@ const routes: Routes = [
             })
         }) 
   },
-  { path: 'popup', component: PopupComponent, outlet: 'popup'}
+  { path: 'popup', component: PopupComponent, outlet: 'popup'},
+  {path: '**', redirectTo: '/error/404' }
+
   ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes)],

@@ -16,7 +16,11 @@ export class LoginService {
     redirectUrl: string;
     uid:string;
     userData:any;
+    uid$:any;
     constructor(  private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
+        this.uid$=this.afAuth.authState.map(auth => {
+            return auth.uid; 
+        });
         this.afAuth.authState.subscribe(auth => {
             if (auth){
 this.uid=auth.uid;

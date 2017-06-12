@@ -1,76 +1,84 @@
 <div class="wizzy-container row">
-  <div class="wizzy-item-first col-md-3">
-    <div class="wizzy-inside-first" ><a ></a><strong>1.</strong> Objekt</div>
-    <div class="arrow-right" ><a ></a></div>
+
+  <div class="wizzy-item-first col-md-4">
+      <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units'" class="arrow-link">
+
+    <div class="wizzy-inside-first"  [ngClass]="{'done': objectCompleted}"><strong>1.</strong> Objekt</div>
+    <div class="arrow-right"  [ngClass]="{'done': objectCompleted}"></div>
+    </a>
   </div>
-  <div class="wizzy-item col-md-3">
-    <div class="arrow-inverse inactive" ></div>
-    <div class="wizzy-inside inactive" ><strong>2.</strong> Jedinica</div>
-    <div class="arrow-right inactive" ></div>
+  <div class="wizzy-item col-md-4">
+       <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units'" class="arrow-link" [ngClass]="{'not-accessible': !objectCompleted}">
+    <div class="arrow-inverse" [ngClass]="{'inactive': !objectCompleted, 'done': unitCompleted}" ></div>
+    <div class="wizzy-inside" [ngClass]="{'inactive': !objectCompleted, 'done': unitCompleted}"><strong>2.</strong> Jedinice</div>
+    <div class="arrow-right" [ngClass]="{'inactive': !objectCompleted, 'done': unitCompleted}"></div>
+     </a>
+     <!--
+       <small>*Kako bi ste uređivali jedinice morate prvo odabrati koju jedinicu želite uređivati.</small>
+      -->
   </div>
-  <div class="wizzy-item col-md-3">
-    <div class="arrow-inverse inactive" ></div>
-    <div class="wizzy-inside inactive" ><strong>3.</strong> Sobe</div>
-    <div class="arrow-right inactive" ></div>
-  </div>
-  <div class="wizzy-item col-md-3">
-    <div class="arrow-inverse inactive"></div>
-    <div class="wizzy-inside inactive"><strong>4.</strong> Cijene</div>
-    <div class="arrow-right inactive"></div>
+
+  <div class="wizzy-item col-md-4">
+             <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/prices'" [ngClass]="{'not-accessible': !unitCompleted}" class="arrow-link">
+
+
+    <div class="arrow-inverse" [ngClass]="{'inactive': !unitCompleted, 'done': pricesCompleted}"></div>
+<div class="wizzy-inside" [ngClass]="{'inactive': !unitCompleted, 'done': pricesCompleted}"><strong>3.</strong> Cijene</div>
+    <div class="arrow-right" [ngClass]="{'inactive': !unitCompleted , 'done': pricesCompleted}"></div>
+   </a>
   </div>
 </div>
+<!--
 <pre>{{objectState | json}}</pre>
+<pre>{{unitState | json }}</pre>
+
 <pre>{{uid + '/' + gid + '/' + oid}}</pre>
 <pre>{{unid }}</pre>
-
-<ol class="breadcrumb" style="background:transparent">
+-->
+<ol class="breadcrumb" style="background:transparent" *ngIf="objectActive">
   <li class="breadcrumb-item">
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid" >Osnovno</a>
     <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.osnovno && objectState.osnovno.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/data'" (click)="console.log(gid, oid, unid, uid)" [ngClass]="{'link-disabled': (objectState && objectState.sadrzaji && objectState.sadrzaji.available)?false:true }">Sadržaji</a>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/data'" [ngClass]="{'link-disabled': (objectState && objectState.sadrzaji && objectState.sadrzaji.available)?false:true }">Sadržaji</a>
     <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.sadrzaji && objectState.sadrzaji.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'"  (click)="console.log(gid, oid, unid, uid)" [ngClass]="{'link-disabled': (objectState && objectState.politika && objectState.politika.available)?false:true }">Politika poslovanja</a>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'"   [ngClass]="{'link-disabled': (objectState && objectState.politika && objectState.politika.available)?false:true }">Politika poslovanja</a>
     <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.politika && objectState.politika.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'" (click)="console.log(gid, oid, unid, uid)"  [ngClass]="{'link-disabled': (objectState && objectState.slike && objectState.slike.available)?false:true }">Slike</a>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/policies'"   [ngClass]="{'link-disabled': (objectState && objectState.slike && objectState.slike.available)?false:true }">Slike objekta</a>
     <span class="badge badge-pill badge-success"  *ngIf="objectState && objectState.slike && objectState.slike.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
 </ol>
-<ol class="breadcrumb" style="background:transparent">
-  <li class="breadcrumb-item">
+<ol class="breadcrumb" style="background:transparent" *ngIf="unitActive">
+  <!--<li class="breadcrumb-item">
     <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units'">Dodaj jedinicu</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
-  </li>
+    <span class="badge badge-pill badge-success" *ngIf="objectState && objectState.notJedinice && !objectState.notJedinice.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>-->
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid" (click)="console.log(gid, oid, unid, uid)">Osnovni podaci</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid"  [ngClass]="{'link-disabled': (unid)?false:true }">Osnovni podaci</a>
+    <span class="badge badge-pill badge-success" *ngIf="unitState && unitState.osnovno && unitState.osnovno.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
     <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/kb'">Kuhinja i kupaonica</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/kb'" [ngClass]="{'link-disabled': (unitState && unitState.kb && unitState.kb.available)?false:true }">Kuhinja i kupaonica</a>
+    <span class="badge badge-pill badge-success" *ngIf="unitState && unitState.kb && unitState.kb.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/eq'">Oprema</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/eq'" [ngClass]="{'link-disabled': (unitState && unitState.oprema && unitState.oprema.available)?false:true }">Oprema</a>
+    <span class="badge badge-pill badge-success" *ngIf="unitState && unitState.oprema && unitState.oprema.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
+  </li>
+  
+    <li class="breadcrumb-item">
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms'" [ngClass]="{'link-disabled': (unitState && unitState.sobe && unitState.sobe.available)?false:true }">Sobe</a>
+    <span class="badge badge-pill badge-success" *ngIf="unitState && unitState.sobe && unitState.sobe.completed"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
   <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/pics'">Slike</a>
+    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/pics'">Slike jedinice</a>
     <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
   </li>
 </ol>
-<ol class="breadcrumb" style="background:transparent">
-  <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms'">Dodaj sobu</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
-  </li>
-  <li class="breadcrumb-item">
-    <a [routerLink]="'/auth/user/'+uid+'/group/'+gid+'/units/object/'+oid+'/units/'+unid+'/rooms/'+rid">Soba</a>
-    <span class="badge badge-pill badge-success"><i class="fa fa-check" aria-hidden="true"></i></span>
-  </li>
-</ol>
+
 <router-outlet></router-outlet>

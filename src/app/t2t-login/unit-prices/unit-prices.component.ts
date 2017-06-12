@@ -1,5 +1,5 @@
 import 'angular-calendar/dist/css/angular-calendar.css';
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, ViewEncapsulation, Injectable, EventEmitter, Output, ElementRef} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, ViewEncapsulation, Injectable, EventEmitter, Output, ElementRef, OnInit, NgZone, ChangeDetectorRef} from '@angular/core';
 import {
   startOfDay,
   endOfDay,
@@ -17,11 +17,16 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarDayViewComponent,
-  CalendarMonthViewComponent
+  CalendarMonthViewComponent,
+  CalendarDateFormatter
   
 } from 'angular-calendar';
+import { CustomDateFormatter } from '../custom-date-formatter.provider';
 import {NgbDateStruct, NgbDatepickerI18n, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateMomentParserFormatter } from '../../date-picker/ngb-datepicker-parser-formatter';
+import { UnitsService} from '../units.service';
+import { UnitsWizzardService} from '../units-wizzard.service';
+import { Router, ActivatedRoute} from '@angular/router';
 
 const I18N_VALUES = {
   en: {
@@ -53,6 +58,7 @@ const colors: any = {
     secondary: '#FDF1BA'
   }
 };
+
 @Injectable()
 export class CustomDatepickerI18n extends NgbDatepickerI18n {
 _i18n: I18n=new I18n();
@@ -78,22 +84,27 @@ constructor(){
 
 }
 @Component({
-  selector: 'app-calendar-test',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './calendar-test.component.html',
-  styleUrls: ['./calendar-test.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  selector: 'app-unit-prices',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './unit-prices.component.html',
+  styleUrls: ['./unit-prices.component.css'], encapsulation: ViewEncapsulation.None,
    providers: [
     I18n, 
     {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}, 
-    {provide: NgbDateParserFormatter, useFactory: () => { return new NgbDateMomentParserFormatter("D.M.Y") }
-  }],
+    {provide: NgbDateParserFormatter, useFactory: () => { return new NgbDateMomentParserFormatter("D.M.Y") }},
+    {
+    provide: CalendarDateFormatter,
+    useClass: CustomDateFormatter
+  }
+
+  ],
   host: {
     '(document:click)': 'onClick($event)',
   }, 
 })
-export class CalendarTestComponent {
+export class UnitPricesComponent implements OnInit{
 /*
+
 colors: 
   money green: rgb(  33,  108,   42)
   lightest:    rgb( 138,  219,  147)
@@ -106,12 +117,35 @@ activeCalendarIndex=-1;
   hoveredDate;
   public startDate:any;
   public endDate:any;
-locale:any='hr';
-newDays:any;
-weekStartsOn:number=2;
+testDate:any;
+months:any=  [
+  {label:"Siječanj", value: 0},
+  {label:"Veljača", value: 1},
+  {label:"Ožujak", value: 2},
+  {label:"Travanj", value: 3},
+  {label:"Svibanj", value: 4},
+  {label:"Lipanj", value: 5},
+  {label:"Srpanj", value: 6},
+  {label:"Kolovoz", value: 7},
+  {label:"Rujan", value: 8},
+  {label:"Listopad", value: 9},
+  {label:"Studeni", value: 10},
+  {label:"Prosinac", value: 11}
+  ];
+
+  unid:string;
+oid:string;
+newUrl:string;
+periodsLoaded:boolean=false;
+
+  years:any = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+  selectedMonth:any={label:I18N_VALUES[this._i18n.language].months[new Date().getMonth()], value:new Date().getMonth()};
+  selectedYear:any=new Date().getFullYear();
 
 
   viewDate: Date = new Date();
+  locale:any='hr';
+  weekStartsOn:number=1;
 
   modalData: {
     action: string,
@@ -133,7 +167,8 @@ weekStartsOn:number=2;
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [{
+  events: CalendarEvent[] = [/*
+    {
     start: subDays(startOfDay(new Date()), 1),
     end: addDays(new Date(), 1),
     title: 'A 3 day event',
@@ -160,16 +195,96 @@ weekStartsOn:number=2;
       afterEnd: true
     },
     draggable: true
-  }];
+  }
+  */];
+  
 periods:any[] = [];
+dbPeriods:any={};
+periodsSource:Subject<any>=new Subject();
+periods$:any=this.periodsSource.asObservable();
   activeDayIsOpen: boolean = true;
 
-  constructor(private modal: NgbModal, private _i18n: I18n, private _eref: ElementRef) {
+  constructor( private modal: NgbModal, 
+               private _i18n: I18n, 
+               private _eref: ElementRef, 
+               private us:UnitsService, 
+               private uws:UnitsWizzardService, 
+               private router:Router, 
+               private route:ActivatedRoute,
+               private ref: ChangeDetectorRef
+) {
+   // this.testDate=new Date(2017, 11, 20);
+   // this.viewDate=this.testDate;
+  // this.selectedMonth.value=I18N_VALUES[this._i18n.language].months[new Date().getMonth()];
+  this.route.params.map( params => {
+
+       console.log(params);
+       this.uws.setUnid(params['unid']);
+       this.unid=params['unid'];
+       console.log();
+       
+      return this.us.getUnitPrices(this.unid).map(data=>{
+
+                    this.periods.push('as');
+
+                 console.log('db data:',data, typeof data, data?true:false, data['$value']==null, data.length, data[0+""]);
+
+         if(data){
+         this.periodsLoaded=false;
+        Object.assign(this.dbPeriods, data);
+        this.periods=[];
+                  console.log(data.length, 0<data.length);
+
+        for(let i=0;i<data.length; i++){
+          console.log(data[i+""]);
+          let start=new Date(data[i+""].start);
+          let end=new Date(data[i+""].end);
+          let startObj={year:start.getFullYear(), month:start.getMonth()+1, day:start.getDate()}
+          let endObj={year:end.getFullYear(), month:end.getMonth()+1, day:end.getDate()};
+                    console.log('START',start, startObj, 'END',end, endObj);
+
+         // this.periodsSource.next({color:{red:56, green:183, blue:71}, price:period.price, startNgb:startObj, endNgb:endObj});
+ //this.periods.push({color:{red:56, green:183, blue:71}, price:data[i+""].price, startNgb:startObj, endNgb:endObj});
+ this.periods = this.periods.concat([{color:{red:56, green:183, blue:71}, price:data[i+""].price, startNgb:startObj, endNgb:endObj}]);
+          this.starts(startObj, i+"");
+          this.ends(endObj, i+"");
+        }
+        /*
+        data.forEach((period, index) => {
 
 
+        });*/
+        this.calculateColors();
+        console.log('PERIODS', this.periods);
+      
+    this.periodsLoaded=true;
+        this.refresh.next();
+        //this.periods=this.periods;
+        this.ref.markForCheck();
 
+         }
+  }).subscribe();
+      }).subscribe();
+  
+      this.oid=this.uws.oid;
+}
+ngOnInit(){
+    this.router.events.subscribe(route => {
+          let urlArray=route['url'].toString().split('/');
+          
+          let newArray=[];
+          for(let i=0;i<=6;i++){
+            newArray.push(urlArray[i]);
+          }
+
+          //urlArray[urlArray.length-1]='eq';
+          this.newUrl=newArray.join('/');
+          console.log(this.newUrl);
+    });
+}
+ trackByIndex(index: number, value) {
+    return index;
   }
-
 set language(language: string) {
     this._i18n.language = language;
   }
@@ -178,7 +293,35 @@ set language(language: string) {
     console.log('get',this._i18n.language);
     return this._i18n.language;
   }
+  prevMonth(){
+    if((this.selectedYear-1)>=2017 || (this.selectedMonth.value-1)>=0){
+this.selectedYear=((this.selectedMonth.value-1)<0)?this.selectedYear-1:this.selectedYear;
+this.selectedMonth=(this.selectedMonth.value-1)>=0?this.months[this.selectedMonth.value-1]:this.months[11];
+    }else{
+      this.viewDate=new Date(2017, 0);
+    }
+  }
+  nextMonth(){
+    if((this.selectedYear+1)<=2024 || (this.selectedMonth.value+1)<=11 ){
+this.selectedYear=((this.selectedMonth.value+1)>11)?this.selectedYear+1:this.selectedYear;
+this.selectedMonth=(this.selectedMonth.value+1)<=11?this.months[this.selectedMonth.value+1]:this.months[0];
+    }else{
+      this.viewDate=new Date(2024, 11);
+    }
 
+
+  }
+  thisMonth(){
+  this.selectedMonth={label:I18N_VALUES[this._i18n.language].months[new Date().getMonth()], value:new Date().getMonth()};
+  this.selectedYear=new Date().getFullYear();
+  }
+onDateChange(){
+ // console.log(this.selectedYear, this.selectedMonth.value)
+if( this.selectedMonth.value){
+  this.viewDate = new Date(this.selectedYear, this.selectedMonth.value);
+}
+}
+  
 
 isInside(date: NgbDateStruct){
   let index=this.activeCalendarIndex;
@@ -241,12 +384,12 @@ isWeekend(date: NgbDateStruct) {
     //console.log("start");
     let ymdTodate=new Date(value.year, value.month-1, value.day);
     //console.log(ymdTodate.getTime());
-    console.log(ymdTodate);
+   // console.log(ymdTodate);
     this.periods[index].start=(ymdTodate.getTime());
      this.periods[index].startDisplay=value.day+'.'+value.month+'.'+value.year;
-     this.periods[index].startNgb=value;
+     //this.periods[index].startNgb=value;
      this.activeCalendarIndex=-1;
-    console.log(value);
+    console.log(value, ymdTodate, ymdTodate.getTime());
 
   }
      ends(value, index){
@@ -257,9 +400,10 @@ isWeekend(date: NgbDateStruct) {
     //console.log(ymdTodate.getTime()-1);
       this.periods[index].end=(ymdTodate.getTime()-1);
       this.periods[index].endDisplay=value.day+'.'+value.month+'.'+value.year;
-      this.periods[index].endNgb=value;
+      //this.periods[index].endNgb=value;
 this.activeCalendarIndex=-1;
-    //console.log(value);
+console.log(value, ymdTodate, ymdTodate.getTime());
+
   }
 
 
@@ -291,7 +435,9 @@ this.activeCalendarIndex=-1;
   }
 addPeriod(){
   this.periods.push({color:{red:56, green:183, blue:71}});
+  //this.periods.pop();
 }
+
   addEvent(): void {
     this.events.push({
       title: 'New event',
@@ -306,6 +452,7 @@ addPeriod(){
     });
     this.refresh.next();
   }
+  
   /*
 colors: 
   money green: rgb(  33,  108,   42)
@@ -347,14 +494,24 @@ this.activeCalendarIndex=-1;}
   }
 checkPeriod(date){
   let x:any=false;
-this.periods.forEach(period =>{
+  let maxPrice:number=0;
+  let maxIndex:number;
+this.periods.forEach((period, index) =>{
   if (date.getTime() >= period.start && date.getTime() <=period.end){
    // console.log(date.getTime() >= period.start && date.getTime() <=period.end);
-    x={};
-    x.price=period.price;
-    x.color='rgb('+period.color.red+', '+period.color.green+', '+period.color.blue+')';
+    if (period.price>maxPrice){
+maxPrice=period.price;
+maxIndex=index;
+    }
+   // maxPrice=period.price>maxPrice?period.price:maxPrice;
+
   }
-})  
+});
+    
+if(maxPrice){
+x={};
+    x.price=maxPrice;
+   x.color='rgb('+this.periods[maxIndex].color.red+', '+this.periods[maxIndex].color.green+', '+this.periods[maxIndex].color.blue+')';      }
 return x;
 }
 calculateColors(){
@@ -385,6 +542,28 @@ this.periods.forEach((period, index) => {
 });
 }
 }
-
+onSubmit(){
+  this.dbPeriods={};
+  let i=0;
+  this.periods.forEach(period => {
+    if (period.start && period.end && period.price){
+    this.dbPeriods[i]=(({ start, end, price }) => ({ start, end, price }))(period);
+    i++;
+    }
+    
+  });
+  this.us.updateUnitPrices(this.unid, this.dbPeriods).then(
+    () => {
+      this.us.updateObject(this.oid, {ready:true}).then( ()=> {
+        this.us.updateUnit(this.unid, {ready:true}).then(()=>{
+          this.uws.setUnitState(this.unid, 'prices', 'completed');
+          this.router.navigate([this.newUrl]);
+        });}
+      );
+    }
+  );;
+  console.log(this.dbPeriods);
+  
+}
 
 }

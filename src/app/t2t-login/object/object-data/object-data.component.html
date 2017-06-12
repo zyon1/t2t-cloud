@@ -3,13 +3,14 @@
     <div class="form-group row">
             <div class="col-sm-12">
             <h5>Sadržaji objekta</h5>
+            <!--
             ObjData<pre>{{objectData|json}}</pre>
-            form<pre>{{ ObjDataForm.value | json }}</pre>
+            form<pre>{{ ObjDataForm.value | json }}</pre>-->
             </div>
                       
 
         
-      <label for="parking" class="col-lg-3 col-xl-2 col-form-label">Naziv</label>
+      <label for="parking" class="col-lg-3 col-xl-2 col-form-label">Parking</label>
       <div class="col-lg-9 col-xl-7">
         <app-custom-select name="parking" [values]="parkingTypes" text="Odaberi vrstu parking" [(ngModel)]="ObjData.parking" class="csel"></app-custom-select>
       </div>
@@ -120,5 +121,5 @@
       <div class="col-xl-3 hidden-lg">
       </div>
     </div>
-    <button type="submit" class="btn btn-success" [disabled]="false">Spremi</button>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
   </form>

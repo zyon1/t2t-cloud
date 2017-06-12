@@ -37,9 +37,9 @@
       </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let object of myObjects;let i=index;let j=index">
+    <tr *ngFor="let object of myObjects;let i=index;let j=index;">
 
-      <td *ngIf="ready && object.data && object.data.ready">{{++i}}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{i+1}}</td>
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.name?object.data.name:""}}</td>
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
         }}</td>
@@ -47,7 +47,7 @@
       <td *ngIf="ready && object.data && object.data.ready"><a [routerLink]="[myUrl+'/object/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
       <td *ngIf="ready && object.data && object.data.ready">{{object.data.active?true:false}}</td>
 
-      <td *ngIf="!ready && object.data && !object.data.ready">{{++j}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{j+1}}</td>
       <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.name?object.data.name:""}}</td>
       <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
         }}</td>
@@ -59,4 +59,3 @@
     </tr>
   </tbody>
 </table>
-<app-calendar-test></app-calendar-test>

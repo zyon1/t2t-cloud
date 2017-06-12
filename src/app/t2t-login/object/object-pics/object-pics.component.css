@@ -2,21 +2,41 @@
     height:84px;
     padding:0px;
     float:left;
-    overflow:none;
+overflow: hidden;
     width:109px;
-        border:5px solid #ffaf0f;
+        border:5px solid #fff;
+        background: #dddddd;
+        margin: 2px;
+     
+
 
 }
+
+.pic-bg{
+   background-size: auto 75px;
+     background-repeat: no-repeat;
+     background-position: center center;
+     width: 100%;
+     height: 100%;
+   }
 .pics-container{
     width:100%;
+    clear:both;
+    display: table;
 }
 .main-pic{
     padding:0;
-    border:5px solid #ff0000;
+    border:5px solid #33a0ff;
+    border-radius:5px;
+            margin: 2px;
+
 }
 .title-pics{
-    border:5px solid blue;
+    border:5px solid #7FDBFF;
     padding:0;
+    border-radius:5px;
+            margin: 2px;
+
 }
 .modal-content {
 
@@ -34,3 +54,75 @@
     .modal-backdrop{
         z-index: 10000;
     }
+.res-indicator{
+    font-size:10px;
+}
+.state-continer{
+      text-align: center;
+
+}
+.state-continer > i {
+ margin-top:5px;
+}
+ 
+.anim-container{
+  margin: 0, auto;
+   align-items: center;
+  justify-content: center
+}
+i{
+  margin: 5px 30px;
+  
+}
+ .t2t-pulsate {
+    
+    -webkit-animation: pulsate 1s ease-out;
+    -webkit-animation-iteration-count: infinite; 
+    opacity: 0.0
+}
+
+@-webkit-keyframes pulsate {
+    0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+    50% {opacity: 1.0;}
+    100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
+}
+
+.t2t-eieo {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 1500ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 1500ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: ease-in-out;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 1500ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin;
+    animation-duration: 1500ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+@-ms-keyframes spin {
+    from { -ms-transform: rotate(0deg); }
+    to { -ms-transform: rotate(180deg); }
+}
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(180deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(180deg); }
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(180deg);
+    }
+}

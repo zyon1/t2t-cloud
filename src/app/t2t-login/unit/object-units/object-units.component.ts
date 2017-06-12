@@ -32,11 +32,20 @@ ready:boolean=true;
   ngOnInit() {
     this.us.getObjectUnits(this.oid).subscribe(
          units => {
+           if (units.length==0){
+            // console.log(units.length==0);
+             this.uws.setObjectState(this.oid, 'notJedinice', 'notJedinice');
+           }
             units.forEach(element => {
-                     this.us.getUnit(element['$key']).subscribe(data=>{
+                     this.us.getUnit(element['$key']).flatMap(data=>{
                    data.created=new Date(data.created);
                    element.data=data;
-                  });         
+                   return this.us.getUnitBasic(data['$key']).map(uData =>{
+                     //console.log(uData);
+                     element.data.name=uData.name;
+                   });
+                   
+                  }).subscribe();         
             });
             this.myUnits=units;
         });
@@ -50,7 +59,9 @@ ready:boolean=true;
       ready: false
     };
     
-   this.us.createUnit(this.oid, data);
+   this.us.createUnit(this.oid, data).then(unid => {
+     this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/units/'+unid])
+   });
       
    /* created: number,
             active: boolean,

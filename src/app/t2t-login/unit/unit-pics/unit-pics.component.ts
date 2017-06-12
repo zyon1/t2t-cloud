@@ -8,6 +8,7 @@ import { ModalWindowComponent } from '../../../modal-window/modal-window.compone
 import * as firebase from 'firebase';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
 import { UnitsWizzardService} from '../../units-wizzard.service';
+import { UnitsService} from '../../units.service';
 
 //declare var firebase: any;
 interface Image {
@@ -30,6 +31,7 @@ export class UnitPicsComponent implements OnInit {
 oid:any;   
 uid:any;
 unid:any;
+gid:any;
 contentIn:any;
 bundleResolutions:any[]=[1500, 1200, 800, 200, 100, 50];
 currentConflict:any;
@@ -62,7 +64,7 @@ picCount:number=0;
 upArray:any[]=[];
 uploadActive:boolean=false;
 //activeConnections:any;
-
+picsArray:any;
 conCounter=0;
 maxConnections:number=8;
 uploadDelay:number=0;
@@ -76,12 +78,15 @@ constructor(
     private db: AngularFireDatabase, 
     private dragulaService: DragulaService, 
     private sanitizer:DomSanitizer,
-    private uws:UnitsWizzardService
+    private uws:UnitsWizzardService,
+        private us:UnitsService  
       
 ) {
 
 this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
   result => {   
+        this.picsArray=[];
+
     let counter=0;
     let picsObj={};
     result.forEach(
@@ -90,6 +95,11 @@ this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
         element.pic=newObj;
         picsObj[counter]=element;
         counter++;
+        newObj.src=null;
+        newObj.state=null;
+        newObj.pic=null;
+        console.log(newObj);
+        this.picsArray.push(newObj);
       }
     );
     console.log(picsObj);
@@ -101,6 +111,7 @@ this.dragulaService.dragend.map(x=>{return this.uploaded}).subscribe(
     this.route.parent.parent.parent.params.subscribe(params=>{
             this.oid=params['oid'];
 this.uid=params['id'];
+this.gid=params['gid'];
     });
     this.route.parent.params.subscribe( params => {
       //console.log(params);
@@ -108,6 +119,8 @@ this.uid=params['id'];
              this.uws.setUnid(params['unid']);
 
       this.db.list(`unitPics/${this.unid}`).delay(50).subscribe(pics => {
+                this.picsArray=Object.assign({}, pics);
+
         //console.log('new database information about files');
         if (!initial)
           {  
@@ -153,7 +166,7 @@ this.uid=params['id'];
      console.log('new result', key);
                 this.uploaded[key].src=this.sanitizer.bypassSecurityTrustStyle('url('+result+')');
 ;
-                                     console.log('index', key, 'from:', this.uploaded[key].state, '=>to loaded');
+                                     console.log('index', key, 'from:', this.uploaded[key].state, '=>to loaded', this.sanitizer.bypassSecurityTrustStyle('url('+result+')'));
 
                 if(this.uploaded[key].state!='loaded'){
 
@@ -449,13 +462,15 @@ switch(action){
 
   let fileNameCounter=1;
   let strArr=this.tempFiles[conflict.target].name.split(".");
-  strArr[strArr.length -2 ]+='('+fileNameCounter+')';
+  strArr[strArr.length -2 ]+='-'+fileNameCounter;
+  //strArr[strArr.length -2 ]+='('+fileNameCounter+')';
   let nameSuggestion=strArr.join(".");
   while (this.uploaded.findIndex(element =>{return element.pic.filename == nameSuggestion })!=-1){
     //console.log(this.uploaded.findIndex(element =>{return element.pic.filename == nameSuggestion }));
   fileNameCounter++;
   strArr=this.tempFiles[conflict.target].name.split(".");
-  strArr[strArr.length -2 ]+='('+fileNameCounter+')';
+  strArr[strArr.length -2 ]+='-'+fileNameCounter;
+  //strArr[strArr.length -2 ]+='('+fileNameCounter+')';
   nameSuggestion=strArr.join(".");
   
   //console.log(nameSuggestion);
@@ -493,5 +508,14 @@ switch(action){
 this.tempFiles=[];      
   }
   //console.log(this.conflicts);
-  }
+}
+onSubmit(data) {
+   event.preventDefault();
+   this.us.updateUnitPics(this.unid, data).then(r => {
+     this.uws.setUnitState(this.unid, 'slike', 'prices').then(re=>{
+                this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/units/'+this.unid+'/prices']);         
+
+     });
+ });
+ }
 }

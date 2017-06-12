@@ -20,14 +20,14 @@ export class AuthGuard implements CanActivate {
           console.log(user);
           if (!user){
               this.loginService.redirectUrl=url;              
-              //this.router.navigate(['/auth']);
+              this.router.navigate(['/auth']);
               return false;
 
 
             }else{
                 
                 if(url=='/auth/user'){
-                    //this.router.navigate(['/auth/user/'+user.uid]);
+                    this.router.navigate(['/auth/user/'+user.uid]);
                 }
                // this.router.navigate(['/auth/user/'+user.uid]);
                 return true;}

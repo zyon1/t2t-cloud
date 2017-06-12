@@ -312,15 +312,108 @@ sauna,
         priceOverrides:{
             unid: { priceObj }
         }
+    },
+    objectState:{
+        oid: {
+            object:{
+                osnovno:{
+                    activated:boolean,
+                    completed:boolean
+                },
+                sadrzaji:{
+                    activated:boolean,
+                    completed:boolean
+                },
+                politika:{
+                    activated:boolean,
+                    completed:boolean
+                },
+                slike:{
+                    activated:boolean,
+                    completed:boolean
+                }
+                units:{
+                    completed:{
+                        unid1,
+                        unid2 //...
+                    }
+                    incompleted:{
+                        unid3,
+                        unid4 //...
+                    }
+                }
+            }
+        }
+    },
+    unitState:{
+        unid:{
+            osnovno:{
+                activated:boolean,
+                completed:boolean
+            },
+            kb:{
+                activated:boolean,
+                completed:boolean
+            },
+            oprema:{
+                activated:boolean,
+                completed:boolean
+            },
+            sobe:{
+                activated:boolean
+            },
+            slike:{
+                    activated:boolean,
+                    completed:boolean
+                }
+
+
+        }
     }
     reservation : {
-        unid: {
+        resid: {
             uid: string,
+            guid: string,
             timestamp: number,
             from: number,
             to: number,
-            note: string
-
+            note: string,
+            noPersons: number
+        }
+    }
+    guestData:{
+        name: string,
+        surname: string,
+        middlename: string,
+        IDtype:number,//1: osobna, 2: putovnice, 3: vozačka, ...
+        IDnumber: string 
+        city: string,
+        country: string,
+        birthCity: string,
+        birthCountry: string
+    },
+    myReservations:{
+        uid:{
+            resid:true,
+            //...
+        }
+    }
+    unitReservations:{
+        unid:{
+            resid:true,
+        }
+    }
+    guestVisits:{
+        guid:{
+            unid: string //eg: state: reservation, canceled, completed, noshow...
+            finance: string //eg prepay, nopay, can't collect, paid...
+        }
+    }
+    havePermissions:{
+        uid:{
+            oid:{
+                unid: string//permission, uredi, rezerviraj, upit, vidi rezervacije
+            }
         }
     }
 }

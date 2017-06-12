@@ -98,7 +98,7 @@ li > a.active {
 
 .main {
   padding:0;
-  padding-top:60px;
+  padding-top:57px;
   height: 100vh;
   padding-bottom:40px;
   box-sizing: border-box;
@@ -112,13 +112,16 @@ li > a.active {
   padding:20px;
   margin:0;
   overflow-x: hidden;
-  padding-right:221px;
+
 
 }
 @media (min-width: 768px) {
   .main {
     padding-right: 0;
     padding-left: 0;
+  }
+  .main-wrapper{
+    margin-right:210px;
   }
 }
 

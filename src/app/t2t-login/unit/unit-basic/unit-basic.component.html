@@ -3,28 +3,28 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Naziv</div>
      <div class="col-lg-9 col-xl-7">
-            <input class="form-control" type="text" [(ngModel)]="name" name="name"> 
+            <input class="form-control" type="text" [(ngModel)]="unitBasic.name" name="name"> 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Vrsta</div>
      <div class="col-lg-9 col-xl-7">
-      <app-custom-select name="type" [values]="unitTypes" text="Odaberite vrstu smještajne jedinice" [(ngModel)]="type" class="csel"></app-custom-select>
+      <app-custom-select name="type" [values]="unitTypes" text="Odaberite vrstu smještajne jedinice" [(ngModel)]="unitBasic.type" class="csel"></app-custom-select>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Veličina</div>
      <div class="col-lg-9 col-xl-7">
-            <input class="form-control" type="number" [(ngModel)]="size" name="size"> 
+            <input class="form-control" type="number" [(ngModel)]="unitBasic.size" name="size"> 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Kat</div>
      <div class="col-lg-9 col-xl-7">
-        <input class="form-control" type="number" [(ngModel)]="floor" name="floor"> 
+        <input class="form-control" type="number" [(ngModel)]="unitBasic.floorNo" name="floorNo"> 
 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -33,7 +33,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Pristup za invalide</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="disabledAccess" name="disabledAccess"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.disabledAccess" name="disabledAccess"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -42,7 +42,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Poseban ulaz</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="separateEntrance" name="separateEntrance"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.separateEntrance" name="separateEntrance"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -50,33 +50,33 @@
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Pogled</div>
      <div class="col-lg-9 col-xl-7">
-       <pre>{{UnitBasicForm.value | json}}</pre>
+      <!-- <pre>{{UnitBasicForm.value | json}}</pre>-->
        <!--// 1. more, 2. panorma, 3. priroda, 4. vrt, 5. lokalna atrakcija, 6. ostalo-->
        <label class="form-check-label">
          More
-        <input class="form-check-input" type="checkbox" [(ngModel)]="sea" name="sea"> 
+        <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.sea" name="sea"> 
         </label>
         <label class="form-check-label">
           Panorama
-        <input class="form-check-input" type="checkbox" [(ngModel)]="panorama" name="panorama"> 
+        <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.panorama" name="panorama"> 
         </label>
         <label class="form-check-label">
           Priroda
-         <input class="form-check-input" type="checkbox" [(ngModel)]="nature" name="nature"> 
+         <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.nature" name="nature"> 
           </label>
         <label class="form-check-label">
           Vrt
-        <input class="form-check-input" type="checkbox" [(ngModel)]="garden" name="garden">
+        <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.garden" name="garden">
         </label>
         <label class="form-check-label"> 
           Lokalna atrakcija
-        <input class="form-check-input" type="checkbox" [(ngModel)]="localView" name="localView"> 
+        <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.localView" name="localView"> 
         </label>
         <label class="form-check-label">
           Ostalo
-        <input class="form-check-input" type="checkbox" [(ngModel)]="otherView" name="otherView"> 
+        <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.otherView" name="otherView"> 
         </label>
-        <input class="form-control" type="text" [disabled]="UnitBasicForm.value.otherView!=true" [(ngModel)]="otherViewName" name="otherViewName">
+        <input class="form-control" type="text" [disabled]="UnitBasicForm.value.otherView!=true" [(ngModel)]="unitBasic.otherViewName" name="otherViewName">
      </div>
      
      <div class="col-xl-3 hidden-lg"></div>
@@ -85,26 +85,35 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Dizalo</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="elevator" name="elevator"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.elevator" name="elevator"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
+    <div class="form-group row">
+      <label class="col-lg-3 col-xl-2">Kratki opis</label>
+      <div class="col-lg-9 col-xl-7 form-group">
+         <textarea class="form-control" id="shortDesc" rows="3" name="shortDesc" [(ngModel)]="unitBasic.shortDesc" maxlength="150"></textarea>
+         <small id="shortDescLength" class="form-text text-muted">{{unitBasic.shortDesc?unitBasic.shortDesc.length:0}}/150</small>
 
+      </div>
+      <div class="col-xl-3 hidden-lg">
+      </div>
+    </div>
 <h5>Grijanje, klima, ventilacija</h5>
 <div class="form-group row">
      <div class="col-lg-3 col-xl-2 col-form-label">Centralno grijanje</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="central" name="central"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.central" name="central"> 
           </label>     </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 <div class="form-group row">
-     <div class="col-lg-3 col-xl-2 col-form-label">Podnog grijanje</div>
+     <div class="col-lg-3 col-xl-2 col-form-label">Podno grijanje</div>
      <div class="col-lg-9 col-xl-7">
            <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="floor" name="floor"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.floorHeating" name="floorHeating"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -113,7 +122,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Grijanje na drva</div>
      <div class="col-lg-9 col-xl-7">
                 <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="wood" name="wood"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.wood" name="wood"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -122,7 +131,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Električna grijalica</div>
      <div class="col-lg-9 col-xl-7">
                  <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="electricHeater" name="electricHeater"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.electricHeater" name="electricHeater"> 
           </label>
 
      </div>
@@ -132,10 +141,10 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Klima</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="ac" name="ac"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.ac" name="ac"> 
           </label>
 
-          <input class="form-control" type="number" [(ngModel)]="acPrice" name="acPrice"> 
+          <input class="form-control" type="number" [(ngModel)]="unitBasic.acPrice" name="acPrice"> 
 
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -144,7 +153,7 @@
      <div class="col-lg-3 col-xl-2 col-form-label">Ventilacija</div>
      <div class="col-lg-9 col-xl-7">
          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" [(ngModel)]="ventilation" name="ventilation"> 
+            <input class="form-check-input" type="checkbox" [(ngModel)]="unitBasic.ventilation" name="ventilation"> 
           </label>
      </div>
      <div class="col-xl-3 hidden-lg"></div>
@@ -156,6 +165,6 @@
      </div>
      <div class="col-xl-3 hidden-lg"></div>
 </div>
-    <button type="submit" class="btn btn-success" [disabled]="false">Submit</button>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
 
 </form>

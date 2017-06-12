@@ -24,8 +24,15 @@ ObjPolicies:any={  "chkInOut": [
     {
       "hour": "",
       "minute": ""
-    }],
-    smoking:false,
+    },
+   ],
+
+     cancelation:{
+       label:"Besplatna",
+       values: []
+     },
+     smoking:false,
+     rules:''
 };
 chkInOutOpts ={
   fields:[
@@ -66,7 +73,11 @@ chkInOutOpts ={
       this.uid=params['id'];
       console.log(this.gid, this.uid, this.oid);
       this.us.getObjectPolicies(this.oid).subscribe(data=>{
-        console.log('db data:',data);
+        if (data.cancelation && typeof data.cancelation.values == undefined){
+          data.cancelation.values=[];
+        }
+               // console.log('db data:',data,  typeof data.cancelation.values);
+
         Object.assign(this.ObjPolicies, data);
       });
       }
@@ -74,7 +85,13 @@ chkInOutOpts ={
   }
  onSubmit(data) {
      console.log(data);
-     this.us.updateObjectPolicies(this.oid, data);
-     this.uws.setObjectState(this.oid, {politika:{completed: true, available:true}, slike:{available:true}});
+     event.preventDefault();
+     this.us.updateObjectPolicies(this.oid, data).then(r => {
+     this.uws.setObjectState(this.oid, 'politika', 'slike').then(re=>{
+                this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/pics']);         
+
+     });
+
+     });
    }
   }

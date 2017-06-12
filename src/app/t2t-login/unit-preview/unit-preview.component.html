@@ -1,0 +1,327 @@
+<div *ngIf="unitData && objectData">
+  <div class="jumbotron jumbotron-fluid unit-preview-jumbo" [style.background-image]="unitPics[0].src1500">
+  <div class="container">
+    <!--<h1 class="display-3">Fluid jumbotron</h1>
+    <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+    -->
+  </div>
+ 
+<div class="row justify-content-end action-row">
+    <div class="col-4">
+      
+    </div>
+    <div class="col-sm-6">
+      <div class="col-lg-6 up-action-container">
+        <div class="action-txt" (click)="reservationContainerOpen=!reservationContainerOpen">Action</div>
+        <div class="action-bg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-up-reservation  *ngIf="reservationContainerOpen"></app-up-reservation>
+
+<div class="row unit-preview-row">
+  <div class="col-md-7">
+    <h3>
+
+      {{unitData.unitBasic.name}}
+        <i class="fa fa-star stars" *ngFor="let standard of standardArray"></i>
+      </h3>
+      <h5>Kapacitet jedinice: {{capacity.main + ' + ' + capacity.extra}}</h5>
+      <div class="first-box-container row">
+        <div class="first-box-item col" *ngIf="objectData.objectData.wifi">
+          <div class="icon-container">
+            <i class="fa fa-wifi fa-lg" aria-hidden="true"></i>
+          </div>
+          WiFi
+        </div>
+        <div class="first-box-item col" *ngIf="objectData.objectPolicies.smoking==false">
+          <div class="icon-container no-smoking">
+            <i class="material-icons">smoke_free</i>
+            <!--
+          <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
+          <div class="no-smoking-cigarette">
+            <div class="cigarette"></div>
+            <div class="empty-cigarette"></div>
+            <div class="cigarette-ash"></div>
+          </div>-->
+          </div>
+          Zabranjeno pušenje
+        </div>
+                <div class="first-box-item col" *ngIf="objectData.objectPolicies.smoking==true">
+          <div class="icon-container no-smoking">
+            <i class="material-icons">smoking_rooms</i>            <!--
+          <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
+          <div class="no-smoking-cigarette">
+            <div class="cigarette"></div>
+            <div class="empty-cigarette"></div>
+            <div class="cigarette-ash"></div>
+          </div>-->
+          </div>
+          Dozvoljeno pušenje
+        </div>
+        <div class="first-box-item col" *ngIf="objectData.objectData.pets">
+          <div class="icon-container">
+          <i class="fa fa-paw fa-lg" aria-hidden="true"></i>
+          </div>
+          Dozvoljeni ljubimci
+          <div *ngIf="objectData.objectData.petsPrice && objectData.objectData.petsPrice!=0" class="pets">
+          <small>{{objectData.objectData.petsPrice}}€/night</small>
+          </div>
+        </div>
+        <div class="first-box-item col" *ngIf="objectData.objectData.pool">
+          <div class="icon-container">
+                    <i class="material-icons">pool</i>
+
+  <!--        <div class="pool-box">
+            <div class="pool-water">~</div>
+            <div class="pool-water">~</div>
+          </div>-->
+          </div>
+          Bazen
+        </div>
+      </div>
+      <div class="up-description">
+        <h5>Kratki opis</h5>
+        <p>{{unitData.unitBasic.shortDesc}}
+          <br>
+          Jedinica ima x spavaćih soba, y soba sa pomoćnim ležajevima, te je dnevna soba opremljena pomoćinim ležajevima za z osoba.
+        </p>
+        
+      </div>
+  </div>
+  <div class="col-md-5 ">
+<sebm-google-map [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" >
+<map></map>
+  <sebm-google-map-marker [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [markerDraggable]="false"></sebm-google-map-marker>
+</sebm-google-map>
+  </div>
+</div>
+      <div class="up-beds-container row unit-preview-row">
+        <div class="col-md-7 ">
+          <h5>Glavni ležajevi</h5>
+          <div class="row">
+          <div class="bed-container col">
+            <div class="bed-borders">
+                          <div class="bed-pillow"></div>
+            </div>
+            <div class="bed-text">
+            x {{unitData.unitRooms.noSingleBeds}}
+            </div>
+            <div class="col-xl-12 bed-description">
+              <small>Jednostruki krevet<br>Dimenzija:<br> 90cm x 190cm-200cm</small>
+            </div>
+          </div>
+          <div class="bed-container col">
+            <div class="bed-borders queen">
+                          <div class="bed-pillow queen-pillow"></div>
+                          <div class="bed-pillow queen-pillow"></div>
+            </div>
+            <div class="bed-text">
+            x {{unitData.unitRooms.noQueenBeds}}
+            </div>
+             <div class="col-xl-12 bed-description">
+            <small>Bračni krevet<br>Dimenzija:<br> 120cm-140cm x 200cm</small>
+             </div>
+          </div>
+          <div class="bed-container col">
+            <div class="bed-borders king">
+                          <div class="bed-pillow king-pillow"></div>
+                          <div class="bed-pillow king-pillow"></div>
+            </div>
+            <div class="bed-text">
+            x {{unitData.unitRooms.noKingBeds}}
+            </div>
+                         <div class="col-xl-12 bed-description">
+            <small>Bračni krevet<br>Dimenzija:<br> 160cm-200cm x 200cm</small>
+             </div>
+          </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <h5>Pomoćni ležajevi</h5>
+          <div class="row">
+                      <div class="bed-container  col-4 col-md-6">
+            <div class="bed-borders">
+                          <div class="bed-pillow"></div>
+            </div>
+            <div class="bed-text">
+            x {{unitData.unitRooms.extraSingleBeds + unitData.unitRooms.extraLRSingleBeds}}
+            </div>
+          </div>
+          <div class="bed-container col-4 col-md-6">
+            <div class="bed-borders queen">
+                          <div class="bed-pillow queen-pillow"></div>
+                          <div class="bed-pillow queen-pillow"></div>
+            </div>
+            <div class="bed-text">
+            x {{unitData.unitRooms.extraDoubleBeds + unitData.unitRooms.extraLRDoubleBeds}}
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row unit-preview-row">
+        <div class="col-lg-6">
+          <h5>Slike jedinice</h5>
+          <div class="up-unit-pics-container">
+            <div class="up-pic-itmes" *ngFor="let pic of unitPics | slice:0:19; let i=index" class="pic-item">
+                  <div class="pic-bg" [style.background-image]="pic.src100" (click)="activeID=index;unitGalleryActive=true;">
+
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="col-lg-6 up-text-baloon row"> 
+          <h5>O objektu "{{objectData.objectBasic.name}}"</h5>
+          <p>{{unitData.unitBasic.type}} "{{unitData.unitBasic.name}}" se nalazi unutar objekta {{objectData.objectBasic.name}}. U ovom objektu nalaze se još jedinice: TODO: Lista jedinica i njihovi linkovi</p>
+          <div *ngIf="objectPics.length>0" class="row up-row">
+          <h6>Slike objekta</h6>
+                    <div class="up-unit-pics-container">
+            <div class="up-pic-itmes" *ngFor="let pic of objectPics | slice:0:9; let i=index" class="pic-item">
+                  <div class="pic-bg" [style.background-image]="pic.src100" (click)="activeIDObject=index;objectGalleryActive=true;">
+
+            </div>
+          </div>
+        </div>
+          </div>
+          <div class="row up-row">
+            <h6>Kratki opis</h6>
+            <p>{{objectData.objectData.shortDesc}}</p>
+            <h6>Ostali sadržaji</h6>
+            <p>
+              <span *ngIf="objectData.objectData.grill">Grill; </span>
+              <span>Parkiranje: {{objectData.objectData.parking}}; </span>
+              <span *ngIf="objectData.objectData.playground">Igralište za djecu</span>
+            </p>            
+
+          </div>
+        </div>
+      </div>
+<div class="row unit-preview-row">
+    <div class="col-lg-15 col-md-6">
+      <h6><i class="material-icons">hot_tub</i> Kupaonica</h6>
+            <ul *ngIf="unitData && unitData.unitKB" class="up-list" style="border-bottom:1px solid #bbb;padding-bottom:8px;margin-bottom:16px">
+              <li *ngIf="unitData.unitKB.noBathroom"  class="countable">Broj kupaonica: {{unitData.unitKB.noBathroom}}</li>
+              <li *ngIf="unitData.unitKB.noWC"  class="countable">Broj WC-a: {{unitData.unitKB.noWC}}</li>
+            </ul>
+            <ul *ngIf="unitData && unitData.unitKB" class="up-list">
+              <li *ngIf="unitData.unitKB.bathtubs" class="countable">Broj kada: {{unitData.unitKB.bathtubs}}</li>
+              <li *ngIf="unitData.unitKB.showers"  class="countable">Broj tuševa: {{unitData.unitKB.showers}}</li>
+              <li *ngIf="unitData.unitKB.jacuzzy"  class="countable">Broj parnih kupelji: {{unitData.unitKB.jacuzzy}}</li>
+              <li *ngIf="unitData.unitKB.sauna"  class="countable">Sauna</li>
+
+      </ul>
+    </div>
+    <div class="col-lg-15 col-md-6">
+      <h6><i class="material-icons">restaurant</i> Kuhinja</h6>
+      <ul *ngIf="unitData && unitData.unitKB" class="up-list">
+        <li *ngIf="unitData.unitKB.stove">Štednjak</li>
+        <li *ngIf="unitData.unitKB.oven">Pećnica</li>
+        <li *ngIf="unitData.unitKB.refrigerator">Hladnjak</li>
+        <li *ngIf="unitData.unitKB.microwave">Mikrovalna</li>
+        <li *ngIf="unitData.unitKB.electricKettle">Grijalo za vodu</li>
+        <li *ngIf="unitData.unitKB.dishwasher">Perilica za posuđe</li>
+
+      </ul>
+    </div>
+    <div class="col-lg-15 col-md-4">
+      <h6><i class="material-icons">home</i> Oprema</h6>
+
+
+            <ul *ngIf="unitData && unitData.unitEq" class="up-list">
+        <li *ngIf="unitData.unitEq.dryer">Sušilo za kosu</li>
+        <li *ngIf="unitData.unitEq.washingmachine">Perilica za rublje</li>
+        <li *ngIf="unitData.unitEq.iron">Glačalo</li>
+        <li *ngIf="unitData.unitEq.linen">Posteljina</li>
+        <li *ngIf="unitData.unitEq.towels">Ručnici</li>
+        <li *ngIf="unitData.unitEq.safe">Sef</li>
+        <li *ngIf="unitData.unitEq.cot">Dječji krevetić</li>
+
+
+      </ul>
+    </div>
+    <div class="col-lg-15 col-md-4">
+      <h6><i class="material-icons">tv</i> Multimedia</h6>
+      <ul *ngIf="unitData && unitData.unitEq" class="up-list">
+        <li *ngIf="unitData.unitEq.flatscreen">Flatscreen TV</li>
+        <li *ngIf="unitData.unitEq.cable">Kabelski programi</li>
+        <li *ngIf="unitData.unitEq.satellite">Satelitski programi</li>
+        <li *ngIf="unitData.unitEq.local">Lokalni programi</li>
+        <li *ngIf="unitData.unitEq.radio">Radio</li>
+        <li *ngIf="unitData.unitEq.hifi">Audio linija</li>
+        <li *ngIf="unitData.unitEq.projector">Projektor</li>
+        <li *ngIf="unitData.unitEq.professionalAudio">Profesionalni audio sustav</li>
+
+
+      </ul>
+    </div>
+    <div class="col-lg-15 col-md-4">
+      <h6><i class="material-icons">ac_unit</i> HVAC</h6>
+        <ul *ngIf="unitData && unitData.unitBasic" class="up-list">
+        <li *ngIf="unitData.unitBasic.central">Centralno grijanje</li>
+        <li *ngIf="unitData.unitBasic.floorHeating">Podno grijanje</li>
+        <li *ngIf="unitData.unitBasic.wood">Grijanje na drva</li>
+        <li *ngIf="unitData.unitBasic.electricHeater">Električna grijalica</li>
+        <li *ngIf="unitData.unitBasic.ac">Klima {{unitData.unitBasic.acPrice?unitData.unitBasic.acPrice+'/€ dnevno':''}}</li>
+        <li *ngIf="unitData.unitBasic.ventilation">Sef</li>
+        
+
+
+      </ul>
+    </div>
+</div>
+<div class="row unit-preview-row" style="padding-top:0;padding-bottom:0;">
+
+  <h5>Politika objekta</h5>
+</div>
+<div class="row unit-preview-row">
+  <div class="col-sm-6">
+      <h6>Dolasci / odlasci</h6>
+    Check-in: {{objectData.objectPolicies.chkInOut[0].hour+":"+objectData.objectPolicies.chkInOut[0].minute}}<br>
+    Check-out: {{objectData.objectPolicies.chkInOut[1].hour+":"+objectData.objectPolicies.chkInOut[1].minute}}
+  </div>
+    <div class="col-sm-6">
+      <h6>Pravila kuće</h6>
+   <p>{{objectData.objectPolicies.rules}}</p>
+  </div>
+</div>
+<!--
+<pre>{{unitData | json}}</pre>
+
+<pre>{{objectData | json}}</pre>-->
+</div>
+<div class="up-gallery" *ngIf="unitGalleryActive">
+  <div class="up-gallery-overlay" (click)="unitGalleryActive=false;">
+      
+  </div>
+<div class="up-pic-gal-container">
+<ngb-carousel [activeId]="activeID">
+  <ng-template ngbSlide *ngFor="let pic of unitPics">
+                  <div class="pic-big" [style.background-image]="pic.src1500">
+
+            </div>    <div class="carousel-caption">
+     <!-- <h3>First slide label</h3>
+      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
+    </div>
+  </ng-template>
+</ngb-carousel>
+  </div>
+</div>
+<div class="up-gallery" *ngIf="objectGalleryActive">
+  <div class="up-gallery-overlay" (click)="objectGalleryActive=false;">
+      
+  </div>
+<div class="up-pic-gal-container">
+<ngb-carousel [activeId]="activeIDObject">
+  <ng-template ngbSlide *ngFor="let pic of objectPics">
+                  <div class="pic-big" [style.background-image]="pic.src1500">
+
+            </div>    <div class="carousel-caption">
+     <!-- <h3>First slide label</h3>
+      <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>-->
+    </div>
+  </ng-template>
+</ngb-carousel>
+  </div>
+</div>

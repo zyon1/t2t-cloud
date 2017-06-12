@@ -20,6 +20,8 @@ overflow: hidden;
    }
 .pics-container{
     width:100%;
+    clear:both;
+    display: table;
 }
 .main-pic{
     padding:0;

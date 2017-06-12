@@ -13,6 +13,8 @@ export interface ObjDataStruc{
             parking?: number, // 1: public free, 2. public paid, 3. parking place, 4. garage
             wifi?: boolean,
             pets?: boolean,
+            petsPrice?:number,
+
             playground?: boolean, //kids playground
             pool?: boolean,
             grill?: boolean,
@@ -33,6 +35,7 @@ ObjData:ObjDataStruc={
   parking:-1,
   wifi:false,
   pets:false,
+  petsPrice:0,
   playground:false,
   pool:false,
   grill:false,
@@ -97,9 +100,13 @@ FIAOptions ={
 
   }
    onSubmit(data) {
-     console.log(data);
-     this.us.updateObjectData(this.oid, data);
-     this.uws.setObjectState(this.oid, {sadrzaji:{completed: true, available:true}, politika:{available:true}});
+        event.preventDefault();
+     this.us.updateObjectData(this.oid, data).then( r=> {
+       this.uws.setObjectState(this.oid, 'sadrzaji', 'politika').then(re=>{
+         this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/policies']);         
+       });
+     });
+     
    }
 
 }

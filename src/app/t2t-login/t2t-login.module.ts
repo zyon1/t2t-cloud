@@ -10,6 +10,8 @@ import { DragulaModule } from 'ng2-dragula/ng2-dragula';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
 import { CalendarModule } from 'angular-calendar';
+import { MaterialModule } from '@angular/material';
+
 
 /* routing moudle */
 import { LoginRouting, appRoutingProviders } from './login-routing.module';
@@ -28,8 +30,9 @@ import { WatchingService } from './watching.service';
 import { ChatService } from './chat.service';
 import { UnitsService } from './units.service';
 import { UnitsWizzardService } from './units-wizzard.service';
-
+import { DbCorrectionService } from './db-correction.service';
 import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services';
+import { ReservationService } from './reservation.service';
 
 /* components */
 import { T2tLoginComponent } from './t2t-login.component';
@@ -67,27 +70,21 @@ import { ObjectDataComponent } from './object/object-data/object-data.component'
 import { FormInputArrayComponent } from './form-input-array/form-input-array.component';
 import { ObjectPoliciesComponent } from './object/object-policies/object-policies.component';
 import { CancelationPoliciesComponent } from './cancelation-policies/cancelation-policies.component';
-import { UnitDataComponent } from './unit/unit-data/unit-data.component';
 import { UnitBasicComponent } from './unit/unit-basic/unit-basic.component';
 import { UnitKitchenComponent } from './unit/unit-kitchen/unit-kitchen.component';
-import { UnitBathroomComponent } from './unit/unit-bathroom/unit-bathroom.component';
-import { UnitHvacComponent } from './unit/unit-hvac/unit-hvac.component';
-import { UnitMultimediaComponent } from './unit/unit-multimedia/unit-multimedia.component';
 import { UnitEquipmentComponent } from './unit/unit-equipment/unit-equipment.component';
 import { UnitsWizardComponent } from './units-wizard/units-wizard.component';
 import { ObjectUnitsComponent } from './unit/object-units/object-units.component';
-import { WizzyCrumbsComponent } from './wizzy-crumbs/wizzy-crumbs.component';
-import { UnitDataTwoComponent } from './unit/unit-data-two/unit-data-two.component';
-import { UnitDataThreeComponent } from './unit/unit-data-three/unit-data-three.component';
 import { RoomsComponent } from './rooms/rooms.component';
 import { ObjectPicsComponent } from './object/object-pics/object-pics.component';
 import {ModalWindowComponent, fcModalComponent } from '../modal-window/modal-window.component';
 import { UnitPicsComponent } from './unit/unit-pics/unit-pics.component';
 import { UnitRoomsComponent } from './unit/rooms/unit-rooms.component';
+import { UnitPricesComponent } from './unit-prices/unit-prices.component';
+import { UnitPreviewComponent } from './unit-preview/unit-preview.component';
 import { CalendarTestComponent } from './calendar-test/calendar-test.component';
-
-
-
+import { MyObjectsComponent } from './my-objects/my-objects.component';
+import { UpReservationComponent } from './up-reservation/up-reservation.component';
 
 /* Classes */
 
@@ -113,7 +110,8 @@ export const myFirebaseConfig = {
     Ng2ImgMaxModule,
     AgmCoreModule,
     DragulaModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    MaterialModule
   ],
   declarations: [
     T2tLoginComponent,
@@ -152,18 +150,11 @@ export const myFirebaseConfig = {
     FormInputArrayComponent,
     ObjectPoliciesComponent,
     CancelationPoliciesComponent,
-    UnitDataComponent,
     UnitBasicComponent,
     UnitKitchenComponent,
-    UnitBathroomComponent,
-    UnitHvacComponent,
-    UnitMultimediaComponent,
     UnitEquipmentComponent,
     UnitsWizardComponent,
     ObjectUnitsComponent,
-    WizzyCrumbsComponent,
-    UnitDataTwoComponent,
-    UnitDataThreeComponent,
     RoomsComponent,
     ObjectPicsComponent,
     ModalWindowComponent,
@@ -171,7 +162,11 @@ export const myFirebaseConfig = {
     UnitPicsComponent,
     UnitRoomsComponent,
     RoomsComponent,
-    CalendarTestComponent
+    CalendarTestComponent,
+    UnitPricesComponent,
+    MyObjectsComponent,
+    UnitPreviewComponent,
+    UpReservationComponent
     ],
   providers: [ 
     LoginService, 
@@ -188,7 +183,9 @@ export const myFirebaseConfig = {
     GoogleMapsAPIWrapper, 
     UnitsWizzardService, 
     AngularFireAuth, 
-    AngularFireDatabase]
+    AngularFireDatabase,
+    ReservationService
+    ]
 })
 export class T2tLoginModule {
   // x=console.log("login module loaded");

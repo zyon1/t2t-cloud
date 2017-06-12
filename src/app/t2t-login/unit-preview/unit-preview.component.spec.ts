@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { UnitHvacComponent } from './unit-hvac.component';
+import { UnitPreviewComponent } from './unit-preview.component';
 
-describe('UnitHvacComponent', () => {
-  let component: UnitHvacComponent;
-  let fixture: ComponentFixture<UnitHvacComponent>;
+describe('UnitPreviewComponent', () => {
+  let component: UnitPreviewComponent;
+  let fixture: ComponentFixture<UnitPreviewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UnitHvacComponent ]
+      declarations: [ UnitPreviewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnitHvacComponent);
+    fixture = TestBed.createComponent(UnitPreviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

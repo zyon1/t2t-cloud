@@ -44,9 +44,39 @@ private gidSource = new Subject<string>();
     this.gidSource.next(gid);
   }
  getObjectState(oid){
-   return this.db.object('objectState/'+oid+'/object');
+   return this.db.object('objectState/'+oid);
  }
-  setObjectState(oid, data){
-    this.db.object('objectState/'+oid+'/object').update(data);
+ getUnitState(unid){
+   return this.db.object('unitState/'+unid);
+ }
+  setObjectState(oid, target, nextItem){
+    return this.db.object('objectState/'+oid+'/object/'+target).update({completed:true}).then(r=>{
+      this.db.object('objectState/'+oid+'/object/'+nextItem).update({available:true});
+
+    });
   }
+  setUnitState(unid, target, nextItem){
+    return this.db.object('unitState/'+unid+'/object/'+target).update({completed:true}).then(r=>{
+          this.db.object('unitState/'+unid+'/object/'+nextItem).update({available:true});
+
+    });
+  }
+  addCompletedUnit(oid, unid){
+     this.db.object('objectState/'+oid+'/units/completed').update(unid);
+  }
+  addUnitToObject(oid, unid){
+    this.db.object('objectState/'+oid+'/units/incompleted').update(unid);
+  }
+activateObject(oid){
+    return this.db.object('tObjects/'+oid).update({ready:true}).catch(r =>{ 
+        console.error('Something went wrong with publishing object. Please try again later!');
+        return false;
+    });
+}
+activateUnit(unid){
+    return this.db.object('units/'+unid).update({ready:true}).catch(r =>{ 
+        console.error('Something went wrong with publishing unit. Please try again later!');
+        return false;
+});
+}
 }

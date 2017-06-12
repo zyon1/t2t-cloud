@@ -169,7 +169,12 @@ tpLength:number=this.testPolicies.length;
   }
 
   writeValue(value: any) {
+    console.log(value );
+    if (value && (value.values == null || typeof value.values==undefined)){
+      value.values=[];
+    }
     if (value !== undefined) {
+
     this.write(value);
       }
   }
@@ -192,7 +197,12 @@ setDisabledState(isDisabled: boolean){
 }
 
    write(value){
-     if (value){this.cancelationP=value}
+     if (value){
+       if (typeof value.values == undefined){
+         value.values=[];
+       }
+       this.cancelationP=value
+      }
       this.total=0;
 
 this.tpLength=this.cancelationP.values.length;

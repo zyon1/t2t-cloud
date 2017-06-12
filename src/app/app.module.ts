@@ -15,6 +15,7 @@ import { AgmCoreModule } from 'angular2-google-maps/core';
 import { NgbDateMomentParserFormatter } from './date-picker/ngb-datepicker-parser-formatter';
 /* Modules */
 import { AppRoutingModule } from './app-routing.module';
+
 /* Services */
 import { PaginationService } from './pagination.service';
 /* Pipes */

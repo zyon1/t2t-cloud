@@ -237,15 +237,17 @@ console.log(this.lat);
   }
 }
   onSubmit(data) {
-   let state={osnovno:{completed: true}, sadrzaji: {available:true}};
-    this.uws.setObjectState(this.oid, state);
+   //let state={osnovno:{completed: true}, sadrzaji: {available:true}};
+   event.preventDefault();
+    this.uws.setObjectState(this.oid, 'osnovno', 'sadrzaji');
     this.submitted = true;
     console.log(this.oid);
     this.us.updateObject(this.oid, data)
       .then( 
         r=>{
-          console.log('updated');
-         // this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/edit/'+this.oid+'/data']);
+          console.log('updated', this.uid, this.gid, this.oid);
+          
+         this.router.navigate(['auth/user/'+this.uid+'/group/'+this.gid+'/units/object/'+this.oid+'/data']);
 
         })
       .catch(

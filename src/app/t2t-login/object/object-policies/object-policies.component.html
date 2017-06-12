@@ -1,13 +1,15 @@
 <h2>Politika poslovanja objekta</h2>
 <form (ngSubmit)="onSubmit(ObjPoliciesForm.form.value)" #ObjPoliciesForm="ngForm">
     <div class="form-group row">
+        <!--
             <div class="col-sm-12">
+
             form<pre>{{ ObjPoliciesForm.value | json }}</pre>
             </div>
-
-      <div class="col-sm-2 col-form-label">
-          <label style="height: 38px;">Check in:</label>
-          <label style="height: 38px;">Check out:</label>
+-->
+      <div class="col-sm-2 col-form-label" style="padding-left:10px;">
+          <div class="col-xs-12"><label style="height: 38px;">Check in:</label></div>
+          <div class="col-xs-12"><label style="height: 38px;">Check out:</label></div>
 
 </div>
 <div class="col-sm-7">
@@ -37,5 +39,5 @@
 
 
 <app-cancelation-policies name="cancelation" [(ngModel)]="ObjPolicies.cancelation"></app-cancelation-policies>
-    <button type="submit" class="btn btn-success" [disabled]="false">Submit</button>
+    <button type="submit" class="btn btn-success" [disabled]="false">Spremi i dalje</button>
   </form>
