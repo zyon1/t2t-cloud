@@ -1,4 +1,4 @@
-import {Component, Injectable, Input, Output, EventEmitter, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {NgbDateStruct, NgbDatepickerI18n, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateMomentParserFormatter } from '../../date-picker/ngb-datepicker-parser-formatter';
 import {
@@ -8,7 +8,9 @@ import {
   animate,
   transition
 } from '@angular/animations';
-
+import { ReservationService } from '../reservation.service';
+import { LoginService } from '../login.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 const I18N_VALUES = {
   en: {
@@ -20,7 +22,11 @@ const I18N_VALUES = {
     months: ['Siječanj', 'Veljača', 'Ožujak', 'Travanj', 'Svibanj', 'Lipanj', 'Srpanj', 'Kolovoz', 'Rujan', 'Listopad', 'Studeni', 'Prosinac'],
   }
 };
+interface Note {
+  date:any;
+  text:string;
 
+}
 // Define a service holding the language. You probably already have one if your app is i18ned.
 @Injectable()
 export class I18n {
@@ -67,7 +73,41 @@ constructor(){
 export class UpReservationComponent implements OnInit {
   public startDate:any;
   public endDate:any;
-  constructor(private _i18n: I18n) { }
+  noGuests:number=1;
+  expandGuestData:boolean=false;
+  guestDetails:boolean=false;
+  notes:any=[];
+  noteObject:Note={
+    date:'',
+    text:''
+  };
+  unid:string;
+  uid:string;
+  //guestData:any;
+  guestData:any={
+    name:'',
+    middlename:'',
+    surname:'',
+    tel:'',
+    email:'',
+    documentType:-1,
+    idNumber:'',
+    place:'',
+    country:'',
+    birthCountry:'',
+    birthPlace:''
+
+  };
+  reservation:any;
+  constructor(private _i18n: I18n, private rs:ReservationService, private ls:LoginService, private route:ActivatedRoute) {
+    this.ls.uid$.flatMap(uid => {
+      this.uid=uid;
+ return this.route.params;
+    }).subscribe(params => {
+      this.unid=params['unid'];
+      console.log(this.unid, this.uid);
+    })
+   }
   set language(language: string) {
     this._i18n.language = language;
   }
@@ -108,5 +148,19 @@ export class UpReservationComponent implements OnInit {
     //this.end.emit(ymdTodate.getTime()-1);
     //console.log(value);
   }
+  addNote(noteObject){
+    let tmpDate=new Date(noteObject.date.year, noteObject.date.month-1, noteObject.date.day);
+    noteObject.date=tmpDate.getTime();
+    console.log(noteObject.date);
+    this.notes.push(noteObject);
+    this.noteObject={
+    date:'',
+    text:''
+  };
+}
+makeReservation(reservation, guestData, notes){
+  console.log(guestData, notes, reservation)
+  this.rs.makeReservation(reservation, guestData, notes)
+}
 
 }

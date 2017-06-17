@@ -39,7 +39,7 @@ unitGalleryActive:boolean=false;
 objectGalleryActive:boolean=false;
 activeID:number=0;
 activeIDObject:number=0;
-reservationOpen=false;
+reservationContainerOpen=true;
   constructor(
       private router:Router, 
       private route:ActivatedRoute, 

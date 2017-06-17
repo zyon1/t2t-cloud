@@ -377,11 +377,11 @@ sauna,
             timestamp: number,
             from: number,
             to: number,
-            note: string,
             noPersons: number
         }
     }
     guestData:{
+        guid:{
         name: string,
         surname: string,
         middlename: string,
@@ -391,16 +391,31 @@ sauna,
         country: string,
         birthCity: string,
         birthCountry: string
+        }
     },
+    reservationNotes:{
+        resid:{
+            noteId:{
+                timestamp:number;
+                note:string;
+            }
+        }
+    }
     myReservations:{
         uid:{
-            resid:true,
+            resid:{
+                from:number,
+                to:number
+            },
             //...
         }
     }
     unitReservations:{
         unid:{
-            resid:true,
+            resid:{
+                from:number,
+                to:number,
+            },
         }
     }
     guestVisits:{
