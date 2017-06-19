@@ -158,9 +158,18 @@ export class UpReservationComponent implements OnInit {
     text:''
   };
 }
-makeReservation(reservation, guestData, notes){
-  console.log(guestData, notes, reservation)
-  this.rs.makeReservation(reservation, guestData, notes)
+makeReservation(guestData){
+  // TODO: napraviti validaciju rezervacije
+
+  let reservation:any={};
+  reservation.from=new Date(this.startDate.year, this.startDate.month-1, this.startDate.day).getTime();
+  reservation.to=new Date(this.endDate.year, this.endDate.month-1, this.endDate.day).getTime();
+  reservation.unid=this.unid;
+  reservation.uid=this.uid;
+  
+  reservation.noGuests=this.noGuests;
+  console.log(guestData, this.notes, reservation)
+  this.rs.makeReservation(reservation, guestData, this.notes)
 }
 
 }

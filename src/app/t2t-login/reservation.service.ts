@@ -25,14 +25,22 @@ makeReservation(reservation, guestData, notes){
    noPersons: number
   }
  */
+ // TODO: check reservation first before sending request
+ 
+reservation.timestamp=firebase.database['ServerValue']['TIMESTAMP'];
  this.db.list('guestData').push(guestData).then(gData => {
    Object.assign(reservation, {guid:gData.key});
+   console.log('guestData saved');
    this.db.list('reservation').push(reservation).then(res =>
     {
+      console.log('reservation saved');
       this.db.object('unitReservations/'+reservation.unid).update({[res.key]:{from:reservation.from, to:reservation.to}}).then(_ => {
+        console.log('reservation added to units');
       this.db.object('myReservations/'+reservation.uid).update({[res.key]:{from:reservation.from, to:reservation.to}}).then(_=>{
-        notes.forEach(note => {
-        this.db.list('reservationNotes/'+res.key).push(note);  
+
+        notes.forEach((note, index) => {
+          console.log('pushing note');
+        this.db.object('reservationNotes/'+res.key+'/'+index).update(note);  
         });
         
       });

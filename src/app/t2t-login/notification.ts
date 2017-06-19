@@ -6,6 +6,9 @@ export class Notification{
     msg?:string;
     type:number;
     solved?:boolean;
+    unid?:string;
+    unitName?:string;
+
     constructor(key, type, gid?, gName?, uid?){
         this.key=key;
         this.type=type;
@@ -17,6 +20,8 @@ export class Notification{
                 this.gid=gid;
             break;
             case 2:
+            this.msg="Primljena nova rezervacija za jedinicu " + this.unitName + "!";
+            
             break;
             case 3:
             break;

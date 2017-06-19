@@ -12,6 +12,15 @@ export class WatchingService {
     constructor(private afAuth: AngularFireAuth, private db: AngularFireDatabase) {
           
     }
+    /*
+     type:number;
+    created:any;
+    active:boolean;
+    delivered:boolean;
+    error?:string;
+    solved: boolean
+    gid?: string;
+     */
     setWatcher(uid, data){
         let watch: Watcher= new Watcher();
         watch.created=firebase.database['ServerValue']['TIMESTAMP'];
