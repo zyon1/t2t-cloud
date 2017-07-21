@@ -110,10 +110,9 @@
          <!-- this creates a google map on the page with the given lat/lng from -->
 <!-- the component as the initial center of the map: -->
 
-<sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" #addressMap>
-<map></map>
-  <sebm-google-map-marker *ngIf="locFound" [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="updateMarkerLocation($event)" ></sebm-google-map-marker>
-</sebm-google-map>
+<agm-map [latitude]="lat" [longitude]="lng" [mapTypeId]="'satellite'" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" #addressMap>
+  <agm-marker *ngIf="locFound" [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="updateMarkerLocation($event)" ></agm-marker>
+</agm-map>
    
       </div>
       <div class="col-xl-3 hidden-lg">

@@ -99,3 +99,8 @@ margin:0 10px 10px;
     border-right:1px solid #ddd;
     word-wrap: break-word;
 }
+.unavailable{
+    background: #ff6666;
+     pointer-events: none;
+   cursor: not-allowed; 
+}

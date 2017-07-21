@@ -16,6 +16,8 @@ extraCap:number=0;
 unid:string;
 oid:string;
 roomObj:any={
+  noRooms:0,
+  noRoomsExtra:0,
   noSingleBeds:0,
   noQueenBeds:0,
   noKingBeds:0,

@@ -10,7 +10,10 @@ import {
   isSameMonth,
   addHours
 } from 'date-fns';
+
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -25,7 +28,8 @@ import { CustomDateFormatter } from '../custom-date-formatter.provider';
 import {NgbDateStruct, NgbDatepickerI18n, NgbDateParserFormatter} from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateMomentParserFormatter } from '../../date-picker/ngb-datepicker-parser-formatter';
 import { UnitsService} from '../units.service';
-import { UnitsWizzardService} from '../units-wizzard.service';
+import { ReservationService} from '../reservation.service';
+
 import { Router, ActivatedRoute} from '@angular/router';
 
 const I18N_VALUES = {
@@ -84,10 +88,11 @@ constructor(){
 
 }
 @Component({
-  selector: 'app-unit-prices',
+  selector: 'app-availability-alpha',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './unit-prices.component.html',
-  styleUrls: [ './angular-calendar.css', './unit-prices.component.css'], encapsulation: ViewEncapsulation.None,
+  templateUrl: './availability-alpha.component.html',
+  styleUrls: ['./availability-alpha.component.css'],
+  encapsulation: ViewEncapsulation.None,
    providers: [
     I18n, 
     {provide: NgbDatepickerI18n, useClass: CustomDatepickerI18n}, 
@@ -102,16 +107,9 @@ constructor(){
     '(document:click)': 'onClick($event)',
   }, 
 })
-export class UnitPricesComponent implements OnInit{
-/*
+export class AvailabilityAlphaComponent implements OnInit {
 
-colors: 
-  money green: rgb(  33,  108,   42)
-  lightest:    rgb( 138,  219,  147)
- ranges:           +105, -111, -105
-
- */
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+ @ViewChild('modalContent') modalContent: TemplateRef<any>;
 activeCalendarIndex=-1;
   view: string = 'month';
   hoveredDate;
@@ -133,11 +131,13 @@ months:any=  [
   {label:"Prosinac", value: 11}
   ];
 
-  unid:string;
+unid:string;
 oid:string;
+units$:any;
 newUrl:string;
 periodsLoaded:boolean=false;
-
+minStayPeriod:any;
+pricePeriod:any;
   years:any = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
   selectedMonth:any={label:I18N_VALUES[this._i18n.language].months[new Date().getMonth()], value:new Date().getMonth()};
   selectedYear:any=new Date().getFullYear();
@@ -203,29 +203,84 @@ dbPeriods:any={};
 periodsSource:Subject<any>=new Subject();
 periods$:any=this.periodsSource.asObservable();
   activeDayIsOpen: boolean = true;
-
+reservations$:Observable<any[]>;
+reservationFetched:any={};
+guests:any={};
+editCalendar=false;
+overrides$:any;
+overrides:any;
+price:any;
+minStay:any;
   constructor( private modal: NgbModal, 
                private _i18n: I18n, 
                private _eref: ElementRef, 
                private us:UnitsService, 
-               private uws:UnitsWizzardService, 
                private router:Router, 
                private route:ActivatedRoute,
-               private ref: ChangeDetectorRef
+               private ref: ChangeDetectorRef,
+               private rs: ReservationService
 ) {
    // this.testDate=new Date(2017, 11, 20);
    // this.viewDate=this.testDate;
   // this.selectedMonth.value=I18N_VALUES[this._i18n.language].months[new Date().getMonth()];
-  this.route.params.map( params => {
+  this.route.params.subscribe( params => {
 
        console.log(params);
-       this.uws.setUnid(params['unid']);
-       this.unid=params['unid'];
-       console.log();
+       this.oid=params['oid'];
        
-      return this.us.getUnitPrices(this.unid).map(data=>{
+                   this.units$=this.us.getObjectUnits(this.oid).map(units => {
+                     let tmpArr=[];
+                     units.forEach(unit => {
+                        console.log(unit);
 
-                    this.periods.push('as');
+                       tmpArr.push(
+                         {
+                           unid:unit['$key'], 
+                           //ready$:this.us.getUnit(unit['$key']).map(unit => {return unit.ready}), 
+                           name$: this.us.getUnitBasic(unit['$key']).map(unit => {return unit.name})});
+                     });
+                     return tmpArr;
+                   })
+
+  });
+}
+ngOnInit(){
+  /*
+    this.router.events.subscribe(route => {
+          let urlArray=route['url'].toString().split('/');
+          
+          let newArray=[];
+          for(let i=0;i<=6;i++){
+            newArray.push(urlArray[i]);
+          }
+
+          //urlArray[urlArray.length-1]='eq';
+          this.newUrl=newArray.join('/');
+          console.log(this.newUrl);
+    });*/
+}
+fetchData(unid){
+  this.reservations$= this.rs.fetchUnitReservations(unid);
+  this.overrides$=this.us.getOverridesMulti(unid).flatMap(overrides => {
+    this.overrides=overrides;
+    return this.us.getClosed(unid).map(closedDates => {
+      closedDates.forEach(closedDate => {
+        console.log(closedDate);
+        if (this.overrides[closedDate['$key']]){
+        this.overrides[closedDate['$key']].closed=true;}else
+        {
+          this.overrides[closedDate['$key']]={closed:true}
+        }
+      });
+      //Object.assign(this.overrides, closedDates);
+      //console.log(this.overrides);
+    this.ref.markForCheck();
+
+    })
+  });
+  this.overrides$.subscribe();
+  this.periods$=this.us.getUnitPrices(this.unid).map(data=>{
+
 
                  console.log('db data:',data, typeof data, data?true:false, data['$value']==null, data.length, data[0+""]);
 
@@ -264,23 +319,77 @@ periods$:any=this.periodsSource.asObservable();
 
          }
   }).subscribe();
-      }).subscribe();
-  
-      this.oid=this.uws.oid;
-}
-ngOnInit(){
-    this.router.events.subscribe(route => {
-          let urlArray=route['url'].toString().split('/');
-          
-          let newArray=[];
-          for(let i=0;i<=6;i++){
-            newArray.push(urlArray[i]);
-          }
 
-          //urlArray[urlArray.length-1]='eq';
-          this.newUrl=newArray.join('/');
-          console.log(this.newUrl);
-    });
+}
+existingReservations(date):Observable<any>{
+  let x:any=false;
+  let tmpObj:any={$key:false};
+  let resFetchObj:any={};
+  /** 
+   * $key:{
+   * start:false,
+   * end: false }
+  */
+  return this.reservations$.map(reservations => {
+    reservations.forEach(reservation => {
+      //resFetchObj[reservation.$key]={};
+      let firstReservation=true;
+      if (typeof this.reservationFetched[reservation.$key]=="undefined"){
+        this.reservationFetched={[reservation.$key]:{}};
+        this.reservationFetched[reservation.$key].start=false;
+        this.reservationFetched[reservation.$key].end=false;
+      }
+      if (!this.reservationFetched[reservation.$key].start || !this.reservationFetched[reservation.$key].end){
+     // console.log(reservation, new Date(reservation.from), new Date(reservation.to))
+//console.log(reservation.from <= date.getTime(),  reservation.to>=date.getTime(), new Date(reservation.from), date, new Date(reservation.to));
+if (date.getTime() >= reservation.from   && date.getTime() <=reservation.to){
+//console.log( date);
+//x=true;
+
+if(date.getTime()==reservation.from){
+  this.reservationFetched[reservation.$key].start=true;
+  tmpObj.start=true;
+  
+  this.rs.fetchReservationData(reservation.$key).flatMap(res => {
+    //console.log(res);
+    return this.rs.fetchGuestData(res.guid).map(gData => 
+    { this.ref.markForCheck();
+      return gData.name + " " +gData.surname});
+  }).subscribe(gdName=>{
+    this.guests[reservation.$key]=gdName;
+
+  });
+  tmpObj.$key=reservation.$key;
+
+}
+if(date.getTime()==reservation.to){
+  this.reservationFetched[reservation.$key].end=true;
+  tmpObj.end=true;
+  tmpObj.end$key=reservation.$key;
+}else{
+  tmpObj.$key=reservation.$key;
+
+}
+x=true;
+}
+firstReservation=false;
+    }
+  });
+  if (x==false){tmpObj=false};
+    //console.log(tmpObj);
+
+    return tmpObj;
+
+  });
+  
+}
+fetchOverrides(date){
+  let tmpDate=date.getTime();
+  if (this.overrides[tmpDate]){
+    return this.overrides[tmpDate];
+  }else{
+    return false;
+  }
 }
  trackByIndex(index: number, value) {
     return index;
@@ -433,10 +542,6 @@ console.log(value, ymdTodate, ymdTodate.getTime());
     this.modalData = {event, action};
     this.modal.open(this.modalContent, {size: 'lg'});
   }
-addPeriod(){
-  this.periods.push({color:{red:56, green:183, blue:71}});
-  //this.periods.pop();
-}
 
   addEvent(): void {
     this.events.push({
@@ -492,6 +597,9 @@ this.activeCalendarIndex=-1;}
 }
 }
   }
+checkOverrides(date){
+
+}
 checkPeriod(date){
   let x:any=false;
   let maxPrice:number=0;
@@ -544,27 +652,48 @@ this.periods.forEach((period, index) => {
 });
 }
 }
-onSubmit(){
-  this.dbPeriods={};
-  let i=0;
-  this.periods.forEach(period => {
-    if (period.start && period.end && period.price){
-    this.dbPeriods[i]=(({ start, end, price, minStay }) => ({ start, end, price, minStay}))(period);
-    i++;
-    }
-    
+closeDate(date){
+  this.us.setClosed(this.unid, date.getTime());
+}
+closeDateRange(){
+  let tmpStart=new Date(this.startDate.year, this.startDate.month - 1, this.startDate.day).getTime();
+  //new Date(`${start.year}-${start.month}-${start.day}`);
+  let  tmpEnd=new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day).getTime();
+    this.us.setClosedMulti(this.unid, tmpStart, tmpEnd);
+  
+}
+clearOverridesRange(){
+    let tmpStart=new Date(this.startDate.year, this.startDate.month - 1, this.startDate.day).getTime();
+  //new Date(`${start.year}-${start.month}-${start.day}`);
+  let  tmpEnd=new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day).getTime();
+  this.us.updateOverridesMulti(this.unid, tmpStart, tmpEnd, null).then(_=>{this.us.setOpenedMulti(this.unid, tmpStart, tmpEnd)});
+}
+setOverridesRange(){
+  let tmpStart=new Date(this.startDate.year, this.startDate.month - 1, this.startDate.day).getTime();
+  //new Date(`${start.year}-${start.month}-${start.day}`);
+  let  tmpEnd=new Date(this.endDate.year, this.endDate.month - 1, this.endDate.day).getTime();
+  this.us.updateOverridesMulti(this.unid, tmpStart, tmpEnd, {price:this.price?this.price:null, minStay:this.minStay?this.minStay:null})
+}
+openDate(date){
+  this.us.setOpened(this.unid, date.getTime());
+}
+clearOverrides(date){
+  this.us.setOpened(this.unid, date.getTime()).then(_=>{
+    this.us.updateOverrides(this.unid, {[date.getTime()]:null});
   });
-  this.us.updateUnitPrices(this.unid, this.dbPeriods).then(
-    () => {
-      this.us.updateObject(this.oid, {ready:true}).then( ()=> {
-        this.us.updateUnit(this.unid, {ready:true}).then(()=>{
-          this.uws.setUnitState(this.unid, 'prices', 'completed');
-          this.router.navigate([this.newUrl]);
-        });}
-      );
-    }
-  );;
-  console.log(this.dbPeriods);
+  
+}
+overrideMinStay(minStay, date){
+  let tmpDate=date.getTime();
+  let tmpObj={[tmpDate]:{minStay:minStay}};
+  this.us.updateOverrides(this.unid, tmpObj);
+}
+overridePrice(price, date){
+  let tmpDate=date.getTime();
+  let tmpObj={[tmpDate]:{price:price}};
+  this.us.updateOverrides(this.unid, tmpObj);
+}
+onSubmit(){
   
 }
 

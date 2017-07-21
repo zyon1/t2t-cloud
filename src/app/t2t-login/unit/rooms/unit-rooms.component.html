@@ -2,7 +2,27 @@
 <form (ngSubmit)="onSubmit(RoomsForm.form.value)" #RoomsForm="ngForm">
   <!--<pre>{{RoomsForm.value | json}}</pre>-->
 <h5>Kapacitet: {{mainCap+' + '+ extraCap}}</h5>
-<h5>Spavaće sobe soba</h5>
+<h5>Broj spavaćih soba</h5>
+<div class="form-group row">
+     <div class="col-lg-6 col-xl-4 col-form-label">Broj spavaćih soba</div>
+     <div class="col-lg-6 col-xl-5">
+        <input class="form-control" type="number" [(ngModel)]="roomObj.noRooms" name="noRooms" > 
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+<div class="form-group row">
+     <div class="col-lg-6 col-xl-4 col-form-label">
+       Broj spavaćih soba s pomoćnim ležajevima
+       <br>
+       <small>*Bez soba sa glavnim ležajevima</small>
+     </div>
+     <div class="col-lg-6 col-xl-5">
+        <input class="form-control" type="number" [(ngModel)]="roomObj.noRoomsExtra" name="noRoomsExtra" > 
+     </div>
+     <div class="col-xl-3 hidden-lg"></div>
+</div>
+
+<h5>Spavaće sobe kreveti</h5>
 <p><small>*Dnevna soba sa pomoćnim ležajevima se popunjava ispod</small></p>
 
 <div class="form-group row">
@@ -49,7 +69,7 @@
      <div class="col-xl-3 hidden-lg"></div>
 </div>
 
-<h5>Dnevna soba</h5>
+<h5>Dnevna soba pomoćni kreveti</h5>
 
 <div class="form-group row">
      <div class="col-lg-6 col-xl-4 col-form-label">Broj pomoćnih kreveta za jednu osobu

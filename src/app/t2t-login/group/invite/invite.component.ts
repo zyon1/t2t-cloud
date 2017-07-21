@@ -54,7 +54,7 @@ this.groupService.getGroupData(this.gid).subscribe(group=>{
    */
   invite(uid){
     
-    let tempData={type:1, active:true, delivered:false, solved:false, gid:this.gid, gName:this.gName};
+    let tempData={type:1, active:true, delivered:false, solved:false, data:{gid:this.gid, gName:this.gName}};
     this.ws.setWatcher(uid, tempData);
     console.log(uid);
   }

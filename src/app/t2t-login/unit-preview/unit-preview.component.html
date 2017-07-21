@@ -85,16 +85,18 @@
         <h5>Kratki opis</h5>
         <p>{{unitData.unitBasic.shortDesc}}
           <br>
-          Jedinica ima x spavaćih soba, y soba sa pomoćnim ležajevima, te je dnevna soba opremljena pomoćinim ležajevima za z osoba.
+          <span *ngIf="unitData.unitRooms.noRooms>0">Jedinica ima {{unitData.unitRooms.noRooms}} spavaćih soba</span>
+          <span *ngIf="unitData.unitRooms.noRoomsExtra>0">, {{unitData.unitRooms.noRoomsExtra}} soba sa pomoćnim ležajevima</span>
+          <span *ngIf="(unitData.unitRooms.extraLRSingleBeds + extraLRDoubleBeds)>0">, te je dnevna soba opremljena pomoćinim ležajevima za 
+            {{unitData.unitRooms.extraLRSingleBeds + extraLRDoubleBeds}} osoba.</span>
         </p>
         
       </div>
   </div>
   <div class="col-md-5 ">
-<sebm-google-map [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" >
-<map></map>
-  <sebm-google-map-marker [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [markerDraggable]="false"></sebm-google-map-marker>
-</sebm-google-map>
+<agm-map [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [zoom]="zoom" [usePanning]="true"  [streetViewControl]="false" [mapTypeControl]="true" [zoomControl]="true" [scaleControl]="true" >
+  <agm-marker [latitude]="objectData.objectBasic.location.lat" [longitude]="objectData.objectBasic.location.lng" [markerDraggable]="false"></agm-marker>
+</agm-map>
   </div>
 </div>
       <div class="up-beds-container row unit-preview-row">

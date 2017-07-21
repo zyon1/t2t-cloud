@@ -10,10 +10,16 @@ export class ReservationService {
   constructor(private db:AngularFireDatabase) { }
 
 fetchUnitReservations(unid){
-return this.db.object('unitReservations/'+unid);
+return this.db.list('unitReservations/'+unid);
 }
 fetchUserReservations(uid){
 return this.db.object('myReservations/'+uid);
+}
+fetchReservationData(resid){
+  return this.db.object('reservation/'+resid);
+}
+fetchGuestData(guid){
+  return this.db.object('guestData/'+guid);
 }
 makeReservation(reservation, guestData, notes){
  /*
@@ -28,7 +34,7 @@ makeReservation(reservation, guestData, notes){
  // TODO: check reservation first before sending request
  
 reservation.timestamp=firebase.database['ServerValue']['TIMESTAMP'];
- this.db.list('guestData').push(guestData).then(gData => {
+ return this.db.list('guestData').push(guestData).then(gData => {
    Object.assign(reservation, {guid:gData.key});
    console.log('guestData saved');
    this.db.list('reservation').push(reservation).then(res =>

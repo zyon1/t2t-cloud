@@ -1,9 +1,9 @@
-<div class="up-reservation-container">
+<div class="up-reservation-container" *ngIf="reservationFetched">
 <div class="row reservation-first-row">
   <div class="col-lg-5">
       <div class="form-group">
     <div class="input-group">
-      <input class="form-control" placeholder="Dolazak" name="start" [(ngModel)]="startDate" ngbDatepicker [dayTemplate]="dayTemplate" [markDisabled]="isDisabled" #d1="ngbDatepicker" aria-describedby="calendar-addon1">
+      <input class="form-control" placeholder="Dolazak" name="start" [(ngModel)]="startDate" ngbDatepicker [dayTemplate]="dayTemplate" #d1="ngbDatepicker" aria-describedby="calendar-addon1" (ngModelChange)="findReservationPrices()">
       <span class="input-group-addon" (click)="d1.toggle();d2.close()" id="calendar-addon1">
           <i class="fa fa-calendar" aria-hidden="true"></i>
         </span>
@@ -13,7 +13,7 @@
   <div class="col-lg-5 push-lg-2">
       <div class="form-group" >
     <div class="input-group">
-      <input class="form-control" [outsideDays]="visible" placeholder="Odlazak" name="end" [(ngModel)]="endDate" ngbDatepicker [dayTemplate]="dayTemplate" #d2="ngbDatepicker" aria-describedby="calendar-addon2">
+      <input class="form-control" [outsideDays]="visible" placeholder="Odlazak" name="end" [(ngModel)]="endDate" ngbDatepicker [dayTemplate]="dayTemplate" #d2="ngbDatepicker" aria-describedby="calendar-addon2" (ngModelChange)="findReservationPrices()">
       <span class="input-group-addon" (click)="d2.toggle();d1.close()" id="calendar-addon2">
           <i class="fa fa-calendar" aria-hidden="true"></i>
         </span>
@@ -119,6 +119,12 @@
 
   </div>
 </div>
+<div class="row reserve-row" *ngIf="reservationPrices.length > 0">
+  <h5>Cijene po danima</h5>
+  <div class="row">
+    <div class="col-2" *ngFor="let price of reservationPrices">{{price.date | date:'d.M.y'}} | {{price.price}}€</div>
+  </div>
+</div>
 <div class="row reserve-row">
   <button type="button" class="btn btn-success btn-lg" (click)="makeReservation(guestDataForm.value)">Rezerviraj!</button>
     <button type="button" class="btn btn-danger btn-lg">Obriši</button>
@@ -147,7 +153,8 @@
 <!-- class.calDay="return of a function to apply class"-->
 
 <ng-template #dayTemplate let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
-  <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+  <div class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected" [class.hidden]="date.month !== currentMonth" [ngClass]="{'unavailable':  checkAvailability(date)}"
+  >
     {{ date.day }}
-  </span>
+  </div>
 </ng-template>

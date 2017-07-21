@@ -25,6 +25,9 @@ getGroupObjects(gid){
     return this.db.list('groupObjects/'+gid);
 
 }
+getMyObjects(uid){
+    return this.db.object('myObjects/'+uid);
+}
 getGroupObjectsData(gid){
     return this.getGroupObjects(gid).map(
         objects => {
@@ -112,6 +115,12 @@ updateObject(oid, data){
 updateGroupObject(gid, oid){
     return this.db.object('groupObjects/'+gid).update({[oid]:true});
 }
+updateMyObject(uid, oid){
+    return this.db.object('myObjects/'+uid).update({[oid]:true});
+}
+addObjectToUser(uid, oid){
+    return this.db.object('myObjects/'+uid).update({[oid]:false});
+}
 updateObjectData(oid, data){
     return this.db.object('objectData/'+oid).update(data);
 }
@@ -177,15 +186,64 @@ getUnitPrices(unid){
 updateUnitPrices(unid, data){
     return this.db.object('unitPrices/'+unid).update(data);
 }
+updateOverrides(unid, data){
+    return this.db.object('unitOverrides/'+unid).update(data);
+}
+updateOverridesMulti(unid, start, end, override){
+    let tmpData={};
+    for (let date=start; date <= end; date=date+24*60*60*1000){
+        tmpData[date]=override;
+    }
+    return this.db.object('unitOverrides/'+unid).update(tmpData);
+}
+getClosed(unid){
+    return this.db.list('unitClosed/'+unid);
+}
+setClosed(unid, date){
+    return this.db.object('unitClosed/'+unid).update({[date]:true});
+}
+setClosedMulti(unid, start, end){
+    let tmpData={};
+    for (let date=start; date <= end; date=date+24*60*60*1000){
+        tmpData[date]=true;
+    }
+    return this.db.object('unitClosed/'+unid).update(tmpData);
+}
+setOpened(unid, date){
+    return this.db.object('unitClosed/'+unid).update({[date]:null});
+}
+setOpenedMulti(unid, start, end){
+    let tmpData={};
+    for (let date=start; date <= end; date=date+24*60*60*1000){
+        tmpData[date]=null;
+    }
+    return this.db.object('unitClosed/'+unid).update(tmpData);
+}
+getOverride(unid, date){
+    return this.db.object('unitOverrides/'+unid+'/'+date);
+}
+getOverridesMulti(unid){
+    return this.db.object('unitOverrides/'+unid);
+}
+deleteOverride(unid, date){
+ return this.db.object('unitOverrides/'+unid).update({[date]:null});
+}
+deleteOverridesMulti(unid, start, end){
+    let tmpData={};
+    for (let date=start; date <= end; date=date+24*60*60*1000){
+        tmpData[date]=null;
+    }
+    return this.db.object('unitOverrides/'+unid).update(tmpData);
+}
 setObjectReady(oid){
     
 }
 setUnitReady(unid){}
 getMyTObjects(uid){
-     return this.db.object('myTObjcets/'+ uid);
+     return this.db.object('myTObjects/'+ uid);
 }
 addMyTObjects(oid, uid){
-    return this.db.object('myTObjcets/'+ uid).update({[oid]:true,});
+    return this.db.object('myTObjects/'+ uid).update({[oid]:true,});
 }
 getUnitObject(unid){
     return this.db.object('unitObjects/'+unid);

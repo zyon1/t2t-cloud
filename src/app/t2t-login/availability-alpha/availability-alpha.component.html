@@ -1,0 +1,256 @@
+<div ngbDropdown class="d-inline-block">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Odaberite jedinicu</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownBasic1">
+        <button class="dropdown-item" (click)="unid=null;reservations$=null">Poništi odabir</button>
+        <button class="dropdown-item" *ngFor="let unit of units$ | async" (click)="unid=unit.unid;fetchData(unid)">
+          {{unit.name$ | async   }}
+          </button>
+      </div>
+    </div>
+
+
+<div *ngIf="unid">
+  <div class="row">
+    
+  </div>
+  <div class="row text-center">
+  <div class="col-md-6">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (click)="prevMonth()">
+        Prošli
+      </div>
+      <div
+        class="btn btn-secondary"
+        mwlCalendarToday
+        [(viewDate)]="viewDate"
+          (click)="thisMonth()">
+        Trenutni
+      </div>
+      <div
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (click)="nextMonth()">
+        Idući
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+        <app-custom-select [values]="months" [(ngModel)]="selectedMonth" text="Odaberi mjesec" (ngModelChange)="onDateChange()"></app-custom-select>
+        <app-custom-select [values]="years" [(ngModel)]="selectedYear" text="Odaberi godinu" (ngModelChange)="onDateChange()"></app-custom-select>
+  </div>
+  <div class="col-md-0">
+    <!--
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        (click)="view = 'month'"
+        [class.active]="view === 'month'">
+        Month
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = 'week'"
+        [class.active]="view === 'week'">
+        Week
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = 'day'"
+        [class.active]="view === 'day'">
+        Day
+      </div>
+    </div>-->
+  </div>
+</div>
+<div class="row text-center">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+
+    <h3 style="text-transform: capitalize;">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
+
+
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+     <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" placeholder="Početak" name="start" [(ngModel)]="startDate" ngbDatepicker [dayTemplate]="dayTemplate" #d1="ngbDatepicker" aria-describedby="calendar-addon1">
+      <span class="input-group-addon" (click)="d1.toggle();d2.close()" id="calendar-addon1">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </span>
+    </div>
+  </div>
+   <div class="form-group" >
+    <div class="input-group">
+      <input class="form-control" [outsideDays]="visible" placeholder="Kraj" name="end" [(ngModel)]="endDate" ngbDatepicker [dayTemplate]="dayTemplate" #d2="ngbDatepicker" aria-describedby="calendar-addon2">
+      <span class="input-group-addon" (click)="d2.toggle();d1.close()" id="calendar-addon2">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </span>
+    </div>
+  </div>
+  <ng-template #dayTemplate let-date="date" let-currentMonth="currentMonth" let-selected="selected" let-disabled="disabled">
+  <div class="custom-day">
+    {{ date.day }}
+  </div>
+</ng-template>
+  </div>
+  <div class="col-md-6">
+  <div class="row" style="margin-bottom: 1rem"> 
+          <label for="minStay" class="col-md-6">Minimalni boravak:</label>
+          <input type="text" name="minStay" class="form-control col-md-6" [(ngModel)]="minStay"/>
+        </div>
+          <div class="row"  style="margin-bottom: 1rem"> 
+          <label for="price" class="col-md-6">Cijena</label>
+          <input type="text" name="price" class="form-control col-md-6" [(ngModel)]="price"/>
+        </div>
+      
+  </div>
+</div>
+  <div class="row text-center">
+          <div class="col-4">
+
+
+
+
+<button type="button" class="btn btn-danger" (click)="closeDateRange()">Zatvori</button>
+          </div>
+          <div class="col-4">
+            <button type="button" class="btn btn-warning" (click)="clearOverridesRange()">Vrati na početne postavke</button>
+          </div>
+          <div class="col-4">
+                        <button type="button" class="btn btn-success" (click)="setOverridesRange()">Spremi promjene</button>
+          </div>
+        </div>
+<br>
+<div>
+  <mwl-calendar-month-view-header
+    [days]="columnHeaders"
+    [locale]="locale"
+    >
+  </mwl-calendar-month-view-header>
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [refresh]="refresh"
+    [cellTemplate]="customDayTemplate"
+    [headerTemplate]="customHeaderTemplate"
+    (dayClicked)="dayClicked($event.day)"
+    [locale]="locale" 
+    [weekStartsOn]="weekStartsOn">
+  </mwl-calendar-month-view>
+      <template
+      [ngTemplateOutlet]="customHeaderTemplate || defaultTemplate"
+      [ngOutletContext]="{days: days, locale: locale}">
+    </template>
+   <template #customHeaderTemplate let-days="days" >
+      <div class="cal-cell-row cal-header">
+        <div
+          class="cal-cell"
+          style="text-transform: capitalize;"
+          *ngFor="let day of days"
+          [class.cal-past]="day.isPast"
+          [class.cal-today]="day.isToday"
+          [class.cal-future]="day.isFuture"
+          [class.cal-weekend]="day.isWeekend">
+          {{ day.date | calendarDate:'monthViewColumnHeader':locale }}
+        </div>
+      </div>
+    </template>
+    <template
+      [ngTemplateOutlet]="customTemplate || defaultTemplate"
+      [ngOutletContext]="{days: days, locale: locale}">
+    </template>
+ <ng-template #customDayTemplate let-day="day" >
+      <div class="cal-cell-top" >
+        <span class="cal-day-number">{{ day.date  | calendarDate:'monthViewDayNumber':locale}}</span>
+      </div>
+
+       <div class="cal-events" [ngStyle]="{'height': editCalendar?'100px':'45px'}"><!--[ngStyle]="{'background':checkPeriod(day.date).color}"-->
+<!--<div class="price-box">{{checkPeriod(day.date).price+' €'}}</div>-->
+<div class="reservations-container" *ngIf="existingReservations(day.date) | async; let res">
+<div class="reservation-box" [ngClass]="{'last': res.end}" *ngIf="res.end">
+  
+</div>
+<div class="reservation-box" [ngClass]="{'first': res.start}" *ngIf="!res.end || res.start ">
+<div *ngIf="res.start && guests[res.$key]" class="guestName">{{guests[res.$key]}}</div>
+    
+  
+</div>
+</div>
+<div class="cal-close-date-box" *ngIf="editCalendar">
+  <button class="btn btn-danger cal-close-date-button" (click)="closeDate(day.date)">Zatvori</button>
+  <button class="btn btn-warning cal-dismiss-changes" (click)="clearOverrides(day.date)">Poništi</button>
+</div>
+<div class="edit-cal row cal-edit-row">
+  <button type="button" class="small-cal-btn btn btn-primary" (click)="editCalendar=!editCalendar">Uredi</button>
+
+  <div *ngIf="checkPeriod(day.date); let period" [ngStyle]="{'background':period.color}" class="price-edit-box">
+      <div *ngIf="fetchOverrides(day.date); let override; else noOverride;"
+      [ngStyle]="{'background':override.closed?'red':override.price?(override.price-period.price)>0?'	#00ff73':'#d9ff66':'transparent'}" >
+      {{override.closed?'-/-':override.price?override.price+' €':period.price+' €'}}
+    </div>
+    <template #noOverride>
+      {{period.price + ' €'}}
+    </template>
+  </div>
+</div>
+<div class="row cal-edit-row" *ngIf="editCalendar">
+  <div class="input-col">
+    <div class="cal-input-label">Min. noćenja</div>
+    <input type="number" class="cal-edit-input form-control input-minStay" name="minStay-{{ day.date  | calendarDate:'monthViewDayNumber':locale}}" value="{{fetchOverrides(day.date).minStay?fetchOverrides(day.date).minStay:checkPeriod(day.date).minStay?checkPeriod(day.date).minStay:0}}"  (input)="overrideMinStay($event.target.value, day.date)">
+  </div>
+  <div class="input-col">
+    <div class="cal-input-label">Cijena</div>
+    <input type="number" class="cal-edit-input form-control input-price" name="price-{{ day.date  | calendarDate:'monthViewDayNumber':locale}}" value="{{fetchOverrides(day.date).price?fetchOverrides(day.date).price:checkPeriod(day.date).price?checkPeriod(day.date).price:0}}" (input)="overridePrice($event.target.value, day.date)">
+  </div>
+  
+</div>
+
+       </div>
+    </ng-template>
+    
+
+
+<!--
+  <mwl-calendar-month-view
+    *ngSwitchCase="'month'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="'week'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngSwitchCase="'day'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-day-view>
+  -->
+</div>
+<div class="row" *ngIf="reservations$">
+  <div *ngFor="let reservation of reservations$ | async">
+    {{reservation.$key}}<br>
+  </div>
+</div>
+</div>

@@ -35,6 +35,8 @@ import { UnitRoomsComponent } from './unit/rooms/unit-rooms.component';
 import { UnitPricesComponent} from './unit-prices/unit-prices.component';
 import { MyObjectsComponent } from './my-objects/my-objects.component';
 import { UnitPreviewComponent } from './unit-preview/unit-preview.component';
+import { AvailabilityAlphaComponent } from './availability-alpha/availability-alpha.component';
+
 
 const loginRoutesNew: Routes = [
    { path: '', component: IntraNavComponent, canActivateChild:[], children: [
@@ -88,6 +90,9 @@ const loginRoutesNew: Routes = [
                 ] },
                 { path: 'view-unit', children:[
                     {path: ':unid', component: UnitPreviewComponent}
+                ] },
+                 { path: 'availability', children:[
+                    {path: ':oid', component: AvailabilityAlphaComponent}
                 ] },
                 { path: 'my-objects', component: MyObjectsComponent},
                 { path: 'object', children:[

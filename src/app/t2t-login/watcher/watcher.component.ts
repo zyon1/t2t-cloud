@@ -30,7 +30,7 @@ export class WatcherComponent implements OnInit {
           if(element.active){
             //this.notifications.push(element);
             
-            let notification = new Notification(element.$key, element.type, element.gid, element.gName, element.uid);
+            let notification = new Notification(element.$key, element.type, element.uid, element.data );
             notification.solved=element.solved;
             if (!element.solved){notification.msg='<b>'+notification.msg+'</b>';i++;}
             this.notifications.push(notification);
@@ -53,6 +53,7 @@ export class WatcherComponent implements OnInit {
     this.ws.updateWatcher(this.uid, key, {solved:true});
     this.gs.joinUser(gid, this.uid);
   }
+
   dismiss(key){
       this.ws.archive(this.uid, key);
   }

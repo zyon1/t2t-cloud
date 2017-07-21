@@ -3,7 +3,7 @@ import { DbCorrectionService } from '../db-correction.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { UnitsService} from '../units.service';
 import { LoginService} from '../login.service';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
 import { NgZone } from '@angular/core';
 import * as firebase from 'firebase';
 import {BrowserModule, DomSanitizer} from '@angular/platform-browser';

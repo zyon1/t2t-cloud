@@ -1,3 +1,75 @@
-<p>
-  my-objects works!
-</p>
+<h3>Moji objekti</h3>
+<!--<pre>{{myObjects|json}}</pre>
+<pre>{{ready|json}}</pre>
+-->
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':ready}" (click)="ready?'':ready=true">Moji objekti</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="{'active':!ready}" (click)="ready?ready=false:''">Nedovršeni objekti</a>
+  </li>
+</ul>
+<table class="table table-sm">
+  <thead style="background: #2c77ff;color:#fff">
+    <tr>
+      <th>#</th>
+      <th>Naziv</th>
+      <th>Kreiran</th>
+      <th>Popunjenost</th>
+      <th>Uredi</th>
+      <th>Jedinice</th>
+      <th>Aktivan</th>
+
+    </tr>
+    </thead>
+    <thead>
+    <tr>
+      <th style="text-align:center; vertical-align:middle;">+</th>
+      <th colspan="1">
+        <input type="text" class="form-control" id="naziv" placeholder="Naziv">
+      </th>
+      <th colspan="5">
+        <button type="button" class="btn btn-outline-success" (click)="createObject()">Dodaj novi objekt</button>
+      </th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let object of myObjects$ | async ;let i=index;let j=index;">
+
+      <td *ngIf="ready && object.data && object.data.ready">{{i+1}}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.name?object.data.name:""}}</td>
+      <td *ngIf="ready && object.data && object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="ready && object.data && object.data.ready">
+        <a [routerLink]="['/auth/user/'+uid+'/availability/'+object.data.$key]">
+                Uredi
+
+                </a></td>
+      <td *ngIf="ready && object.data && object.data.ready"><a [routerLink]="[myUrl+'/object/'+object.data.$key]">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="ready && object.data && object.data.ready">
+            <ul *ngIf="object.units" class="unit-list">
+              <li *ngFor="let unit of object.units | async" [ngStyle]="{'display': unit.ready$ ? 'list-item':'none'}" >
+                <a *ngIf="unit.ready$ | async" [routerLink]="['/auth/user/'+uid+'/view-unit/'+unit.unid]">
+                {{unit.name$ | async }}
+
+                </a>
+              </li>
+            </ul>
+      </td>
+
+      <td *ngIf="ready && object.data && object.data.ready" >
+        <md-slide-toggle [checked]="object.data.active" (change)="changeState(object.data.$key, !object.data.active)"></md-slide-toggle></td>
+
+      <td *ngIf="!ready && object.data && !object.data.ready">{{j+1}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.name?object.data.name:""}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.created?(object.data.created | date :"dd.MM.yy HH:mm" ):""
+        }}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.task?object.data.task:""}}</td>
+      <td *ngIf="!ready && object.data && !object.data.ready"><a [routerLink]="[myUrl+'/object/'+object.data.$key]" (click)="emitOid(object.data.$key)">Uredi <i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+      <td *ngIf="!ready && object.data && !object.data.ready">{{object.data.active?true:false}}</td>
+
+
+    </tr>
+  </tbody>
+</table>

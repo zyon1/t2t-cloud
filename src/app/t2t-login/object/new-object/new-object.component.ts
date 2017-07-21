@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GroupService } from '../../group.service';
 import { LoginService } from '../../login.service';
 import { UnitsService } from '../../units.service';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader } from '@agm/core';
 import { CustomSelectComponent } from '../../custom-select/custom-select.component';
 import { StandardPickerComponent } from '../../standard-picker/standard-picker.component';
 import { LocationPickerComponent } from '../../location-picker/location-picker.component';

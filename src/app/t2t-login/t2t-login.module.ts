@@ -4,10 +4,10 @@ import { NgModule, ModuleWithProviders, ApplicationRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule }   from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { DatepickerModule } from 'ng2-bootstrap';
+import { DatepickerModule } from 'ngx-bootstrap';
 import { BrowserModule } from '@angular/platform-browser';
 import { DragulaModule } from 'ng2-dragula/ng2-dragula';
-import { AgmCoreModule } from 'angular2-google-maps/core';
+import { AgmCoreModule } from '@agm/core';
 import { Ng2ImgMaxModule } from 'ng2-img-max'; // <-- import the module
 import { CalendarModule } from 'angular-calendar';
 import { MaterialModule } from '@angular/material';
@@ -19,7 +19,8 @@ import { LoginRouting, appRoutingProviders } from './login-routing.module';
 import { AngularFireModule} from 'angularfire2';
 import {AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-
+/*  material modules */
+import {MdSlideToggleModule, MdSelectModule} from '@angular/material';
 /* services  */
 import { AuthGuard, AdminGuard, GroupGuard } from './auth-guard.service';
 import { LogoutGuard } from './logout-guard.service';
@@ -31,7 +32,6 @@ import { ChatService } from './chat.service';
 import { UnitsService } from './units.service';
 import { UnitsWizzardService } from './units-wizzard.service';
 import { DbCorrectionService } from './db-correction.service';
-import { GoogleMapsAPIWrapper } from 'angular2-google-maps/core/services';
 import { ReservationService } from './reservation.service';
 
 /* components */
@@ -85,7 +85,8 @@ import { UnitPreviewComponent } from './unit-preview/unit-preview.component';
 import { CalendarTestComponent } from './calendar-test/calendar-test.component';
 import { MyObjectsComponent } from './my-objects/my-objects.component';
 import { UpReservationComponent } from './up-reservation/up-reservation.component';
-
+import { MyUnitsComponent } from './my-units/my-units.component';
+import { AvailabilityAlphaComponent } from './availability-alpha/availability-alpha.component';
 /* Classes */
 
 
@@ -111,7 +112,9 @@ export const myFirebaseConfig = {
     AgmCoreModule,
     DragulaModule,
     CalendarModule.forRoot(),
-    MaterialModule
+    MaterialModule,
+    MdSlideToggleModule, 
+    MdSelectModule
   ],
   declarations: [
     T2tLoginComponent,
@@ -166,7 +169,8 @@ export const myFirebaseConfig = {
     UnitPricesComponent,
     MyObjectsComponent,
     UnitPreviewComponent,
-    UpReservationComponent
+    UpReservationComponent,
+    AvailabilityAlphaComponent
     ],
   providers: [ 
     LoginService, 
@@ -180,11 +184,11 @@ export const myFirebaseConfig = {
     ChatService, 
     appRoutingProviders, 
     UnitsService, 
-    GoogleMapsAPIWrapper, 
     UnitsWizzardService, 
     AngularFireAuth, 
     AngularFireDatabase,
-    ReservationService
+    ReservationService,
+    
     ]
 })
 export class T2tLoginModule {

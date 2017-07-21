@@ -9,6 +9,9 @@ import {
   transition
 } from '@angular/animations';
 import { ReservationService } from '../reservation.service';
+import { UnitsService } from '../units.service';
+import { WatchingService } from '../watching.service';
+import { Observable } from 'rxjs';
 import { LoginService } from '../login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -82,6 +85,7 @@ export class UpReservationComponent implements OnInit {
     text:''
   };
   unid:string;
+  unitName:string;
   uid:string;
   //guestData:any;
   guestData:any={
@@ -99,12 +103,23 @@ export class UpReservationComponent implements OnInit {
 
   };
   reservation:any;
-  constructor(private _i18n: I18n, private rs:ReservationService, private ls:LoginService, private route:ActivatedRoute) {
+  reservationPrices:any=[];
+  reservationFetched:any=false;
+reservations:any;
+  constructor(private _i18n: I18n, private rs:ReservationService, private ls:LoginService, private route:ActivatedRoute, private us:UnitsService, private ws:WatchingService) {
     this.ls.uid$.flatMap(uid => {
       this.uid=uid;
  return this.route.params;
     }).subscribe(params => {
       this.unid=params['unid'];
+      this.us.getUnitBasic(this.unid).map(data => {
+this.unitName=data.name;
+      }).subscribe();
+      this.rs.fetchUnitReservations(this.unid).subscribe(reservations => {
+        console.log("RESERVATIONS FETCHED", reservations);
+        this.reservations=reservations;
+        this.reservationFetched=true;
+    });
       console.log(this.unid, this.uid);
     })
    }
@@ -131,6 +146,33 @@ export class UpReservationComponent implements OnInit {
   isDisabled(date: NgbDateStruct, current: {month: number}) {
     return date.month !== current.month;
   }
+  checkAvailability(date: NgbDateStruct){
+  let x:any=false;
+  if (this.reservationFetched){
+  let dateJS=new Date(date.year, date.month - 1, date.day);
+  // CORRECTION: new Date(`${date.year}-${date.month }-${date.day}T01:00:00+02:00`); //treba provjeriti da li je vako kako treba definiran datum
+  console.log(dateJS, this.reservations);
+    this.reservations.forEach(reservation => {
+      //resFetchObj[reservation.$key]={};
+     // console.log(reservation, new Date(reservation.from), new Date(reservation.to))
+//console.log(reservation.from <= date.getTime(),  reservation.to>=date.getTime(), new Date(reservation.from), date, new Date(reservation.to));
+//console.log(dateJS.getTime() >= reservation.from   && dateJS.getTime() <=reservation.to, dateJS.getTime() >= reservation.from , dateJS.getTime() <=reservation.to)
+if (dateJS.getTime() >= reservation.from   && dateJS.getTime() <reservation.to){
+//console.log( date);
+//x=true;
+x=true;
+
+}
+    
+  });
+  
+    
+
+  
+}
+console.log(x);
+return x;
+}
   starts(value){
     //console.log("start");
     let ymdTodate=new Date(value.year, value.month-1, value.day);
@@ -158,6 +200,40 @@ export class UpReservationComponent implements OnInit {
     text:''
   };
 }
+findReservationPrices(){
+  if (this.startDate && this.endDate){
+  let reservation:any={};
+  reservation.from=new Date(this.startDate.year, this.startDate.month-1, this.startDate.day).getTime();
+  reservation.to=new Date(this.endDate.year, this.endDate.month-1, this.endDate.day).getTime();
+  reservation.unid=this.unid;
+  this.us.getUnitPrices(this.unid).map(periods => {
+let maxPrice:number;
+  let maxIndex:number;
+  reservation.prices=[];
+  console.log('fetching prices')
+  for(let date=reservation.from;date<reservation.to;date=date+1000*60*60*24){ //1000 milisecons * 60 seconds * 60 minutes * 24hours
+    maxPrice=0;
+periods.forEach((period, index) =>{
+  if (date >= period.start &&  date <=period.end){
+   // console.log(date.getTime() >= period.start && date.getTime() <=period.end);
+    if (period.price>maxPrice){
+maxPrice=period.price;
+maxIndex=index;
+    }
+    if (maxPrice){
+      reservation.prices.push({date:new Date(date), price:maxPrice});
+      //console.log(new Date(date), maxPrice);
+    }
+   // maxPrice=period.price>maxPrice?period.price:maxPrice;
+
+  }
+});
+  }
+this.reservationPrices=reservation.prices;
+
+}).subscribe();
+}
+}
 makeReservation(guestData){
   // TODO: napraviti validaciju rezervacije
 
@@ -166,10 +242,43 @@ makeReservation(guestData){
   reservation.to=new Date(this.endDate.year, this.endDate.month-1, this.endDate.day).getTime();
   reservation.unid=this.unid;
   reservation.uid=this.uid;
-  
   reservation.noGuests=this.noGuests;
+
+this.us.getUnitPrices(this.unid).map(periods => {
+let maxPrice:number;
+  let maxIndex:number;
+  reservation.prices=[];
+  console.log('fetching prices')
+  for(let date=reservation.from;date<reservation.to;date=date+1000*60*60*24){ //1000 milisecons * 60 seconds * 60 minutes * 24hours
+    maxPrice=0;
+periods.forEach((period, index) =>{
+  if (date >= period.start &&  date <=period.end){
+   // console.log(date.getTime() >= period.start && date.getTime() <=period.end);
+    if (period.price>maxPrice){
+maxPrice=period.price;
+maxIndex=index;
+    }
+    if (maxPrice){
+      reservation.prices.push(maxPrice);
+      console.log(new Date(date), maxPrice);
+    }
+   // maxPrice=period.price>maxPrice?period.price:maxPrice;
+
+  }
+});
+  }
+
+
+  this.rs.makeReservation(reservation, guestData, this.notes).then(_=>{
+
+        let tempData={type:2, active:true, delivered:false, solved:false, data:{unid:this.unid, unitName:this.unitName}};
+        console.log(this.uid, tempData)
+    this.ws.setWatcher(this.uid, tempData);
+  });
+}).subscribe();
+
+
   console.log(guestData, this.notes, reservation)
-  this.rs.makeReservation(reservation, guestData, this.notes)
 }
 
 }

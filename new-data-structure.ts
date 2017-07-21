@@ -310,7 +310,15 @@ sauna,
             }
         },
         priceOverrides:{
-            unid: { priceObj }
+            unid: { date:{
+                price:number,
+                minStay:number,
+            } }
+        }
+        unitClosed:{
+            unid:{
+                date:true;
+            }
         }
     },
     objectState:{
@@ -377,7 +385,8 @@ sauna,
             timestamp: number,
             from: number,
             to: number,
-            noPersons: number
+            noPersons: number,
+            prices: any[],
         }
     }
     guestData:{

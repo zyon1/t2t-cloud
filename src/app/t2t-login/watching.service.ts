@@ -25,8 +25,16 @@ export class WatchingService {
         let watch: Watcher= new Watcher();
         watch.created=firebase.database['ServerValue']['TIMESTAMP'];
         Object.assign( watch, data);
+        console.log(watch);
         return this.db.list('watcher/'+uid+'/').push(watch);
     }
+    setUnitWatcher(unid, data){
+        let watch: Watcher= new Watcher();
+        watch.created=firebase.database['ServerValue']['TIMESTAMP'];
+                Object.assign( watch, data);
+        console.log(watch);
+        return this.db.list('unitWatcher/'+unid+'/').push(watch);
+   }
     updateWatcher(uid, key, data){
         return this.db.object('watcher/'+uid+'/'+key+'/').update(data);
 
@@ -34,7 +42,8 @@ export class WatchingService {
     archive(uid, key){
         // obavi zamišljeno ali baci error
          this.db.object('watcher/'+uid+'/'+key+'/').subscribe(val=>{
-             let tempWatcher={[val.$key]:{created:val.created, gName: val.gName, gid:val.gid, solved: val.solved, active:val.active, delivered:val.delivered}};
+             console.log(val);
+             let tempWatcher={[val.$key]:{created:val.created, data:val.data, solved: val.solved, active:val.active, delivered:val.delivered}};
              console.log(tempWatcher);
              this.db.object('watcherArcive/'+uid+'/').update(tempWatcher).then(
                  x =>
@@ -49,6 +58,12 @@ export class WatchingService {
                   this.db.object('watcher/'+uid+'/'+element.$key+'/').update({delivered:true});
              });
         });
+    }
+    resolveMyUnitWatchers(unis){
+        /**
+         * forEachOfMyGroups fetch objects, for each object fetch units, check if there is new unitWatcher for that unit
+         * forEachOfMyobjects, for each object fetch units, check if there is new unitWatcher for that unit
+         */
     }
     getWatchers(uid){
          return Observable.create( observer => {

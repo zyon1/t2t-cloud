@@ -132,8 +132,10 @@
       <div class="cal-cell-top" >
         <span class="cal-day-number">{{ day.date  | calendarDate:'monthViewDayNumber':locale}}</span>
       </div>
-       <div class="cal-events"  *ngIf="checkPeriod(day.date)" [ngStyle]="{'background':checkPeriod(day.date).color}">
-<div class="price-box">{{checkPeriod(day.date).price+' €'}}</div>
+       <div class="cal-events"  *ngIf="checkPeriod(day.date); let period" [ngStyle]="{'background':period.color}">
+<div class="price-box">{{period.price+' €'}}</div>
+<div class="min-stay-box"><small>Minimalno noćenja: {{period.minStay}} dana</small></div>
+
        </div>
     </ng-template>
     
@@ -189,6 +191,7 @@
       <th>Početak</th>
       <th>Kraj</th>
       <th>Cijena</th>
+      <th>Minimalno noćenja</th>
       <th>Remove</th>
     </tr>
   </thead>
@@ -228,6 +231,9 @@
       </td>
       <td>
        <input class="form-control" type="number" [(ngModel)]="period.price" name="price-{{index}}" (ngModelChange)="calculateColors()">
+      </td>
+      <td>
+       <input class="form-control" type="number" [(ngModel)]="period.minStay" name="minStay-{{index}}">
       </td>
       <td>
         <button

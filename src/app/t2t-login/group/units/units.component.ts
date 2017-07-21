@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { GroupService } from '../../group.service';
 import { LoginService } from '../../login.service';
@@ -11,12 +11,16 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'app-units',
   templateUrl: './units.component.html',
-  styleUrls: ['./units.component.css']
+  styleUrls: ['./units.component.css'],
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class UnitsComponent implements OnInit {
 uid:any;
 gid:any;
 myObjects:any;
+myObjects$:any;
+
 myUrl:string;
 ready:boolean=true;
   constructor(private route: ActivatedRoute, private router: Router, private groupService: GroupService, private loginService: LoginService, private us: UnitsService, private uws: UnitsWizzardService) { 
@@ -29,15 +33,35 @@ ready:boolean=true;
        this.uid=params['id'];
        console.log(params);
        this.gid=params['gid'];
-       this.us.getGroupObjects(this.gid).subscribe(
+       this.myObjects$=this.us.getGroupObjects(this.gid).map(
          objects => {
+           console.log('objects changed');
             objects.forEach(element => {
                      this.us.getTObject(element['$key']).subscribe(data=>{
                    data.created=new Date(data.created);
                    element.data=data;
+                   let tmpArr=[];
+                   element.units=this.us.getObjectUnits(element['$key']).map(units => {
+                     let tmpArr=[];
+                     units.forEach(unit => {
+                        console.log(unit);
+
+                       tmpArr.push(
+                         {
+                           unid:unit['$key'], 
+                           ready$:this.us.getUnit(unit['$key']).map(unit => {return unit.ready}), 
+                           name$: this.us.getUnitBasic(unit['$key']).map(unit => {return unit.name})});
+                     });
+                     return tmpArr;
+                   })
+
+                   
+                   
+                   //console.log(element.units);
                   });         
             });
-            this.myObjects=objects;
+            //this.myObjects=objects;
+            return objects;
         }
 
        );
@@ -66,6 +90,20 @@ ready:boolean=true;
             createdBy: string,//uid
             ready: boolean // ako nije minimalan broj podataka popunjen onda je false       
             */
+  }
+  getUnitName(unid){
+    this.us.getUnit(unid).subscribe(unit => 
+    {
+      if (unit.ready)
+      console.log(unit.name);
+    return unit.name;
+  }
+    );
+  }
+  changeState(oid, state){
+
+      this.us.getTObject(oid).update({active:state});
+
   }
 emitOid(oid){
   this.uws.setOid(oid);

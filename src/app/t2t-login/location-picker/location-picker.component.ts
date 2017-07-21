@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, forwardRef, OnChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl } from '@angular/forms';
 import { NgZone } from '@angular/core';
-import { MapsAPILoader } from 'angular2-google-maps/core';
+import { MapsAPILoader } from '@agm/core';
 
 
 declare var google: any;

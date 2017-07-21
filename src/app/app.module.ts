@@ -9,8 +9,8 @@ import { HttpModule } from '@angular/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ModalModule } from 'angular2-modal';
 import { BootstrapModalModule } from 'angular2-modal/plugins/bootstrap';
-import { AgmCoreModule } from 'angular2-google-maps/core';
-
+import { AgmCoreModule } from '@agm/core';
+import 'hammerjs';
 /* overrider */
 import { NgbDateMomentParserFormatter } from './date-picker/ngb-datepicker-parser-formatter';
 /* Modules */
